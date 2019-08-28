@@ -1,0 +1,75 @@
+.app-login-page{
+    height: 100vh;
+    background: blueviolet;
+    display: flex;
+    justify-content: center;
+    .login-logo{
+        color:#ffff;
+        text-align: center;
+        font-weight: normal;
+        padding-bottom:20px;
+    }
+    .form-control{
+        border-radius: 20px !important;
+        background-color: blueviolet;
+    }
+    .checkbox-inline {
+        color:#ffffff;
+    }
+    .forgot-buttons{
+        margin-bottom:20px;
+        .forgot-text{
+            color:#ffffff;
+        }
+    }
+    .btn {
+        border-radius: 20px;
+        background: #41388a;
+    }
+
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #ffffff;
+        opacity: 1; /* Firefox */
+      }
+      
+      :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #ffffff
+      }
+      
+      ::-ms-input-placeholder { /* Microsoft Edge */
+        color: #ffffff
+      }
+}
+.login-background{
+    position: fixed;
+    bottom:0;
+}
+.login-form {
+    width: 400px;
+    //margin: 50px auto;
+    display: table;
+    margin: auto;
+}
+.login-form form {
+    /* margin-bottom: 15px;
+    background: #f7f7f7; 
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3); */
+    padding: 30px;
+    // border-radius: 15px;
+    // border: 3px solid black;
+}
+.login-form h3 {
+    margin: 0 0 15px;
+    color:#ffffff;
+}
+.form-control, .btn {
+    min-height: 38px;
+    border-radius: 2px;
+}
+.btn {        
+    font-size: 15px;
+    font-weight: bold;
+}
+.signin-text{
+    font-family: sans-serif;
+}

@@ -1,0 +1,75 @@
+.dashboard-container {
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 20px;
+    background: #c1bdbd;
+    .dashboard-header {
+        display: flex;
+        padding: 15px 20px 20px 15px; //top right bottom left
+        .dashboard-header-text {
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-left: 10px;
+            @media (min-width: 768px) and ( max-width: 1023px ){
+                font-size:15px;
+                margin-left: 8px;
+            }
+        }
+        
+    }
+    .brand-product-presence{
+        display: flex;
+        justify-content: space-evenly;
+        @media (min-width: 768px) and ( max-width: 1023px ){
+            display:block;
+        }
+        .product-chart{
+            width: 35%;
+            /* height: 300px; */
+            // border: 1px solid black;
+            /* justify-content: center; */
+            margin: auto;
+            padding: 30px;
+            background: #cccccc;
+            @media (min-width: 768px) and ( max-width: 1023px ){
+                width: 80%;
+            }
+        }
+    }
+    .competetor-analysis-wrapper {
+        border: 1px solid black;
+        border-radius: 5px;
+        margin: 20px;
+        .competetor-header{
+            display: flex;
+            background: grey;
+            .competetor-header-text{
+                padding: 15px;
+                font-size: 16px;
+                font-weight: bold;
+                color: white;
+            }
+            .radio{
+                margin-top: 0px !important;
+                margin-bottom: 0px !important;
+            }
+        }
+        .competetor-bar-charts{
+            display:flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: white;
+            @media (min-width: 768px) and ( max-width: 1024px ){
+                display:block;
+            }
+            .product-bar-chart {
+                background: #cccccc;
+                @media (min-width: 768px) and ( max-width: 1024px ){
+                   width:100%;
+                   margin-bottom: 20px;
+                }
+            }
+        }
+    }
+}

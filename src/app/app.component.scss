@@ -1,0 +1,33 @@
+.page-content{
+    padding-left: 250px;
+}
+.page-content-header{
+    height: 65px;
+    line-height: 60px;
+    font-size: 18px;
+    border-bottom: 1px solid black;
+    margin: auto;
+    padding: 10px;
+}
+#profile_icon {
+    float: right;
+    font-size: 22px;
+    padding-right: 20px;
+    padding-top: 10px;
+}
+
+.app-wrapper {
+    height: auto !important;
+}
+
+.body-container {
+    min-height: calc(100vh - 264px);
+    @media (max-width: 768px) {
+      min-height: calc(100vh - 300px);
+    }
+    & > :nth-child(2) {
+      width: 100%;
+      display:block;  /* for IE 10 */ 
+      height: 100%;
+    }
+  }
