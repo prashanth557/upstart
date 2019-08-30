@@ -1,0 +1,31 @@
+.job-results {
+    border: 1px solid black;
+    border-radius: 5px;
+    margin:10px;
+    .job-results-header {
+        height: 50px;
+        padding: 10px;
+        background: grey;
+        .create-job{
+            margin-left:50px;
+        }
+        .result-header-text {
+            font-size: 17px;
+            font-weight: 400;
+            color: white;
+        }
+    }
+    .job-results-table{
+        border: 1px solid black;
+        margin: 15px;
+    }
+    th {
+        background: #c1bdbd;
+    }
+    td, th{
+        border: 1px solid black;
+        text-align: left;
+        padding: 15px;
+        // max-width: 300px;
+    }
+}

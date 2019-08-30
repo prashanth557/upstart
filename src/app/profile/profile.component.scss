@@ -46,7 +46,7 @@
     }
 
     .lable-details {
-        width: 120px;
+        width: 130px;
         min-width: 95px;
         margin-right: 30px;
         color: #928e8e;
@@ -84,8 +84,12 @@
         display: flex;
         margin: auto;
         padding: 20px;
+        justify-content: center;
     }
-    .profile-save{
+    .save-button{
         margin-right: 20px;
+    }
+    .restore-button{
+
     }
 }

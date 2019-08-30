@@ -9,13 +9,16 @@ import { Router } from '@angular/router';
 })
 export class OrganicKeywordsComponent implements OnInit {
   searchKeyword: String = '';
+  modalTitle: String = 'Add Oragnic Keywords';
   constructor(public router: Router) { }
 
   ngOnInit() {
   }
 
   navigateToTabs(tabName) {
-    this.router.navigate(['/keywordresultdash']);
+    if (tabName) {
+      this.router.navigate([tabName]);
+    }
   }
 
 }

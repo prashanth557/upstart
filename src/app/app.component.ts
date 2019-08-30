@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PrivilegeService } from './services/privilege.service';
 import { Router } from '@angular/router';
 import { TokenUtil } from './utils/token.util';
+import { Cookie } from 'ng2-cookies';
 
 @Component({
   selector: 'app-root',
@@ -20,13 +21,14 @@ export class AppComponent implements OnInit {
   }
 
   getUserDetails(): void {
-    const tokenData: any = this.tokenUtil.getTokenData();
-    if (tokenData && tokenData.user) {
-      this.privileges.admin_access = true;
-    } else {
-      this.privileges.admin_access = false;
-      this.router.navigate(['/login']);
-    }
+    // const tokenData: any = this.tokenUtil.getTokenData();
+    // const tokenData: any = Cookie.get('user');
+    // if (tokenData && tokenData.email && tokenData.password) {
+    //   this.privileges.admin_access = true;
+    // } else {
+    //   this.privileges.admin_access = false;
+    //   this.router.navigate(['/login']);
+    // }
   }
 
   navigateToPage(event) {

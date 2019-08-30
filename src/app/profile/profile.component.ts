@@ -29,4 +29,9 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  restoreDetails() {
+    this.editFirstName = false;
+    this.editLastName = false;
+  }
+
 }

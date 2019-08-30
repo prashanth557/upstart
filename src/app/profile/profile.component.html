@@ -20,7 +20,7 @@
         <li class="profile-details">
           <p class="lable-details">Last Name</p>
           <p *ngIf="!editLastName" class="label-values">Vanama
-              <a (click)="editDetails('lastName')" class="edit_icon glyphicon glyphicon-edit"></a>
+            <a (click)="editDetails('lastName')" class="edit_icon glyphicon glyphicon-edit"></a>
           </p>
           <input *ngIf="editLastName" type="text" class="label-values" [(ngModel)]='firstName'>
         </li>
@@ -31,34 +31,40 @@
       </ul>
     </div>
     <div class="profile-buttons">
-      <button type="button" class="btn btn-primary profile-save" [disabled]="!editFirstName && !editLastName">Save Changes</button>
-      <button type="button" class="btn btn-danger" [disabled]="!editFirstName && !editLastName">Restore Originals</button>
+      <button type="button" class="save-button" [disabled]="!editFirstName && !editLastName">Save Changes</button>
+      <button type="button" class="restore-button" [disabled]="!editFirstName && !editLastName" (click)="restoreDetails()">Restore Originals</button>
     </div>
   </div>
   <!-- Password Change -->
-  <div class="profile-wrapper">
-      <div class="profile-header">
-        <span class="profile-name">Change Password</span>
-      </div>
-      <div>
-        <ul class="list-elements">
-          <li class="profile-details">
-            <p class="lable-details">Current password<span class="required-field">*</span></p>
-            <input type="password" [(ngModel)]="currentPassword" class="label-values input-label" required>
-          </li>
-          <li class="profile-details">
-            <p class="lable-details">New Password<span class="required-field">*</span></p>
-            <input type="password" [(ngModel)]="newPassword" class="label-values input-label" required>
-          </li>
-          <li class="profile-details">
-            <p class="lable-details">Confirm Password<span class="required-field">*</span></p>
-            <input type="password"[(ngModel)]="confirmPassword" class="label-values input-label" required>
-          </li>
-        </ul>
-      </div>
-      <div class="profile-buttons">
-        <button type="button" class="btn btn-primary profile-save" disabled (click)="changePassword()">Change Password</button>
-        <button type="button" class="btn btn-danger">Reset Form</button>
-      </div>
+  <form class="profile-wrapper" (ngSubmit)="changePassword()">
+    <div class="profile-header">
+      <span class="profile-name">Change Password</span>
     </div>
+    <div>
+      <ul class="list-elements">
+        <li class="profile-details">
+          <p class="lable-details">Current password
+            <span class="required-field">*</span>
+          </p>
+          <input type="password" [(ngModel)]="currentPassword" class="label-values input-label" required>
+        </li>
+        <li class="profile-details">
+          <p class="lable-details">New Password
+            <span class="required-field">*</span>
+          </p>
+          <input type="password" [(ngModel)]="newPassword" class="label-values input-label" required>
+        </li>
+        <li class="profile-details">
+          <p class="lable-details">Confirm Password
+            <span class="required-field">*</span>
+          </p>
+          <input type="password" [(ngModel)]="confirmPassword" class="label-values input-label" required>
+        </li>
+      </ul>
+    </div>
+    <div class="profile-buttons">
+      <button type="button" type="submit" class="save-button" disabled (click)="changePassword()">Change Password</button>
+      <button type="button" class="restore-button">Reset Form</button>
+    </div>
+  </form>
 </div>

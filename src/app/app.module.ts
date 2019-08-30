@@ -22,6 +22,14 @@ import { ProfileComponent } from './profile/profile.component';
 import { KeywordRelevantJobsComponent } from './keyword-relevant-jobs/keyword-relevant-jobs.component';
 import { OrganicKeywordsComponent } from './organic-keywords/organic-keywords.component';
 import { OrganicSummaryDashboardComponent } from './organic-keywords/organic-summary-dashboard/organic-summary-dashboard.component';
+import { OrganicRunHistoryComponent } from './organic-keywords/organic-run-history/organic-run-history.component';
+import { AutoRunScheduleComponent } from './auto-run-schedule/auto-run-schedule.component';
+import { ResultHeaderComponent } from './result-header/result-header.component';
+import { OrganicJoblistComponent } from './organic-keywords/organic-joblist/organic-joblist.component';
+import { JobDetailsComponent } from './job-details/job-details.component';
+import { MonitorJobsComponent } from './monitor-jobs/monitor-jobs.component';
+import { AlertsComponent } from './alerts/alerts.component';
+import { UpstartModalComponent } from './upstart-modal/upstart-modal.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +41,15 @@ import { OrganicSummaryDashboardComponent } from './organic-keywords/organic-sum
     ProfileComponent,
     KeywordRelevantJobsComponent,
     OrganicKeywordsComponent,
-    OrganicSummaryDashboardComponent
+    OrganicSummaryDashboardComponent,
+    OrganicRunHistoryComponent,
+    AutoRunScheduleComponent,
+    ResultHeaderComponent,
+    OrganicJoblistComponent,
+    JobDetailsComponent,
+    MonitorJobsComponent,
+    AlertsComponent,
+    UpstartModalComponent
   ],
   imports: [
     BrowserModule,

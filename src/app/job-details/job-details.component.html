@@ -1,0 +1,16 @@
+<div class="job-results">
+  <div class="job-results-header">
+    <span class="result-header-text" *ngIf="headerTitle">{{headerTitle}}</span>
+    <button class="create-job" *ngIf="showCreateButton" (click)="createNewJob()" data-toggle="modal" data-target="#showModalCenter">Create New Job</button>
+  </div>
+  <table class="job-results-table" *ngIf="jobHeaders?.length > 0 && productDetails?.length > 0">
+    <ng-container *ngFor="let header of jobHeaders">
+      <th>{{header}}</th>
+    </ng-container>
+    <tr *ngFor="let product of productDetails">
+      <ng-container *ngFor="let key of keys">
+        <td>{{product[key]}}</td>
+      </ng-container>
+    </tr>
+  </table>
+</div>

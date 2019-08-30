@@ -6,7 +6,7 @@
       <button class="search-button">Search Keyword</button>
     </span>
     <span class="add-keyword-btn">
-      <button class="add-btn" data-toggle="modal" data-target="#exampleModalCenter">Add Keyword</button>
+      <button class="add-btn" data-toggle="modal" data-target="#showModalCenter">Add Keyword</button>
     </span>
   </div>
   <table class="organic-results-table">
@@ -21,33 +21,34 @@
       <td>
         <a href="">Edit</a>
         <a href="">Deactivate</a>
-        <a (click)="navigateToTabs('summary')">Last run result summary</a>
-        <a href="">Run history</a>
-        <a href="">Schedule?</a>
+        <a (click)="navigateToTabs('keywordresultdash')">Last run result summary</a>
+        <a (click)="navigateToTabs('organicRunHistory')">Run history</a>
+        <a (click)="navigateToTabs('schedulesList')">Schedule?</a>
       </td>
     </tr>
   </table>
 </div>
 
 <!-- Modal -->
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add Organic Keywords
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </h5>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+<app-upstart-modal [modalTitle]="modalTitle">
+  <!-- Modal Body Content starts-->
+  <div class="add-modal-body">
+    <div class="direct-input-keyword">
+      <h3 class="keyword-text">Direct Input</h3>
+      <span>Enter keyword to save</span>
+      <br/>
+      <input type="text" />
+      <br/>
+      <button class="save-button">Save Keyword</button>
+    </div>
+    <div class="upload-keyword">
+      <h3 class="keyword-text">From File</h3>
+      <span>Select Excel file to upload</span>
+      <br/>
+      <input type="file" />
+      <br/>
+      <button class="upload-button">Upload File</button>
     </div>
   </div>
-</div>
+  <!-- Modal Body Content Ends -->
+</app-upstart-modal>

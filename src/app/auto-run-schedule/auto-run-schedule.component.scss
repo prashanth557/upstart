@@ -1,0 +1,45 @@
+.auto-schedule-container {
+    padding:20px;
+.job-results {
+    border: 1px solid black;
+    border-radius: 5px;
+    margin:10px;
+    .job-results-header {
+        height: 50px;
+        padding: 10px;
+        background: grey;
+        .add-schedule-button {
+            margin-left: 65px;
+            width: 150px;
+            height: 30px;
+
+        }
+    }
+    .result-header-text {
+        font-size: 17px;
+        font-weight: 400;
+        color: white;
+    }
+    .job-results-table{
+        border: 1px solid black;
+        margin: 15px;
+        a {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+    td {
+        a {
+            margin-right:20px;
+        }
+    }
+    th {
+        background: #c1bdbd;
+    }
+    td, th{
+        border: 1px solid black;
+        text-align: left;
+        padding: 15px;
+    }
+}
+}
