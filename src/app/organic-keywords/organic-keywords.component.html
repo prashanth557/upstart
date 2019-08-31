@@ -1,4 +1,4 @@
-<div class="organic-results">
+<!-- <div class="organic-results">
   <div class="organic-results-header">
     <span class="result-header-text">Organic Keywords Set</span>
     <span class="organic-search">
@@ -21,34 +21,45 @@
       <td>
         <a href="">Edit</a>
         <a href="">Deactivate</a>
-        <a (click)="navigateToTabs('keywordresultdash')">Last run result summary</a>
-        <a (click)="navigateToTabs('organicRunHistory')">Run history</a>
-        <a (click)="navigateToTabs('schedulesList')">Schedule?</a>
+        <a (click)="navigateToTabs('keywordset/keywordresultdash')">Last run result summary</a>
+        <a (click)="navigateToTabs('keywordset/organicRunHistory')">Run history</a>
+        <a (click)="navigateToTabs('keywordset/schedulesList')">Schedule?</a>
       </td>
     </tr>
   </table>
-</div>
+</div> -->
+<div class="keyword-container">
+  <app-job-details [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails" [showCreateButton]="true"
+    (createJob)="addNewKeyword($event)">
+    <!-- <span class="action-items">
+            <a class="action-icons glyphicon glyphicon-flash"></a>
+            <a class="action-icons glyphicon glyphicon-eye-open"></a>
+            <a class="action-icons glyphicon glyphicon-th-large"></a>
+            <a class="action-icons glyphicon glyphicon-trash"></a>
+        </span> -->
+  </app-job-details>
 
-<!-- Modal -->
-<app-upstart-modal [modalTitle]="modalTitle">
-  <!-- Modal Body Content starts-->
-  <div class="add-modal-body">
-    <div class="direct-input-keyword">
-      <h3 class="keyword-text">Direct Input</h3>
-      <span>Enter keyword to save</span>
-      <br/>
-      <input type="text" />
-      <br/>
-      <button class="save-button">Save Keyword</button>
+  <!-- Modal -->
+  <app-upstart-modal *ngIf="createNewKeyword" [modalTitle]="modalTitle">
+    <!-- Modal Body Content starts-->
+    <div class="add-modal-body">
+      <div class="direct-input-keyword">
+        <h3 class="keyword-text">Direct Input</h3>
+        <span>Enter keyword to save</span>
+        <br/>
+        <input type="text" />
+        <br/>
+        <button class="save-button">Save Keyword</button>
+      </div>
+      <div class="upload-keyword">
+        <h3 class="keyword-text">From File</h3>
+        <span>Select Excel file to upload</span>
+        <br/>
+        <input type="file" />
+        <br/>
+        <button class="upload-button">Upload File</button>
+      </div>
     </div>
-    <div class="upload-keyword">
-      <h3 class="keyword-text">From File</h3>
-      <span>Select Excel file to upload</span>
-      <br/>
-      <input type="file" />
-      <br/>
-      <button class="upload-button">Upload File</button>
-    </div>
-  </div>
-  <!-- Modal Body Content Ends -->
-</app-upstart-modal>
+    <!-- Modal Body Content Ends -->
+  </app-upstart-modal>
+</div>

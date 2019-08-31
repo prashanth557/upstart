@@ -1,31 +1,70 @@
 .job-results {
-    border: 1px solid black;
-    border-radius: 5px;
-    margin:10px;
+    //border: 1px solid black;
+    //border-radius: 5px;
+    margin: 30px 30px 15px 15px;
+    background: white;
     .job-results-header {
         height: 50px;
-        padding: 10px;
-        background: grey;
-        .create-job{
-            margin-left:50px;
-        }
+        padding: 15px;
+        //background: grey;
         .result-header-text {
             font-size: 17px;
-            font-weight: 400;
+            font-weight: bold;
+            color: black;
+        }
+    }
+    .search-wrapper {
+        margin: 15px;
+        .create-job {
+            border-radius: 15px;
             color: white;
+            background: #6c10e8;
+            outline: none;
+        }
+        .search-input-text {
+            float:right;
+        }
+        .search-input {
+            border-radius: 15px;
+            border: 1px solid #dcdcd7;
+            outline: none;
         }
     }
     .job-results-table{
-        border: 1px solid black;
+        border-top: 1px solid #dcdcd7;
         margin: 15px;
-    }
-    th {
-        background: #c1bdbd;
+        table-layout: fixed;
     }
     td, th{
-        border: 1px solid black;
+        border-top: 1px solid #dcdcd7;
         text-align: left;
         padding: 15px;
         // max-width: 300px;
+    }
+
+    td {
+        width: 180px;
+        font-size:12px;
+        @media (min-width: 768px) and (max-width: 1024px) {
+            width: 150px;
+        }
+        .status-wrapper{
+            padding: 5px 20px 5px 20px;
+            border-radius: 15px;
+            color: white;
+            font-size: 12px;
+        }
+    }
+
+    table tbody tr:nth-child(odd) {
+        background-color: #f7f4f46b;
+    }
+
+    .action-icons {
+        padding-right: 15px;
+        font-size: 16px;
+        text-decoration: none;
+        cursor: pointer;
+        color: rgb(47, 198, 214);
     }
 }

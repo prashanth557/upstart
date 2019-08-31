@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
 
@@ -9,7 +9,10 @@ import * as $ from 'jquery';
 })
 export class NavbarComponent implements OnInit {
 
+  @Input() hideNavBar: boolean;
   @Output() clickTab = new EventEmitter();
+  @Output() toggleNavBar = new EventEmitter();
+
   constructor(public router: Router) { }
 
   ngOnInit() {
@@ -24,6 +27,24 @@ export class NavbarComponent implements OnInit {
 
   navigateToPage(link) {
     this.clickTab.emit({link: link});
+  }
+
+  isActive(routeName): Boolean {
+    try {
+      const urlArray = this.router.url.split('/');
+      if ((urlArray[1] && urlArray[1] === routeName)
+      || (urlArray[0] && urlArray[0] === routeName)
+      || (urlArray[2] && urlArray[2] === routeName)) {
+        return true;
+      }
+    } catch (e) {
+      console.log('Error occured', e);
+    }
+    return false;
+  }
+
+  showNavBar() {
+    this.toggleNavBar.emit({showNavBar: true});
   }
 
 }

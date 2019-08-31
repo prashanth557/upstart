@@ -13,6 +13,7 @@ import { AutoRunScheduleComponent } from './auto-run-schedule/auto-run-schedule.
 import { OrganicJoblistComponent } from './organic-keywords/organic-joblist/organic-joblist.component';
 import { MonitorJobsComponent } from './monitor-jobs/monitor-jobs.component';
 import { AlertsComponent } from './alerts/alerts.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'reset-password', component: ForgotPasswordComponent},
@@ -21,12 +22,13 @@ export const routes: Routes = [
   { path: 'myprofile', component: ProfileComponent },
   { path: 'keywordjoblist', component: KeywordRelevantJobsComponent},
   { path: 'keywordset', component: OrganicKeywordsComponent },
-  { path: 'keywordresultdash', component: OrganicSummaryDashboardComponent},
-  { path: 'organicRunHistory', component: OrganicRunHistoryComponent},
+  { path: 'keywordset/keywordresultdash', component: OrganicSummaryDashboardComponent},
+  { path: 'keywordset/organicRunHistory', component: OrganicRunHistoryComponent},
   { path: 'schedulesList', component: AutoRunScheduleComponent},
-  { path: 'organicJobList', component: OrganicJoblistComponent},
+  { path: 'keywordset/organicJobList', component: OrganicJoblistComponent},
   { path: 'mapjobslist', component: MonitorJobsComponent},
-  { path: 'alerts', component: AlertsComponent}
+  { path: 'alerts', component: AlertsComponent},
+  { path: 'settings', component: UserSettingsComponent}
 
 ];
 

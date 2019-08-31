@@ -15,14 +15,14 @@
           <p *ngIf="!editFirstName" class="label-values">Prashanth
             <a (click)="editDetails('firstName')" class="edit_icon glyphicon glyphicon-edit"></a>
           </p>
-          <input *ngIf="editFirstName" type="text" class="label-values" [(ngModel)]='firstName'>
+          <input *ngIf="editFirstName" type="text" class="label-values" [(ngModel)]='user.firstName' [ngModelOptions]="{standalone: true}">
         </li>
         <li class="profile-details">
           <p class="lable-details">Last Name</p>
           <p *ngIf="!editLastName" class="label-values">Vanama
             <a (click)="editDetails('lastName')" class="edit_icon glyphicon glyphicon-edit"></a>
           </p>
-          <input *ngIf="editLastName" type="text" class="label-values" [(ngModel)]='firstName'>
+          <input *ngIf="editLastName" type="text" class="label-values" [(ngModel)]='user.lastName' [ngModelOptions]="{standalone: true}">
         </li>
         <li class="profile-details">
           <p class="lable-details">Role</p>
@@ -31,7 +31,7 @@
       </ul>
     </div>
     <div class="profile-buttons">
-      <button type="button" class="save-button" [disabled]="!editFirstName && !editLastName">Save Changes</button>
+      <button type="button" class="save-button" [disabled]="!editFirstName && !editLastName" type="submit">Save Changes</button>
       <button type="button" class="restore-button" [disabled]="!editFirstName && !editLastName" (click)="restoreDetails()">Restore Originals</button>
     </div>
   </div>
@@ -46,24 +46,24 @@
           <p class="lable-details">Current password
             <span class="required-field">*</span>
           </p>
-          <input type="password" [(ngModel)]="currentPassword" class="label-values input-label" required>
+          <input type="password" [(ngModel)]="currentPassword" class="label-values input-label" [ngModelOptions]="{standalone: true}" required>
         </li>
         <li class="profile-details">
           <p class="lable-details">New Password
             <span class="required-field">*</span>
           </p>
-          <input type="password" [(ngModel)]="newPassword" class="label-values input-label" required>
+          <input type="password" [(ngModel)]="newPassword" [ngModelOptions]="{standalone: true}" class="label-values input-label" required>
         </li>
         <li class="profile-details">
           <p class="lable-details">Confirm Password
             <span class="required-field">*</span>
           </p>
-          <input type="password" [(ngModel)]="confirmPassword" class="label-values input-label" required>
+          <input type="password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone: true}" class="label-values input-label" required>
         </li>
       </ul>
     </div>
     <div class="profile-buttons">
-      <button type="button" type="submit" class="save-button" disabled (click)="changePassword()">Change Password</button>
+      <button type="button" type="submit" class="save-button" disabled (submit)="changePassword()">Change Password</button>
       <button type="button" class="restore-button">Reset Form</button>
     </div>
   </form>

@@ -1,18 +1,19 @@
 <div class="app-wrapper">
   <main class="body-container">
-    <app-navbar (clickTab)="navigateToPage($event)"></app-navbar>
+    <app-navbar [hideNavBar]="hideNavBar" (clickTab)="navigateToPage($event)"
+    (toggleNavBar)="viewToggle()"></app-navbar>
+    <!-- Top NavBar -->
     <div class="app-header">
-        <span class="menu-toggle-wrapper">
+        <span class="menu-toggle-wrapper" *ngIf="!hideNavBar">
           <a id="menu-toggle" (click)="viewToggle()">
             <span id="main_icon" class="glyphicon glyphicon-align-justify"></span>
-            <!-- <img class="app-header-name" src= "../assets/logo.svg"/> -->
           </a>
         </span>
         <span class="page-content-header">
           <span id="profile_icon" class="glyphicon glyphicon-user"></span>
         </span>
     </div>
-    <div class="page-content">
+    <div class="page-content" [class.expand-page-content]="hideNavBar">
       <router-outlet></router-outlet>
     </div>
   </main>

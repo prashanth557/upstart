@@ -1,34 +1,71 @@
 .keyword-header{
     min-height: 100px;
-    border: 1px solid black;
-    background: #a5a3a3;
-    border-radius: 10px;
+    // border: 1px solid black;
+    // background: #a5a3a3;
+    // border-radius: 10px;
     margin: auto;
 
     .keyword-box {
         display: flex;
-        justify-content: space-around;
-        margin: 15px;
+        justify-content: space-between;
+        margin: 15px 15px 15px 0px;
     }
 
     .keyword-data {
-        min-height: 70px;
-        width: 220px;
+        min-height: 120px;
         border: 1px solid black;
-        border-radius: 10px;
-        padding-left: 20px;
-        padding-top: 5px;
-        background: #fffcfc8a;
-        
+        /* border-radius: 10px; */
+        /* padding-left: 20px; */
+        /* padding-top: 5px; */
+        //background: #5A0BC6;
+        background: #6c10e8;
+        display: flex;
+        justify-content: space-between;
+        .keyword-box-data{
+            display: flex;
+            justify-content: space-between;
+            margin: auto;
+            width: 100%;
+            padding: 0px 15px 0px 15px;
+        }
         .jobs-count {
-            font-size: 24px;
-            color: #0887ad;
+            font-size: 30px;
+            padding-right: 15px;
+            color: white;
             font-weight: bold;
+            font-family: sans-serif;
+
+            @media (min-width: 768px) and (max-width:1024px) {
+                padding-right: 0px;
+            }
         }
         .jobs-type {
-            font-size: 13px;
+            font-size: 20px;
             padding-left: 25px;
-            font-style: italic;
+            width: 50%;
+            color: white;
+            font-weight: bold;
+            font-family: sans-serif;
+            @media (min-width: 768px) and (max-width:1024px) {
+                font-size: 18px;
+                padding-left: 0px;
+            }
+            
+        }
+    }
+    .keyword-box .keyword-box-wrapper:nth-child(1){
+        .keyword-data {
+            background: #6c10e8 !important;
+        }
+    }
+    .keyword-box .keyword-box-wrapper:nth-child(2) {
+        .keyword-data {
+            background: #0B5EA8 !important;
+        }
+    }
+    .keyword-box .keyword-box-wrapper:nth-child(3){
+        .keyword-data {
+        background: #2A2073 !important;
         }
     }
 }

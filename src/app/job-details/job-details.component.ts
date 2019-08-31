@@ -22,7 +22,11 @@ export class JobDetailsComponent implements OnInit {
   }
 
   createNewJob() {
-    this.createJob.emit({createJob: true});
+    this.createJob.emit({ createJob: true });
+  }
+
+  getBackgroundColor(product, key) {
+    return product[key].toLowerCase() === 'ready' ? '#2A2073 ' : '#2fc6d6';
   }
 
 }

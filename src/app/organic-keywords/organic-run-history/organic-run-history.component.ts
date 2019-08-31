@@ -14,7 +14,7 @@ export class OrganicRunHistoryComponent implements OnInit {
   }
 
   loadResults() {
-    this.router.navigate(['/organicJobList']);
+    this.router.navigate(['keywordset/organicJobList']);
   }
 
 }

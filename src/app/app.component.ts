@@ -12,6 +12,7 @@ import { Cookie } from 'ng2-cookies';
 export class AppComponent implements OnInit {
   title = 'app';
   privileges: any = { admin_access: true };
+  hideNavBar: boolean;
   constructor(public privilegeService: PrivilegeService, public router: Router, public tokenUtil: TokenUtil) {
 
   }
@@ -33,5 +34,9 @@ export class AppComponent implements OnInit {
 
   navigateToPage(event) {
     this.router.navigate([event.link]);
+  }
+
+  viewToggle() {
+    this.hideNavBar = !this.hideNavBar;
   }
 }

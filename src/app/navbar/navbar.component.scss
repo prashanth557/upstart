@@ -9,16 +9,21 @@
     height: 100%
 }
 
+#sidebar {
+    margin-top: 20px;    
+}
+
 #sidebar-wrapper {
     margin-left: -150px;
     left: 70px;
-    width: 250px;
-    background: #5A0BC6;
+    width: 220px;
+    //background: #5A0BC6;
+    background: #6c10e8;
     position: fixed;
     height: 100%;
     z-index: 10000;
     transition: all .4s ease 0s;
-    border-right: 2px solid black;
+    //border-right: 2px solid black;
 }
 
 .sidebar-nav {
@@ -36,7 +41,7 @@
     height: auto;
 }
 #wrapper.active {
-    padding-left: 250px;
+    padding-left: 220px;
 }
 #wrapper.active #sidebar-wrapper {
     left: 150px;
@@ -46,6 +51,10 @@
   width: 100%;
 }
 
+#sidebar_menu {
+    border-bottom: 1px solid #8c8c8c;
+}
+
 #sidebar_menu li a, .sidebar-nav li a {
     color: white;
     // font-weight:bold;
@@ -53,7 +62,8 @@
     //float: left;
     text-decoration: none;
     width: 100%;
-    background: #5A0BC6;
+    //background: #5A0BC6;
+    //background: #6c10e8;
     //border-top: 1px solid #373737;
     //border-bottom: 1px solid #1A1A1A;
     -webkit-transition: background .5s;
@@ -78,6 +88,10 @@
     border-bottom:none;
 }
 
+.nav-tabs.active {
+    background: #2fc6d6 !important;
+}
+
 .sidebar-nav li a {
   color: white;
   font-weight: normal;
@@ -89,13 +103,23 @@
 
 .sidebar-nav li a:hover {
   color: #fff;
-  background: #14c35d;
+  //background: #14c35d;
+  background: #2fc6d6;
   text-decoration: none;
+}
+
+.sidebar-nav li a:active {
+    background: #2fc6d6 !important;
 }
 
 .sidebar-nav li a:active,
 .sidebar-nav li a:focus {
   text-decoration: none;
+  background: #2fc6d6;
+}
+
+.sidebar-nav li.active {
+    background: #2fc6d6;
 }
 
 .sidebar-nav > .sidebar-brand {
@@ -110,7 +134,8 @@
 
 .sidebar-nav > .sidebar-brand a:hover {
   color: #fff;
-  background: #14c35d;
+  //background: #14c35d;
+  background: #2fc6d6;
 }
 
 // #main_icon
@@ -146,11 +171,36 @@
     left: 70px;
 }
 #wrapper.active {
-    padding-left: 250px;
+    padding-left: 220px;
 }
 #wrapper.active #sidebar-wrapper {
-    left: 250px;
-    width: 250px;
+    left: 220px;
+    width: 220px;
     transition: all .4s ease 0s;
 }
 }
+
+#sidebar-wrapper.hide-navbar{
+    width:70px !important;
+}
+
+.hide-navText {
+    display:inline-grid;
+    .sub_icon {
+        font-size: 20px;
+        padding-bottom:10px;
+    }
+}
+.hide-navbar {
+    #main_icon{
+        color: white;
+        margin: auto;
+        font-size: 23px;
+        display: inline;
+        cursor: pointer;
+    }
+}
+
+
+
+

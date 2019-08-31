@@ -30,6 +30,7 @@ import { JobDetailsComponent } from './job-details/job-details.component';
 import { MonitorJobsComponent } from './monitor-jobs/monitor-jobs.component';
 import { AlertsComponent } from './alerts/alerts.component';
 import { UpstartModalComponent } from './upstart-modal/upstart-modal.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { UpstartModalComponent } from './upstart-modal/upstart-modal.component';
     JobDetailsComponent,
     MonitorJobsComponent,
     AlertsComponent,
-    UpstartModalComponent
+    UpstartModalComponent,
+    UserSettingsComponent
   ],
   imports: [
     BrowserModule,

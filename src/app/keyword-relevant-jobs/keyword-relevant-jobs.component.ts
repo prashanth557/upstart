@@ -8,28 +8,23 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class KeywordRelevantJobsComponent implements OnInit {
 
-  jobResults = [{jobType: 'Current Jobs Created', count: 22},
-  {jobType: 'Product data extracted', count: 1239}, {jobType: 'Scheduled crawl job', count: 7}];
+  jobResults = [{jobType: 'Crawl Jobs Created', count: 22},
+  {jobType: 'Product Data Extracted', count: 1239}, {jobType: 'Scheduled Crawl Jobs', count: '07'}];
   // Table Values
-  productDetails: any = [{title: 'Hystrix cristata', description: 'Creating a Sidenav menu with Bootstrap',
-  price: '$20.49', userRating: '3',
-  bulletPoints: 'A Sidenav is a collapsible component to place side, often and in this case, navigation content.',
-  images: '5', info: 'Maximum strength'},
-  {title: 'Hystrix cristata', description: 'Creating a Sidenav menu with Bootstrap',
-  price: '$20.49', userRating: '3',
-  bulletPoints: 'A Sidenav is a collapsible component to place side, often and in this case, navigation content.',
-  images: '5', info: 'Maximum strength'},
-  {title: 'Hystrix cristata', description: 'Creating a Sidenav menu with Bootstrap',
-  price: '$20.49', userRating: '3',
-  bulletPoints: 'A Sidenav is a collapsible component to place side, often and in this case, navigation content.',
-  images: '5', info: 'Maximum strength'},
-  {title: 'Hystrix cristata', description: 'Creating a Sidenav menu with Bootstrap',
-  price: '$20.49', userRating: '3',
-  bulletPoints: 'A Sidenav is a collapsible component to place side, often and in this case, navigation content.',
-  images: '5', info: 'Maximum strength'}];
+  productDetails: any = [{title: 'Adesso Brand Crawl', input: 'Floor Lamps',
+  status: 'Ready', lastRun: '',
+  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true},
+  {title: 'Image Archive Crawl', input: 'My Keywords',
+  status: 'Running', lastRun: 'Feb 15, 2019 @11:30 AM',
+  createdAt: 'Feb 11, 2019 @11:30 AM', showActions: true},
+  {title: 'Adesso Brand Crawl', input: 'Floor Lamps',
+  status: 'Ready', lastRun: 'Feb 15, 2019 @11:30 AM',
+  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true},
+  {title: 'Adesso Brand Crawl', input: 'Floor Lamps',
+  status: 'Ready', lastRun: 'Feb 15, 2019 @11:30 AM',
+  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true}];
   // Table Headers
-  jobHeaders = ['Product Title', 'Description', 'Price', 'User rating', 'Bullet points', 'Number of images', 'By Info'];
-
+  jobHeaders = ['Job Title', 'Keyword Input', 'Status', 'Last Run At', 'Created At', 'Quick Actions'];
   // Table Header title
   headerTitle: String = 'Keyword Relevance Jobs';
   createNewKeyword: boolean;
