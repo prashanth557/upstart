@@ -14,22 +14,25 @@ import { OrganicJoblistComponent } from './organic-keywords/organic-joblist/orga
 import { MonitorJobsComponent } from './monitor-jobs/monitor-jobs.component';
 import { AlertsComponent } from './alerts/alerts.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
-export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'reset-password', component: ForgotPasswordComponent},
-  { path: 'home', component: HomeComponent},
-  { path: '', component: HomeComponent},
-  { path: 'myprofile', component: ProfileComponent },
-  { path: 'keywordjoblist', component: KeywordRelevantJobsComponent},
-  { path: 'keywordset', component: OrganicKeywordsComponent },
-  { path: 'keywordset/keywordresultdash', component: OrganicSummaryDashboardComponent},
-  { path: 'keywordset/organicRunHistory', component: OrganicRunHistoryComponent},
-  { path: 'schedulesList', component: AutoRunScheduleComponent},
-  { path: 'keywordset/organicJobList', component: OrganicJoblistComponent},
-  { path: 'mapjobslist', component: MonitorJobsComponent},
-  { path: 'alerts', component: AlertsComponent},
-  { path: 'settings', component: UserSettingsComponent}
+import { AuthGuard } from './guards/auth-guard.service';
 
+export const routes: Routes = [
+  { path: 'login', component: LoginComponent},
+  { path: 'reset-password', component: ForgotPasswordComponent},
+  // { path: '', canActivate: [AuthGuard], children: [
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  { path: '', redirectTo: 'home', pathMatch: 'full', canActivate: [AuthGuard]},
+  { path: 'myprofile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'keywordjoblist', component: KeywordRelevantJobsComponent, canActivate: [AuthGuard]},
+  { path: 'keywordset', component: OrganicKeywordsComponent, canActivate: [AuthGuard] },
+  { path: 'keywordset/keywordresultdash', component: OrganicSummaryDashboardComponent, canActivate: [AuthGuard]},
+  { path: 'keywordset/organicRunHistory', component: OrganicRunHistoryComponent, canActivate: [AuthGuard]},
+  { path: 'schedulesList', component: AutoRunScheduleComponent, canActivate: [AuthGuard]},
+  { path: 'keywordset/organicJobList', component: OrganicJoblistComponent, canActivate: [AuthGuard]},
+  { path: 'mapjobslist', component: MonitorJobsComponent, canActivate: [AuthGuard]},
+  { path: 'alerts', component: AlertsComponent, canActivate: [AuthGuard]},
+  { path: 'settings', component: UserSettingsComponent, canActivate: [AuthGuard]}
+  // ]}
 ];
 
 @NgModule({

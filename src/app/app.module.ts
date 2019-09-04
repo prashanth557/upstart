@@ -11,6 +11,9 @@ import { CookieService } from 'ng2-cookies';
 import { TokenUtil } from './utils/token.util';
 import { AppStorage } from './services/for-storage/universal.inject';
 import { CookieStorage } from './services/for-storage/browser.storage';
+import { AuthService} from './services/auth.service';
+import { AuthGuard } from './guards/auth-guard.service';
+
 
 // Components
 import { AppComponent } from './app.component';
@@ -31,6 +34,8 @@ import { MonitorJobsComponent } from './monitor-jobs/monitor-jobs.component';
 import { AlertsComponent } from './alerts/alerts.component';
 import { UpstartModalComponent } from './upstart-modal/upstart-modal.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -51,7 +56,8 @@ import { UserSettingsComponent } from './user-settings/user-settings.component';
     MonitorJobsComponent,
     AlertsComponent,
     UpstartModalComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,
@@ -59,11 +65,14 @@ import { UserSettingsComponent } from './user-settings/user-settings.component';
     FormsModule,
     HttpModule,
     RouterModule,
-    ChartsModule
+    ChartsModule,
+    NgxPaginationModule
   ],
   providers: [
     PrivilegeService,
     CookieService,
+    AuthGuard,
+    AuthService,
     TokenUtil, { provide: AppStorage, useClass: CookieStorage }],
   bootstrap: [AppComponent]
 })

@@ -63,8 +63,8 @@
       </ul>
     </div>
     <div class="profile-buttons">
-      <button type="button" type="submit" class="save-button" disabled (submit)="changePassword()">Change Password</button>
-      <button type="button" class="restore-button">Reset Form</button>
+      <button type="button" type="submit" class="save-button" [disabled]="!currentPassword || !newPassword || !confirmPassword"  (submit)="changePassword()">Change Password</button>
+      <button type="button" class="restore-button" [disabled]="!currentPassword && !newPassword &&!confirmPassword" (click)="resetPasswordFields()">Reset Form</button>
     </div>
   </form>
 </div>

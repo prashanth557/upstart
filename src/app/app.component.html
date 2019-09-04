@@ -1,20 +1,29 @@
 <div class="app-wrapper">
-  <main class="body-container">
-    <app-navbar [hideNavBar]="hideNavBar" (clickTab)="navigateToPage($event)"
-    (toggleNavBar)="viewToggle()"></app-navbar>
+  <main class="body-container" [class.body-white-bg]="!isUserloggedIn">
+    <app-navbar *ngIf="isUserloggedIn" [hideNavBar]="hideNavBar" (clickTab)="navigateToPage($event)" (toggleNavBar)="viewToggle()"></app-navbar>
     <!-- Top NavBar -->
-    <div class="app-header">
-        <span class="menu-toggle-wrapper" *ngIf="!hideNavBar">
-          <a id="menu-toggle" (click)="viewToggle()">
-            <span id="main_icon" class="glyphicon glyphicon-align-justify"></span>
-          </a>
-        </span>
-        <span class="page-content-header">
+    <div *ngIf="isUserloggedIn" class="app-header">
+      <span class="menu-toggle-wrapper" *ngIf="!hideNavBar">
+        <a id="menu-toggle" (click)="viewToggle()">
+          <span id="main_icon" class="glyphicon glyphicon-align-justify"></span>
+        </a>
+      </span>
+      <span class="page-content-header">
           <span id="profile_icon" class="glyphicon glyphicon-user"></span>
-        </span>
+          <span id="bell_icon" class="glyphicon glyphicon-bell"></span>
+          <span class="header-search">
+             <span class="icon-search glyphicon glyphicon-search"></span>
+              <input type="text" class="header-search-input" placeholder = "Search.."/>
+          </span>
+      </span>
     </div>
-    <div class="page-content" [class.expand-page-content]="hideNavBar">
+    <div [class.page-content]="isUserloggedIn" [class.expand-page-content]="hideNavBar">
       <router-outlet></router-outlet>
     </div>
   </main>
 </div>
+<!-- <div class="app-wrapper">
+  <main class="body-container">
+    <router-outlet></router-outlet>
+  </main>
+</div> -->

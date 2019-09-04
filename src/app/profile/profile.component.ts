@@ -36,4 +36,10 @@ export class ProfileComponent implements OnInit {
     this.editLastName = false;
   }
 
+  resetPasswordFields() {
+    this.currentPassword = '';
+    this.newPassword = '';
+    this.confirmPassword = '';
+  }
+
 }

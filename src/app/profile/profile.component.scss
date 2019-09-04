@@ -4,9 +4,10 @@
     .profile-wrapper {
         min-height: 250px;
         width: 90%;
-        border: 1px solid #d4cbcb;
-        border-radius: 5px;
+        //border: 1px solid #d4cbcb;
+        //border-radius: 5px;
         margin-bottom: 40px;
+        background: white;
         @media screen and (max-width : 768px ){
                 width: 90%;
         }
@@ -16,12 +17,12 @@
     }
     .profile-header {
         margin: auto;
-        padding: 10px;
-        background: #757373;
-        border-radius: 5px;
+        padding: 20px;
+        //background: #757373;
+        //border-radius: 5px;
     }
     .profile-name {
-        color: white;
+        color: black;
         font-size: 16px;
         font-weight: bold;
     }
@@ -91,5 +92,17 @@
     }
     .restore-button{
 
+    }
+
+    button {
+        color: white;
+        font-weight: 400;
+        padding: 8px;
+        background: rgb(42, 32, 115);
+    }
+
+    button:disabled {
+        background: #a59ed8;
+        cursor: no-drop;
     }
 }

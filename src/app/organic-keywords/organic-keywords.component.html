@@ -1,42 +1,10 @@
-<!-- <div class="organic-results">
-  <div class="organic-results-header">
-    <span class="result-header-text">Organic Keywords Set</span>
-    <span class="organic-search">
-      <input type="text" [(ngModel)]="searchKeyword" />
-      <button class="search-button">Search Keyword</button>
-    </span>
-    <span class="add-keyword-btn">
-      <button class="add-btn" data-toggle="modal" data-target="#showModalCenter">Add Keyword</button>
-    </span>
-  </div>
-  <table class="organic-results-table">
-    <th>Keyword</th>
-    <th>Last Updated On</th>
-    <th>Status</th>
-    <th>Action</th>
-    <tr>
-      <td>Consectetur</td>
-      <td>August 09 2019 @12:35:17 pm</td>
-      <td>Active</td>
-      <td>
-        <a href="">Edit</a>
-        <a href="">Deactivate</a>
-        <a (click)="navigateToTabs('keywordset/keywordresultdash')">Last run result summary</a>
-        <a (click)="navigateToTabs('keywordset/organicRunHistory')">Run history</a>
-        <a (click)="navigateToTabs('keywordset/schedulesList')">Schedule?</a>
-      </td>
-    </tr>
-  </table>
-</div> -->
 <div class="keyword-container">
   <app-job-details [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails" [showCreateButton]="true"
-    (createJob)="addNewKeyword($event)">
-    <!-- <span class="action-items">
-            <a class="action-icons glyphicon glyphicon-flash"></a>
-            <a class="action-icons glyphicon glyphicon-eye-open"></a>
-            <a class="action-icons glyphicon glyphicon-th-large"></a>
-            <a class="action-icons glyphicon glyphicon-trash"></a>
-        </span> -->
+    (createJob)="addNewKeyword($event)" [actionItems]="actionItems" [pageCount]="allProductDetails?.length"
+    [currentpageIndex]='currentpageIndex' (pageChange)="onPageChange($event)">
+    <ng-template #lineHeader let-line>
+      <a class="action-icons" (click)="navigateToTabs(line.route)">{{line?.icon}}</a>
+    </ng-template>
   </app-job-details>
 
   <!-- Modal -->

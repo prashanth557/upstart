@@ -1,13 +1,11 @@
 <div class="keyword-container">
     <app-result-header [jobResults]="jobResults"></app-result-header>
-    <app-job-details [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails" [showCreateButton]="true"
-        (createJob)="addNewKeyword($event)">
-        <!-- <span class="action-items">
-            <a class="action-icons glyphicon glyphicon-flash"></a>
-            <a class="action-icons glyphicon glyphicon-eye-open"></a>
-            <a class="action-icons glyphicon glyphicon-th-large"></a>
-            <a class="action-icons glyphicon glyphicon-trash"></a>
-        </span> -->
+    <app-job-details *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails" [showCreateButton]="true"
+        (createJob)="addNewKeyword($event)" [actionItems]="actionItems" [pageCount]="allProductDetails?.length"
+        [currentpageIndex]='currentpageIndex' (pageChange)="onPageChange($event)">
+            <ng-template #lineHeader let-line>
+                    <a class="action-icons glyphicon {{line?.icon}}"></a>
+            </ng-template>
     </app-job-details>
     <app-upstart-modal *ngIf="createNewKeyword" [modalTitle]="modalTitle">
         <div class="add-modal-body">
@@ -21,9 +19,9 @@
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">Keyword Input Mode</label>
                     <div class="col-sm-8">
-                        <input type="radio" class="form-check-input" name="keywordType" id="inlineRadio1" value ="direct" checked>
+                        <input type="radio" class="form-check-input" name="keywordType" id="inlineRadio1" value="direct" checked>
                         <label class="form-check-label" for="inlineRadio1">Direct text input</label>
-                        <input type="radio" class="form-check-input" name="keywordType" id="inlineRadio2" value ="select">
+                        <input type="radio" class="form-check-input" name="keywordType" id="inlineRadio2" value="select">
                         <label class="form-check-label" for="inlineRadio2">Select from organic keywords</label>
                     </div>
                 </div>

@@ -11,7 +11,7 @@ export class MonitorJobsComponent implements OnInit {
   { jobType: 'Product being tracked', count: 985 }, { jobType: 'MAP breached recorded', count: 475 }];
 
   // Table Values
-  productDetails: any = [{
+  allProductDetails: any = [{
     title: 'Hystrix cristata', description: 'Creating a Sidenav menu with Bootstrap',
     price: '$20.49', userRating: '3',
     bulletPoints: 'A Sidenav is a collapsible component to place side, often and in this case, navigation content.',
@@ -39,11 +39,29 @@ export class MonitorJobsComponent implements OnInit {
   // Table Headers
   jobHeaders = ['Product Title', 'Description', 'Price', 'User rating', 'Bullet points', 'Number of images', 'By Info'];
 
+  productDetails: any;
   // Table Header title
   headerTitle: String = 'MAP Breach Crawl Jobs';
+  currentpageIndex: number;
+  limitPerPage: number = 5;
+  offsetPage: number = 0;
   constructor() { }
 
   ngOnInit() {
+    this.currentpageIndex = 0;
+    this.getDetails(this.currentpageIndex);
+  }
+
+  onPageChange(offset) {
+    this.currentpageIndex = offset;
+    console.log('CurrentPageIndex', this.currentpageIndex);
+    const currentIndex = (offset - 1) * this.limitPerPage;
+    this.offsetPage = currentIndex;
+    this.getDetails(this.offsetPage);
+  }
+
+  getDetails(currentPageIndex) {
+    this.productDetails = this.allProductDetails.slice(this.offsetPage, this.offsetPage + 5);
   }
 
 }

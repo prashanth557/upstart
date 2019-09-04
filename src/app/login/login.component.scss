@@ -1,23 +1,37 @@
 .app-login-page{
     height: 100vh;
-    background: blueviolet;
+    // background: #6c10e8;
+    background: url('/assets/images/login-bg.png');
     display: flex;
     justify-content: center;
+    // background-position: -275px -150px;    
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    @media (min-width: 1280px) {
+        background-size: cover;
+    }
+    @media (min-width: 768px) and (max-width: 1024px) {
+        //background-position: -475px -100px;
+        background-position: center top;
+    }
     .login-logo{
         color:#ffff;
         text-align: center;
-        font-weight: normal;
-        padding-bottom:20px;
+        height: 35px;
+        // font-weight: normal;
+        // padding-bottom:20px;
     }
     .form-control{
         border-radius: 20px !important;
-        background-color: blueviolet;
+        background-color: transparent;
     }
     .checkbox-inline {
         color:#ffffff;
     }
     .forgot-buttons{
-        margin-bottom:20px;
+        margin: 20px 0px 20px 0px;
+        font-size: 12px;
         .forgot-text{
             color:#ffffff;
         }
@@ -25,6 +39,9 @@
     .btn {
         border-radius: 20px;
         background: #41388a;
+    }
+    input{
+        color:white;
     }
 
     ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -45,10 +62,17 @@
     bottom:0;
 }
 .login-form {
-    width: 400px;
-    //margin: 50px auto;
+    width: 350px;
+    // margin: 100px auto;
+    margin: 120px auto 100px auto;
     display: table;
-    margin: auto;
+    // margin: auto;
+    @media (min-width: 768px) and (max-width: 1024px) {
+        margin: 250px auto 100px auto;
+    }
+    .form-group{
+        margin-bottom: 0px !important;
+    }
 }
 .login-form form {
     /* margin-bottom: 15px;

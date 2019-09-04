@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { PrivilegeService } from './services/privilege.service';
-import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
+import {
+  ActivatedRoute,
+  ActivationEnd,
+  Event,
+  NavigationEnd,
+  Params,
+  Router,
+  RoutesRecognized
+} from '@angular/router';
 import { TokenUtil } from './utils/token.util';
 import { Cookie } from 'ng2-cookies';
 
@@ -13,23 +21,18 @@ export class AppComponent implements OnInit {
   title = 'app';
   privileges: any = { admin_access: true };
   hideNavBar: boolean;
-  constructor(public privilegeService: PrivilegeService, public router: Router, public tokenUtil: TokenUtil) {
-
+  isUserloggedIn: boolean;
+  constructor(public _authService: AuthService, public route: ActivatedRoute, public router: Router, public tokenUtil: TokenUtil) {
   }
 
   ngOnInit() {
-    // this.getUserDetails();
+    this.router.events.subscribe((event: Event) => {
+      this.getUserDetails();
+    });
   }
 
   getUserDetails(): void {
-    // const tokenData: any = this.tokenUtil.getTokenData();
-    // const tokenData: any = Cookie.get('user');
-    // if (tokenData && tokenData.email && tokenData.password) {
-    //   this.privileges.admin_access = true;
-    // } else {
-    //   this.privileges.admin_access = false;
-    //   this.router.navigate(['/login']);
-    // }
+    this.isUserloggedIn = this._authService.isAuthenticated();
   }
 
   navigateToPage(event) {
