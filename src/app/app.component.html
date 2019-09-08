@@ -9,7 +9,20 @@
         </a>
       </span>
       <span class="page-content-header">
-          <span id="profile_icon" class="glyphicon glyphicon-user"></span>
+          <!-- <span id="profile_icon" class="glyphicon glyphicon-user"></span> -->
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <span id="profile_icon" class="glyphicon glyphicon-user"></span> 
+                      <span class="profile-name">{{userName}}</span>
+                      <span class="glyphicon glyphicon-chevron-down"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li class=""><a class="dropdown-links" [routerLink]="['/myprofile']">My Account</a></li>
+                      <li class=""><a class="dropdown-links" (click)="logoutUser()">Logout</a></li>
+                  </ul>
+              </li>
+          </ul>
           <span id="bell_icon" class="glyphicon glyphicon-bell"></span>
           <span class="header-search">
              <span class="icon-search glyphicon glyphicon-search"></span>

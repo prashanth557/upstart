@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   privileges: any = { admin_access: true };
   hideNavBar: boolean;
   isUserloggedIn: boolean;
+  userName: string;
   constructor(public _authService: AuthService, public route: ActivatedRoute, public router: Router, public tokenUtil: TokenUtil) {
   }
 
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
 
   getUserDetails(): void {
     this.isUserloggedIn = this._authService.isAuthenticated();
+    this.userName = Cookie.get('username');
   }
 
   navigateToPage(event) {
@@ -41,5 +43,10 @@ export class AppComponent implements OnInit {
 
   viewToggle() {
     this.hideNavBar = !this.hideNavBar;
+  }
+
+  logoutUser() {
+    Cookie.deleteAll();
+    this.router.navigate(['/login']);
   }
 }
