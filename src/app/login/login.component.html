@@ -1,9 +1,9 @@
 <div class="app-login-page">
-  <!-- <img class="login-background" src = "../assets/images/login-background.png" /> -->
-  <div class="login-form">
+  <!-- <img class="login-background" src = "../assets/images/login-bg.png" /> -->
+  <div *ngIf="!showForgotPasswordPage" class="login-form">
     <form (submit)="login()" method="post">
-      <h2 class="login-logo">UPSTART</h2>
-      <h3 class="text-center signin-text">Sign In To Admin</h3>
+      <h3 class="text-center"><img class="login-logo" src= "../assets/logo.svg"/></h3>
+      <!-- <h3 class="text-center signin-text">Sign In To Admin</h3> -->
       <div class="form-group">
         <!-- <label>Username</label> -->
         <br>
@@ -16,8 +16,8 @@
       </div>
       <div class="clearfix forgot-buttons">
           <label class="pull-left checkbox-inline">
-            <input type="checkbox"> Keep me Signed in </label>
-          <a href="/reset-password" class="pull-right forgot-text">Forgot Password?</a>
+            <input type="checkbox" name="checkbox" [(ngModel)]="isRemberMeChecked"> Keep me signed in </label>
+          <a (click)= "navigateTo('forgotPassword')" class="pull-right forgot-text">Forgot password?</a>
         </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary btn-block">Sign In</button>
@@ -25,4 +25,5 @@
     </form>
     <!-- <p class="text-center"><a href="#">Create an Account</a></p> -->
   </div>
+  <app-forgot-password *ngIf="showForgotPasswordPage"></app-forgot-password>
 </div>

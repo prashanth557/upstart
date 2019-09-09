@@ -1,0 +1,12 @@
+<div class="keyword-header" *ngIf="jobResults?.length > 0">
+  <div class="keyword-box">
+    <div *ngFor="let result of jobResults" class="keyword-box-wrapper col-sm-4">
+      <div class="keyword-data">
+        <div class="keyword-box-data">
+          <span class="jobs-type">{{result?.jobType}}</span>
+          <span class="jobs-count">{{result?.count}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

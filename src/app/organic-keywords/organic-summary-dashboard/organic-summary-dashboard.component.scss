@@ -1,10 +1,11 @@
 .dashboard-container {
-    border: 1px solid black;
-    border-radius: 5px;
+    //border: 1px solid black;
+    //border-radius: 5px;
     margin: 20px;
-    background: #c1bdbd;
+    background: white;
     .dashboard-header {
         display: flex;
+        justify-content: space-between;
         padding: 15px 20px 20px 15px; //top right bottom left
         .dashboard-header-text {
             font-size: 20px;
@@ -16,7 +17,6 @@
                 margin-left: 8px;
             }
         }
-        
     }
     .brand-product-presence{
         display: flex;
@@ -31,24 +31,24 @@
             /* justify-content: center; */
             margin: auto;
             padding: 30px;
-            background: #cccccc;
+            background: #f7f7f7;
             @media (min-width: 768px) and ( max-width: 1023px ){
                 width: 80%;
             }
         }
     }
     .competetor-analysis-wrapper {
-        border: 1px solid black;
-        border-radius: 5px;
-        margin: 20px;
+        // border: 1px solid black;
+        // border-radius: 5px;
+        padding: 20px;
         .competetor-header{
             display: flex;
-            background: grey;
+            // background: grey;
             .competetor-header-text{
                 padding: 15px;
                 font-size: 16px;
                 font-weight: bold;
-                color: white;
+                color: black;
             }
             .radio{
                 margin-top: 0px !important;
@@ -64,7 +64,7 @@
                 display:block;
             }
             .product-bar-chart {
-                background: #cccccc;
+                background: #f7f7f7;
                 @media (min-width: 768px) and ( max-width: 1024px ){
                    width:100%;
                    margin-bottom: 20px;

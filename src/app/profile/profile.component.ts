@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -11,6 +12,7 @@ export class ProfileComponent implements OnInit {
   confirmPassword: String = '';
   editFirstName: boolean;
   editLastName: boolean;
+  user: any = {};
   constructor() { }
 
   ngOnInit() {
@@ -27,6 +29,17 @@ export class ProfileComponent implements OnInit {
     if ( param.toLowerCase() === 'lastname') {
       this.editLastName = true;
     }
+  }
+
+  restoreDetails() {
+    this.editFirstName = false;
+    this.editLastName = false;
+  }
+
+  resetPasswordFields() {
+    this.currentPassword = '';
+    this.newPassword = '';
+    this.confirmPassword = '';
   }
 
 }

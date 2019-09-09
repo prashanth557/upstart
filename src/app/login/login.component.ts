@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PrivilegeService } from '../services/privilege.service';
+import { AuthService } from '../services/auth.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,17 +11,63 @@ export class LoginComponent implements OnInit {
 
   userName: String = '';
   password: String = '';
-  constructor(public privilegeService: PrivilegeService) { }
+  queryParams: any = {};
+  showForgotPasswordPage: boolean;
+  isRemberMeChecked: boolean;
+  constructor(public _authService: AuthService, private route: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
+    // this.autoFillUserDetails();
+    this.route.queryParams
+    .subscribe((params: any) => {
+      this.queryParams = this.getValidFilters(params);
+      this.showForgotPasswordPage = this.queryParams.forgotPassword ? true : false;
+    });
+  }
+
+  autoFillUserDetails() {
+    console.log('userName', JSON.parse(JSON.stringify(localStorage.getItem('username'))));
+    this.userName = localStorage.getItem('username') ? JSON.parse(JSON.stringify(localStorage.getItem('username'))).userName : '';
+    this.password = localStorage.getItem('password') ? JSON.parse(JSON.stringify(localStorage.getItem('password'))) : '';
+    this.isRemberMeChecked = localStorage.getItem('isRemberMeChecked') ?
+    JSON.parse(JSON.stringify(localStorage.getItem('isRemberMeChecked'))) : false;
   }
 
   login() {
     if (this.userName && this.password) {
-      this.privilegeService.getPrivileges().then(res => {
+      this._authService.setPrivilages(this.userName, this.password, this.isRemberMeChecked).then(res => {
         console.log('RES::', res);
+        // this.router.navigate(['']);
+        window.location.href = '';
       });
     }
+  }
+
+  getValidFilters(params: any): any {
+    const validParams = {};
+    for (const key in params) {
+      if (this.isValidRoute(key)) {
+        validParams[key] = params[key];
+      }
+    }
+    return validParams;
+  }
+
+  // Add any additional routes.
+  isValidRoute(key: string): boolean {
+    switch (key) {
+      case 'forgotPassword':
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  navigateTo(route) {
+    if (route === 'forgotPassword') {
+      this.queryParams.forgotPassword = true;
+    }
+    this.router.navigate(['/login'], { queryParams: this.queryParams});
   }
 
 }

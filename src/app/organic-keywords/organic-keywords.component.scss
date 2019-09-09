@@ -51,11 +51,31 @@
         }
     }
 }
-.modal-header{
-    padding:15px;
-    background: #757373;   
-    .modal-title {
-        font-size: 16px;
-        color: white;
+
+.add-modal-body {
+    display: flex; 
+    .direct-input-keyword{
+        width: 50%;
+        margin-left: 20px;
     }
+    .upload-keyword{
+        width: 50%;
+        margin-left: 30px;
+        border-left: 2px solid black;
+        padding-left: 30px;
+    }
+    .save-button{
+        margin-top:15px;
+    }
+    .upload-button{
+        min-width: 107px;
+    }
+}
+
+a.action-icons {
+    padding-right: 15px;
+    font-size: 12px;
+    text-decoration: underline;
+    cursor: pointer;
+    color: rgb(47, 198, 214);
 }

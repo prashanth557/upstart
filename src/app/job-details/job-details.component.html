@@ -1,0 +1,38 @@
+<div class="job-results">
+  <div class="job-results-header">
+    <span class="result-header-text" *ngIf="headerTitle">{{headerTitle}}</span>
+  </div>
+  <div class="search-wrapper">
+    <button class="create-job" *ngIf="showCreateButton" (click)="createNewJob()" data-toggle="modal" data-target="#showModalCenter">Create New Job</button>
+    <span class="search-input-text" *ngIf="showCreateButton">Search:&nbsp;
+      <input type="text" class="search-input" />
+    </span>
+  </div>
+  <div class="job-results-wrapper">
+    <table class="job-results-table" *ngIf="jobHeaders?.length > 0 && productDetails?.length > 0">
+      <ng-container *ngFor="let header of jobHeaders">
+        <th>{{header}}</th>
+      </ng-container>
+      <tbody>
+        <tr *ngFor="let product of productDetails">
+          <ng-container *ngFor="let key of keys">
+            <td>
+              <span *ngIf="key !== 'status' && key !== 'showActions'">{{product[key]}}</span>
+              <span *ngIf="key === 'status' " class="status-wrapper" [style.background]="getBackgroundColor(product, key)">{{product[key]}}</span>
+              <span *ngIf="key === 'showActions'">
+                <span *ngFor="let line of actionItems">
+                  <ng-container *ngTemplateOutlet="lineHeaderTmpl, context: { $implicit: line }">
+                  </ng-container>
+                </span>
+              </span>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination-wrapper">
+      <span class="result-text">Showing {{ fromCount }} to {{ toCount }} of {{pageCount}} entries</span>
+      <app-pagination *ngIf="pageCount > 5" [pageCount]='pageCount' [currentPage]="currentpageIndex" [itemsPerPage]='5' (selectedPage)='onPageChange($event)'></app-pagination>
+    </div>
+  </div>
+</div>

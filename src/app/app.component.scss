@@ -1,33 +1,141 @@
 .page-content{
-    padding-left: 250px;
+    min-height: 100vh;
+    padding-left: 220px;
+    //background: #f5f3f359;
+}
+.expand-page-content {
+    padding-left: 70px !important;
 }
 .page-content-header{
     height: 65px;
     line-height: 60px;
     font-size: 18px;
-    border-bottom: 1px solid black;
+    //border-bottom: 1px solid black;
     margin: auto;
     padding: 10px;
+    .header-search{
+        height:30px;
+        width:100px;
+        .header-search-input{
+            height: 30px;
+            width: 120px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            float: right;
+            margin: 15px 0px 15px 15px;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+        }
+        .header-search-input:focus {
+            outline: none;
+        }
+        .icon-search {   
+            float: right;
+            margin: 14px 10px 14px 0px;
+            border-top: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            padding: 5px 10px 5px 10px;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+    }
 }
 #profile_icon {
+    // float: right;
+    font-size: 22px;
+    // padding-right: 20px;
+    padding-top: 20px;
+    color: black;
+}
+
+#bell_icon {
     float: right;
     font-size: 22px;
-    padding-right: 20px;
-    padding-top: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-top: 22px;
 }
 
 .app-wrapper {
     height: auto !important;
 }
 
+.body-white-bg {
+    background: white !important;
+}
+
 .body-container {
-    min-height: calc(100vh - 264px);
-    @media (max-width: 768px) {
-      min-height: calc(100vh - 300px);
-    }
+    background: #d0cbcb59;
     & > :nth-child(2) {
       width: 100%;
       display:block;  /* for IE 10 */ 
       height: 100%;
     }
+    .app-header {
+        // border-bottom: 2px solid black;
+        background: white;
+        // width: 100%;
+        top: 0;
+        position: sticky;
+        z-index: 999;
+        padding-left:220px;
+        -webkit-box-shadow: 10px 10px 5px -10px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 5px -10px rgba(0,0,0,0.75);
+        box-shadow: 10px 10px 5px -10px rgba(0,0,0,0.75);
+        .app-header-name {
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .menu-toggle-wrapper{
+            margin-left:20px;
+            #menu-toggle:hover {
+                text-decoration: none;
+                cursor: pointer;
+            }
+        }
+    }
+    #main_icon
+    {
+       // float:right;
+       padding-right: 10px;
+       padding-top: 20px;
+       font-size: 20px;
+       color: black;
+       cursor: pointer;
+    }
   }
+  .dropdown-toggle {
+      padding-top: 0px !important;
+      padding-right: 50px;
+      .profile-name{
+        display: inline-block;
+        text-overflow: ellipsis;
+        max-width: 120px;
+        overflow: hidden;
+        white-space: nowrap;
+        vertical-align: middle;
+        padding-right: 10px;
+      }
+    }
+    .dropdown-toggle:hover{
+        background-color: transparent !important;
+    }
+    .dropdown-toggle:focus{
+        background-color: transparent !important;
+    }
+    .navbar-nav>li>.dropdown-menu {
+        margin-right:40px !important;
+    }
+    .dropdown-menu li a{
+        text-align: center;
+        line-height: 2.6em;
+        cursor: pointer;
+    }
