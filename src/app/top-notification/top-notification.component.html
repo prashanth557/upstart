@@ -1,0 +1,12 @@
+<div class="top-notification" *ngIf="showNotification">
+    <div class="icon-container">
+      <span class="icon-check-circle" *ngIf="isSuccess"></span>
+      <span class="icon-error" *ngIf="!isSuccess"></span>
+    </div>
+    <div class="top-notification-container">
+      <span>{{message}}</span>
+    </div>
+    <div>
+      <i class="icon-cancel pull-right" (click)=" onClickCancel()"></i>
+    </div>
+  </div>

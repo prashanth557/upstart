@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { JobsService } from '../services/jobs.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,32 +15,22 @@ export class OrganicKeywordsComponent implements OnInit {
   // Header Title
   headerTitle: String = 'Organic Keywords Set';
   // Details to be displayed inside table
-  allProductDetails: any = [{title: 'Adesso Brand Crawl', input: 'Floor Lamps',
-  status: 'Ready', lastRun: '',
-  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true},
-  {title: 'Image Archive Crawl', input: 'My Keywords',
-  status: 'Running', lastRun: 'Feb 15, 2019 @11:30 AM',
-  createdAt: 'Feb 11, 2019 @11:30 AM', showActions: true},
-  {title: 'Adesso Brand Crawl', input: 'Floor Lamps',
-  status: 'Ready', lastRun: 'Feb 15, 2019 @11:30 AM',
-  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true},
-  {title: 'Adesso Brand Crawl', input: 'Floor Lamps',
-  status: 'Ready', lastRun: 'Feb 15, 2019 @11:30 AM',
-  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true}];
-  actionItems = [{icon: 'Edit', route: 'keywordset/keywordresultdash'},
-  {icon: 'Deactivate', route: ''},
-  {icon: 'Last run result summary', route: 'keywordset/keywordresultdash'},
-  {icon: 'Run History', route: 'keywordset/organicRunHistory'},
-  {icon: 'Schedule', route: 'schedulesList'}];
+  actionItems = [{ icon: 'Edit', route: 'keywordset/keywordresultdash' },
+  { icon: 'Deactivate', route: '' },
+  { icon: 'Last run result summary', route: 'keywordset/keywordresultdash' },
+  { icon: 'Run History', route: 'keywordset/organicRunHistory' },
+  { icon: 'Schedule', route: 'schedulesList' }];
   // Table Headers
   jobHeaders = ['Job Title', 'Keyword Input', 'Status', 'Last Run At', 'Created At', 'Quick Actions'];
   createNewKeyword: boolean;
-  productDetails: any;
-    // Required for Pagination
-    currentpageIndex: number;
-    limitPerPage: number = 5;
-    offsetPage: number = 0;
-  constructor(public router: Router) { }
+  productDetails: any = [];
+  // Required for Pagination
+  totalItems: number;
+  currentpageIndex: number;
+  limitPerPage: number = 5;
+  offsetPage: number = 0;
+  isLoading: boolean;
+  constructor(public router: Router, public jobsService: JobsService) { }
 
   ngOnInit() {
     this.currentpageIndex = 0;
@@ -65,8 +56,19 @@ export class OrganicKeywordsComponent implements OnInit {
     this.getDetails(this.offsetPage);
   }
 
+  getBackgroundColor(product) {
+    return product.status.toLowerCase() === 'ready' ? '#2A2073 ' : '#2fc6d6';
+  }
+
   getDetails(currentPageIndex) {
-    this.productDetails = this.allProductDetails.slice(this.offsetPage, this.offsetPage + 5);
+    this.jobsService.getAllKeywordRelevanceJobDetails(this.offsetPage).then((res: any) => {
+      this.totalItems = res.totalItems;
+      this.productDetails = res.items;
+      this.isLoading = false;
+    }).catch(err => {
+      console.log('Error while fetching Keyword Relevance Job Details', err);
+      this.isLoading = false;
+    });
   }
 
 }

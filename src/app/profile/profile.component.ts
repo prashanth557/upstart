@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -13,20 +13,56 @@ export class ProfileComponent implements OnInit {
   editFirstName: boolean;
   editLastName: boolean;
   user: any = {};
-  constructor() { }
+  passwordMistach: boolean;
+  changePasswordForm: FormGroup;
+  submitted: boolean;
+  updateMesssage: string;
+  constructor(public formBuilder: FormBuilder, public authService: AuthService) {  }
 
   ngOnInit() {
+    // this.changePasswordForm = this.formBuilder.group({
+    //   currentPassword: ['', [Validators.required, Validators.email]],
+    //   newPasssword: ['', Validators.required, Validators.minLength(6)],
+    //   confirmNewPassword: ['', Validators.required, Validators.minLength(6)]
+    // }, {validator: this.checkPasswords });
   }
 
-  changePassword() {
-    console.log('Change password is called');
+  // get passwordFields() {
+  //   return this.changePasswordForm.controls;
+  // }
+
+  // checkPasswords(group: FormGroup) {
+  //   const pass = group.get('newPasssword').value;
+  //   const confirmPass = group.get('confirmNewPassword').value;
+  //   return pass === confirmPass ? null : { notSame: true };
+  // }
+
+  checkPasswords() {
+    return this.newPassword === this.confirmPassword ? true : false;
+  }
+
+  changePassword(isValid) {
+    this.submitted = true;
+    if (this.checkPasswords()) {
+      this.passwordMistach = false;
+      this.authService.changePassword(this.currentPassword, this.newPassword, this.confirmPassword).then(res => {
+        if (res) {
+          this.updateMesssage = 'Password updated successfully';
+          this.resetPasswordFields();
+        }
+      });
+    } else {
+      this.passwordMistach = true;
+      this.newPassword = '';
+      this.confirmPassword = '';
+    }
   }
 
   editDetails(param) {
-    if ( param.toLowerCase() === 'firstname') {
+    if (param.toLowerCase() === 'firstname') {
       this.editFirstName = true;
     }
-    if ( param.toLowerCase() === 'lastname') {
+    if (param.toLowerCase() === 'lastname') {
       this.editLastName = true;
     }
   }
@@ -37,6 +73,7 @@ export class ProfileComponent implements OnInit {
   }
 
   resetPasswordFields() {
+    // this.changePasswordForm.reset();
     this.currentPassword = '';
     this.newPassword = '';
     this.confirmPassword = '';

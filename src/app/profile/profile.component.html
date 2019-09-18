@@ -1,70 +1,93 @@
 <div class="profile-container">
   <!-- Profile Details -->
-  <div class="profile-wrapper">
-    <div class="profile-header">
-      <span class="profile-name">John Doe's Profile</span>
+  <div class="profile-wrapper col-xs-12 col-sm-12 ">
+    <div class="user-details-section col-xs-12 col-sm-8 col-md-8">
+      <div class="profile-header">
+        <span class="profile-name">My Profile</span>
+      </div>
+      <div>
+        <ul class="list-elements">
+          <li class="user-role-details">
+            <p class="label-details">Role</p>
+            <p class="label-values">User</p>
+          </li>
+          <li class="profile-details">
+            <div>
+              <p class="label-details">First Name</p>
+              <p *ngIf="!editFirstName" class="label-values">Prashanth
+                <a (click)="editDetails('firstName')" class="edit_icon glyphicon glyphicon-pencil"></a>
+              </p>
+              <input *ngIf="editFirstName" type="text" class="label-values" [(ngModel)]='user.firstName' [ngModelOptions]="{standalone: true}">
+            </div>
+            <div>
+              <p class="label-details">Last Name</p>
+              <p *ngIf="!editLastName" class="label-values">Vanama
+                <a (click)="editDetails('lastName')" class="edit_icon glyphicon glyphicon-pencil"></a>
+              </p>
+              <input *ngIf="editLastName" type="text" class="label-values" [(ngModel)]='user.lastName' [ngModelOptions]="{standalone: true}">
+            </div>
+          </li>
+          <li>
+            <p class="label-details">Email</p>
+          </li>
+          <li>
+            <p class="label-values">user@user.com</p>
+          </li>
+        </ul>
+      </div>
+      <div class="profile-buttons">
+        <button type="button" class="save-button" [disabled]="!editFirstName && !editLastName" type="submit">Save </button>
+        <button type="button" class="restore-button" [disabled]="!editFirstName && !editLastName" (click)="restoreDetails()">Restore originals</button>
+      </div>
     </div>
-    <div>
-      <ul class="list-elements">
-        <li class="profile-details">
-          <p class="lable-details">Email</p>
-          <p class="label-values">vanama.prashanth@gmail.com</p>
-        </li>
-        <li class="profile-details">
-          <p class="lable-details">First Name</p>
-          <p *ngIf="!editFirstName" class="label-values">Prashanth
-            <a (click)="editDetails('firstName')" class="edit_icon glyphicon glyphicon-edit"></a>
-          </p>
-          <input *ngIf="editFirstName" type="text" class="label-values" [(ngModel)]='user.firstName' [ngModelOptions]="{standalone: true}">
-        </li>
-        <li class="profile-details">
-          <p class="lable-details">Last Name</p>
-          <p *ngIf="!editLastName" class="label-values">Vanama
-            <a (click)="editDetails('lastName')" class="edit_icon glyphicon glyphicon-edit"></a>
-          </p>
-          <input *ngIf="editLastName" type="text" class="label-values" [(ngModel)]='user.lastName' [ngModelOptions]="{standalone: true}">
-        </li>
-        <li class="profile-details">
-          <p class="lable-details">Role</p>
-          <p class="label-values">USER</p>
-        </li>
-      </ul>
-    </div>
-    <div class="profile-buttons">
-      <button type="button" class="save-button" [disabled]="!editFirstName && !editLastName" type="submit">Save Changes</button>
-      <button type="button" class="restore-button" [disabled]="!editFirstName && !editLastName" (click)="restoreDetails()">Restore Originals</button>
+    <div class="col-xs-12 col-md-4 col-sm-4 text-center">
+      <figure>
+        <img src="../assets/images/profile-icon.jpg" alt="" class="img-circle img-responsive profile-image">
+      </figure>
+        <input style="display: none" type="file" #fileInput accept="image/x-png,image/jpeg" (change)="onFileChanged($event)">
+        <a class="upload-button" (click)="fileInput.click()">Upload Photo</a>
     </div>
   </div>
   <!-- Password Change -->
-  <form class="profile-wrapper" (ngSubmit)="changePassword()">
-    <div class="profile-header">
-      <span class="profile-name">Change Password</span>
-    </div>
-    <div>
-      <ul class="list-elements">
-        <li class="profile-details">
-          <p class="lable-details">Current password
-            <span class="required-field">*</span>
-          </p>
-          <input type="password" [(ngModel)]="currentPassword" class="label-values input-label" [ngModelOptions]="{standalone: true}" required>
-        </li>
-        <li class="profile-details">
-          <p class="lable-details">New Password
-            <span class="required-field">*</span>
-          </p>
-          <input type="password" [(ngModel)]="newPassword" [ngModelOptions]="{standalone: true}" class="label-values input-label" required>
-        </li>
-        <li class="profile-details">
-          <p class="lable-details">Confirm Password
-            <span class="required-field">*</span>
-          </p>
-          <input type="password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone: true}" class="label-values input-label" required>
-        </li>
-      </ul>
-    </div>
-    <div class="profile-buttons">
-      <button type="button" type="submit" class="save-button" [disabled]="!currentPassword || !newPassword || !confirmPassword"  (submit)="changePassword()">Change Password</button>
-      <button type="button" class="restore-button" [disabled]="!currentPassword && !newPassword &&!confirmPassword" (click)="resetPasswordFields()">Reset Form</button>
-    </div>
-  </form>
+  <div>
+    <form class="profile-wrapper col-xs-12 col-sm-12 col-lg-12" (ngSubmit)="changePassword()">
+      <div class="profile-header">
+        <span class="profile-name">Change Password</span>
+      </div>
+      <div>
+        <div>
+          <span *ngIf="passwordMistach" class="invalid-error">Password didnt match</span>
+        </div>
+        <ul class="list-elements">
+          <li class="password-details">
+            <div class="col-xs-12 col-sm-4 col-md-4">
+              <p class="label-details">Current password
+                <span class="required-field">*</span>
+              </p>
+              <input type="password" [(ngModel)]="currentPassword" class="label-values input-label col-xs-12 col-sm-12" [ngModelOptions]="{standalone: true}"
+                required>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4">
+              <p class="label-details">New Password
+                <span class="required-field">*</span>
+              </p>
+              <input type="password" [(ngModel)]="newPassword" [ngModelOptions]="{standalone: true}" class="label-values input-label col-xs-12 col-sm-12" required>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4">
+              <p class="label-details">Confirm Password
+                <span class="required-field">*</span>
+              </p>
+              <input type="password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone: true}" class="label-values input-label col-xs-12 col-sm-12"
+                required>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="profile-buttons">
+        <button type="button" type="submit" class="save-button" [disabled]="!currentPassword || !newPassword || !confirmPassword"
+          (submit)="changePassword()">Change Password</button>
+        <button type="button" class="restore-button" [disabled]="!currentPassword && !newPassword &&!confirmPassword" (click)="resetPasswordFields()">Reset Form</button>
+      </div>
+    </form>
+  </div>
 </div>

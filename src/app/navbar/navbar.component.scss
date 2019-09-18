@@ -6,7 +6,7 @@
 #wrapper {
     padding-left: 70px;
     transition: all .4s ease 0s;
-    height: 100%
+    height: 100%;
 }
 
 #sidebar {
@@ -136,6 +136,11 @@
   color: #fff;
   //background: #14c35d;
   background: #2fc6d6;
+}
+.sidebar-brand {
+    &.show-notification {
+    z-index: 1;
+  }
 }
 
 // #main_icon

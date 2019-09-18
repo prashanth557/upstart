@@ -111,6 +111,9 @@
        color: black;
        cursor: pointer;
     }
+    &.show-notification {
+        z-index: 1;
+      }
   }
   .dropdown-toggle {
       padding-top: 0px !important;
@@ -123,6 +126,9 @@
         white-space: nowrap;
         vertical-align: middle;
         padding-right: 10px;
+        font-size: 14px;
+        font-weight: normal;
+        color: black;
       }
     }
     .dropdown-toggle:hover{
@@ -138,4 +144,7 @@
         text-align: center;
         line-height: 2.6em;
         cursor: pointer;
+    }
+    .glyphicon-chevron-down{
+        color:black;
     }

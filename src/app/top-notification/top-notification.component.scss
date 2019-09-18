@@ -1,0 +1,56 @@
+@keyframes notification {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+.top-notification {
+    background-color: #474747;
+    opacity: 0.9;
+    width: 100vw;
+    height: 65px;
+    font-size: 16;
+    color: white;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    animation-name: notification;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-out;
+    animation-duration: 0.3s;
+    transition: display .5s;
+    @media (min-width: 768px) and (max-width: 1200) {
+        font-size: 16;;
+    }
+    @media (max-width: 767px) {
+        height: 100px;
+    }
+}
+.icon-container {
+    @media (max-width: 767px) {
+        height: 100px;
+        padding-top: 25px;
+    }
+    font-size: 35px;
+    opacity: 1;
+    width:65px;
+    height:65px;
+    background-color: grey;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+.top-notification-container {
+    flex-grow: 1;
+    margin-left: 220px;
+}
+.icon-cancel {
+    margin-right: 21px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}

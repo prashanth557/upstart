@@ -3,6 +3,14 @@
     //border-radius: 5px;
     margin: 30px 30px 15px 15px;
     background: white;
+    .download-report-section{
+        padding: 10px;
+        .download-report-button {
+            float:right;
+            background: #6c10e8;
+            color:white;
+        }
+    }
     .job-results-header {
         height: 50px;
         padding: 15px;
@@ -39,12 +47,13 @@
     .job-results-wrapper{
         table-layout: fixed;
         padding: 15px;
+        min-height:200px;
     }
     .job-results-table{
         border-top: 1px solid #dcdcd7;
         width: 100%;
     }
-    td, th{
+    th{
         border-top: 1px solid #dcdcd7;
         text-align: left;
         padding: 15px;

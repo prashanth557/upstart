@@ -19,7 +19,7 @@
     </table>
   </div>
 </div> -->
-<app-job-details [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails" [actionItems]="actionItems">
+<app-job-details [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails">
   <ng-template #lineHeader let-line>
     <a class="action-icons" (click)="navigateToTabs(line.route)">{{line?.icon}}</a>
   </ng-template>

@@ -1,7 +1,7 @@
 .keyword-container {
-    padding:20px;
+    padding: 20px 10px 20px 10px;
     .modal-body {
-        padding: 15px 15px 15px 15px !important;
+        padding: 15px 35px 15px 35px !important;
     }
     .form-check-label{
         padding: 0px 10px 0px 10px;
@@ -11,13 +11,30 @@
         height: 26px !important;
         border-radius: 0px !important;
     }
+    td {
+        //width: 180px;
+        text-align: left;
+        padding: 15px 10px 15px 15px;
+        font-size:12px;
+        @media (min-width: 768px) and (max-width: 1024px) {
+            width: 150px;
+        }
+        .status-wrapper{
+            padding: 5px 15px 5px 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 12px;
+        }
+    }
 }
 .add-keyword-button {
-    display: flex;
-    margin: 25px auto 0px auto;
+    // display: flex;
+    // margin: 25px auto 0px auto;
     background: #6c10e8;
     color: white;
-    padding: 5px;
+    padding: 5px 15px 5px 15px;
+    border-radius: 20px;
+    font-size:12px;
 }
 
 a.action-icons {
@@ -27,3 +44,17 @@ a.action-icons {
     cursor: pointer;
     color: rgb(47, 198, 214);
 }
+.add-modal-body {
+    .col-form-label{
+        font-weight: normal;
+        margin-bottom:10px;
+    }
+    .form-control-plaintext {
+        width: 100%;
+    }
+}
+
+// td {
+//     text-align: left;
+//     padding: 15px;
+// }

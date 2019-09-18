@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   constructor(public _authService: AuthService, private route: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
-    // this.autoFillUserDetails();
+    this.autoFillUserDetails();
     this.route.queryParams
     .subscribe((params: any) => {
       this.queryParams = this.getValidFilters(params);
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 
   autoFillUserDetails() {
     console.log('userName', JSON.parse(JSON.stringify(localStorage.getItem('username'))));
-    this.userName = localStorage.getItem('username') ? JSON.parse(JSON.stringify(localStorage.getItem('username'))).userName : '';
+    this.userName = localStorage.getItem('username') ? JSON.parse(JSON.stringify(localStorage.getItem('username'))) : '';
     this.password = localStorage.getItem('password') ? JSON.parse(JSON.stringify(localStorage.getItem('password'))) : '';
     this.isRemberMeChecked = localStorage.getItem('isRemberMeChecked') ?
     JSON.parse(JSON.stringify(localStorage.getItem('isRemberMeChecked'))) : false;
@@ -35,10 +35,11 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (this.userName && this.password) {
-      this._authService.setPrivilages(this.userName, this.password, this.isRemberMeChecked).then(res => {
-        console.log('RES::', res);
-        // this.router.navigate(['']);
-        window.location.href = '';
+      this._authService.validateUserDetails(this.userName, this.password, this.isRemberMeChecked).then(res => {
+       if (res) {
+         // Navigating to home page.
+          window.location.href = '';
+       }
       });
     }
   }
