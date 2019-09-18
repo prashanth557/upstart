@@ -1,10 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { ChartsModule } from 'ng2-charts';
+import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+
 // Services
 import { PrivilegeService } from './services/privilege.service';
 import { CookieService } from 'ng2-cookies';
@@ -13,6 +16,8 @@ import { AppStorage } from './services/for-storage/universal.inject';
 import { CookieStorage } from './services/for-storage/browser.storage';
 import { AuthService} from './services/auth.service';
 import { AuthGuard } from './guards/auth-guard.service';
+import { HttpWrapper } from './services/http-wrapper';
+import { RequestInterceptorService } from './services/http-wrapper/request.interceptor';
 
 
 // Components
@@ -36,6 +41,12 @@ import { UpstartModalComponent } from './upstart-modal/upstart-modal.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { LoadingIndicatorComponent } from './loadingindicator/loadingindicator.component';
+import { TopNotificationComponent } from './top-notification/top-notification.component';
+import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard.component';
+import { BarchartsComponent } from './barcharts/barcharts.component';
+import { MapmonitorJobDetailsComponent } from './mapmonitor-job-details/mapmonitor-job-details.component';
+import { MapmonitorLastRunJobDetailsComponent } from './mapmonitor-last-run-job-details/mapmonitor-last-run-job-details.component';
 
 @NgModule({
   declarations: [
@@ -57,23 +68,36 @@ import { NgxPaginationModule } from 'ngx-pagination';
     AlertsComponent,
     UpstartModalComponent,
     UserSettingsComponent,
-    PaginationComponent
+    PaginationComponent,
+    LoadingIndicatorComponent,
+    TopNotificationComponent,
+    SummaryDashboardComponent,
+    BarchartsComponent,
+    MapmonitorJobDetailsComponent,
+    MapmonitorLastRunJobDetailsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     RouterModule,
     ChartsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    HttpClientModule
   ],
   providers: [
     PrivilegeService,
     CookieService,
     AuthGuard,
     AuthService,
-    TokenUtil, { provide: AppStorage, useClass: CookieStorage }],
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptorService,
+      multi: true
+    },
+    TokenUtil, HttpWrapper, { provide: AppStorage, useClass: CookieStorage }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

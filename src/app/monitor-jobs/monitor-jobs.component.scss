@@ -1,3 +1,54 @@
 .keyword-container {
-    padding:20px;
+    padding: 20px 10px 20px 10px;
+}
+.browse-button {
+    margin-left: 15px;
+    line-height: 1em;
+    border-radius: 0px;
+    background: #e8e4e4;
+    width: 100px;
+}
+.mandatory-field{
+    font-size:12px;
+    color:red;
+}
+.form-group-file{
+    margin-bottom:0px !important;
+}
+.file-message{
+    font-size:12px;
+}
+
+.form-group-buttons{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    button{
+        margin-right: 20px;
+        width:100px;
+    }
+}
+
+a.action-icons {
+    padding-right: 15px;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    color: rgb(47, 198, 214);
+}
+
+td {
+    //width: 180px;
+    text-align: left;
+    padding: 15px 10px 15px 15px;
+    font-size:12px;
+    @media (min-width: 768px) and (max-width: 1024px) {
+        width: 150px;
+    }
+    .status-wrapper{
+        padding: 5px 15px 5px 15px;
+        border-radius: 15px;
+        color: white;
+        font-size: 12px;
+    }
 }

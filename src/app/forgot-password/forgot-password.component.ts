@@ -1,21 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss']
+  styleUrls: ['./forgot-password.component.scss'],
+  providers: [FormBuilder]
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  email: String = '';
   forgotPasswordForm: FormGroup;
-  constructor() { }
+  isPasswordSent: boolean;
+  passwordResetMsg: string;
+  submitted: boolean;
+  constructor(public authService: AuthService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.forgotPasswordForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+  });
   }
 
-  resetPasssword() {
+  get forgotForm() {
+    return this.forgotPasswordForm.controls;
+  }
+
+  resetPassword(isValid) {
+    this.submitted = true;
+    if (isValid) {
+      console.log('this.forgotPasswordForm.controls.email', this.forgotPasswordForm.controls.email);
+      this.authService.resetPassword(this.forgotPasswordForm.controls.email).then( res => {
+        if (res) {
+          this.isPasswordSent = true;
+          this.passwordResetMsg = 'Your password has been sent to your email';
+        }
+      });
+    }
   }
 
 }

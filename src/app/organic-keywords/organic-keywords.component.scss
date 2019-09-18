@@ -72,6 +72,22 @@
     }
 }
 
+td {
+    //width: 180px;
+    text-align: left;
+    padding: 15px 10px 15px 15px;
+    font-size:12px;
+    @media (min-width: 768px) and (max-width: 1024px) {
+        width: 150px;
+    }
+    .status-wrapper{
+        padding: 5px 15px 5px 15px;
+        border-radius: 15px;
+        color: white;
+        font-size: 12px;
+    }
+}
+
 a.action-icons {
     padding-right: 15px;
     font-size: 12px;

@@ -11,18 +11,23 @@ export class JobDetailsComponent implements OnInit, OnChanges {
   @Input() jobHeaders: any;
   @Input() productDetails: any;
   @Input() showCreateButton: boolean;
-  @Input() actionItems: any;
+  @Input() showDownloadButton: boolean;
+  @Input() showSearch: boolean;
   @Input() pageCount: number;
   @Input() currentpageIndex: number;
+  @Input() isLoading: boolean;
   @Output() createJob = new EventEmitter;
   @Output() pageChange = new EventEmitter;
   @ContentChild('lineHeader') lineHeaderTmpl: TemplateRef<any>;
+  @ContentChild('filedsHeader') filedsHeader: TemplateRef<any>;
   keys: any = [];
   fromCount: number;
   toCount: number;
   constructor() { }
 
   ngOnInit() {
+    console.log('headerTitle', this.headerTitle);
+    console.log('jobHeaders', this.jobHeaders);
   }
 
   ngOnChanges() {

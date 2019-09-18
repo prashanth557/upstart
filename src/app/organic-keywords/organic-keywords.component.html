@@ -1,11 +1,30 @@
 <div class="keyword-container">
-  <app-job-details [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails" [showCreateButton]="true"
-    (createJob)="addNewKeyword($event)" [actionItems]="actionItems" [pageCount]="allProductDetails?.length"
-    [currentpageIndex]='currentpageIndex' (pageChange)="onPageChange($event)">
-    <ng-template #lineHeader let-line>
-      <a class="action-icons" (click)="navigateToTabs(line.route)">{{line?.icon}}</a>
-    </ng-template>
-  </app-job-details>
+    <app-job-details *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
+        [showCreateButton]="true" (createJob)="addNewKeyword($event)" [pageCount]="totalItems"
+        [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)">
+        <ng-template #filedsHeader let-product>
+            <td>
+                <span>{{product?.title}}</span>
+            </td>
+            <td>
+                <span>{{product?.keywordInput}}</span>
+            </td>
+            <td>
+                <span class="status-wrapper" [style.background]="getBackgroundColor(product)">{{product?.status}}</span>
+            </td>
+            <td>
+                <span>{{product?.lastRunAt | date: 'MMM d, y, h:mm:ss a'}}</span>
+            </td>
+            <td>
+                <span>{{product?.createdAt | date: 'MMM d, y, h:mm:ss a'}}</span>
+            </td>
+            <td>
+                <span *ngFor="let line of actionItems; let i = index;">
+                    <a class="action-icons" (click)="navigateToTabs(line.route)">{{line?.icon}}</a>
+                </span>
+            </td>
+        </ng-template>
+    </app-job-details>
 
   <!-- Modal -->
   <app-upstart-modal *ngIf="createNewKeyword" [modalTitle]="modalTitle">
@@ -31,3 +50,4 @@
     <!-- Modal Body Content Ends -->
   </app-upstart-modal>
 </div>
+<app-loader [show]='productDetails?.length === 0'></app-loader>  

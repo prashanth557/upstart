@@ -1,61 +1,27 @@
-import { Component, ContentChild, OnInit, ViewEncapsulation, TemplateRef} from '@angular/core';
+import { Component, ContentChild, OnInit, ViewEncapsulation, ViewChild, TemplateRef} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router';
+import { JobsService } from '../services/jobs.service';
+import { TopNotificationComponent } from '../top-notification/top-notification.component';
 
 @Component({
   selector: 'app-keyword-relevant-jobs',
   templateUrl: './keyword-relevant-jobs.component.html',
   styleUrls: ['./keyword-relevant-jobs.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class KeywordRelevantJobsComponent implements OnInit {
-
+  @ViewChild(TopNotificationComponent) notification: TopNotificationComponent;
   jobResults = [{jobType: 'Crawl Jobs Created', count: 22},
   {jobType: 'Product Data Extracted', count: 1239}, {jobType: 'Scheduled Crawl Jobs', count: '07'}];
-  // Table Values
-  allProductDetails: any = [
-  {title: 'Adesso Brand Crawl', input: 'Floor Lamps',
-  status: 'Ready', lastRun: '',
-  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true},
-  {title: 'Image Archive Crawl', input: 'My Keywords',
-  status: 'Running', lastRun: 'Feb 15, 2019 @11:30 AM',
-  createdAt: 'Feb 11, 2019 @11:30 AM', showActions: true},
-  {title: 'Brand Crawl', input: 'Floor Lamps',
-  status: 'Ready', lastRun: 'Feb 15, 2019 @11:30 AM',
-  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true},
-  {title: 'Brand Crawl3', input: 'Floor Lamps',
-  status: 'Ready', lastRun: 'Feb 15, 2019 @11:30 AM',
-  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true},
-  {title: 'Brand Crawl', input: 'Floor Lamps',
-  status: 'Ready', lastRun: '',
-  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true},
-
-  {title: 'Image Archive Crawl2', input: 'My Keywords',
-  status: 'Running', lastRun: 'Feb 15, 2019 @11:30 AM',
-  createdAt: 'Feb 11, 2019 @11:30 AM', showActions: true},
-  {title: 'Image Archive Crawl3', input: 'Floor Lamps',
-  status: 'Ready', lastRun: 'Feb 15, 2019 @11:30 AM',
-  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true},
-  {title: 'Image Archive Crawl4', input: 'Floor Lamps',
-  status: 'Ready', lastRun: 'Feb 15, 2019 @11:30 AM',
-  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true},
-  {title: 'Adesso Brand Crawl2', input: 'Floor Lamps',
-  status: 'Ready', lastRun: '',
-  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true},
-  {title: 'Image Archive Crawl5', input: 'My Keywords',
-  status: 'Running', lastRun: 'Feb 15, 2019 @11:30 AM',
-  createdAt: 'Feb 11, 2019 @11:30 AM', showActions: true},
-  {title: 'Adesso Brand Crawl2', input: 'Floor Lamps',
-  status: 'Ready', lastRun: 'Feb 15, 2019 @11:30 AM',
-  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true},
-  {title: 'Adesso Brand Crawl2', input: 'Floor Lamps',
-  status: 'Ready', lastRun: 'Feb 15, 2019 @11:30 AM',
-  createdAt: 'Feb 15, 2019 @11:30 AM', showActions: true}];
+  totalItems: number;
   // Glyphicon images to be displayed at actions section in table
-  actionItems = [{icon: 'glyphicon-flash', route: ''},
-  {icon: 'glyphicon-eye-open', route: ''},
-  {icon: 'glyphicon-th-large', route: ''},
-  {icon: 'glyphicon-trash', route: ''},
-];
-productDetails: any;
+  actionItems = [{icon: 'glyphicon-flash'},
+                 {icon: 'glyphicon-eye-open'},
+                 {icon: 'glyphicon-th-large'},
+                 {icon: 'glyphicon-trash'},
+  ];
+  productDetails: any = [];
   // Table Headers
   jobHeaders = ['Job Title', 'Keyword Input', 'Status', 'Last Run At', 'Created At', 'Quick Actions'];
   // Table Header title
@@ -66,7 +32,12 @@ productDetails: any;
   currentpageIndex: number;
   limitPerPage: number = 5;
   offsetPage: number = 0;
-  constructor() { }
+  isLoading: boolean;
+  keywordInput: string;
+  jobTitle: string;
+  keywordInputType: any;
+  jobCreated: boolean;
+  constructor(public jobsService: JobsService, public router: Router) { }
 
   ngOnInit() {
     this.currentpageIndex = 0;
@@ -80,10 +51,38 @@ productDetails: any;
   }
 
   addKeywords() {
+    this.jobsService.createKeywordJob(this.keywordInput, this.jobTitle).then( (res: any) => {
+      if (res) {
+        this.jobCreated = true;
+      }
+    });
   }
 
-  navigateTo(route) {
-    console.log('Route', route);
+  navigateTo(product, index) {
+    console.log('Index', index);
+    if (index === 0 ) {
+      this.runJob(product.id);
+    } else if (index === 1) {
+      this.router.navigate(['/keywordjoblist/' + product.id]);
+    } else if (index === 2) {
+      this.router.navigate(['/keywordjoblist/' + product.id + '/dashboard',
+      { headerTitle: 'Keyword', productTitle: 'Real Estate Investment Trusts crawl'}]);
+    } else if (index === 3) {
+      this.deleteJob(product.id);
+    }
+  }
+
+  deleteJob(productId) {
+    this.jobsService.deleteJob(productId).then( (res: any) => {
+      const message: string = 'Your request for delete record ( Job Id : ' + productId + ' ) is deleted successfully deleted.';
+      this.notification.displayNotification(true, true, message);
+      setTimeout(() => {
+        this.notification.displayNotification(false, true, '');
+        this.getDetails(this.offsetPage);
+      });
+    }).catch(err => {
+      console.log('Error while deleting the Job', err);
+    });
   }
 
   onPageChange(offset) {
@@ -95,7 +94,29 @@ productDetails: any;
   }
 
   getDetails(currentPageIndex) {
-    this.productDetails = this.allProductDetails.slice(this.offsetPage, this.offsetPage + 5);
+    this.isLoading = true;
+    this.jobsService.getAllKeywordRelevanceJobDetails(this.offsetPage).then((res: any ) => {
+      this.totalItems = res.totalItems;
+      this.productDetails = res.items;
+      this.isLoading = false;
+    }).catch(err => {
+      console.log('Error while fetching Keyword Relevance Job Details', err);
+      this.isLoading = false;
+    });
+  }
+
+  getBackgroundColor(product) {
+    return product.status.toLowerCase() === 'ready' ? '#2A2073 ' : '#2fc6d6';
+  }
+
+  runJob(productId) {
+    this.jobsService.runJob(productId, 'kwdrelvncjobs').then( (res: any) => {
+      if (res) {
+        console.log('Job Runned Successfully');
+      }
+    }).catch( error => {
+      console.log('Error while running the job' + productId + error);
+    });
   }
 
 }

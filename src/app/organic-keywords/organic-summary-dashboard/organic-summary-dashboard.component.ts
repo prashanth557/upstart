@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as CanvasJS from '../../../assets/canvasjs.min';
 import { ChartsModule } from 'ng2-charts';
-
+import { JobsService } from '../../services/jobs.service';
 
 @Component({
   selector: 'app-organic-summary-dashboard',
@@ -23,11 +24,19 @@ export class OrganicSummaryDashboardComponent implements OnInit {
     {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
   ];
 
-  // Pie Chart data
-  public pieChartLabels = ['Sales Q1', 'Sales Q2', 'Sales Q3', 'Sales Q4'];
-  public pieChartData = [120, 150, 180, 90];
-  public pieChartType = 'pie';
+  // Pie Chart Brand details
+  public pieChartBrandLabels = ['BrandProducts', 'OtherBrandProducts'];
+  public pieChartBrandData = [];
 
+  public pieChartBrandRatingLabels = [];
+  public pieChartBrandRatingValues = [];
+
+  public barChartBrandLabels: any = [];
+  public barChartImagesData: any = [];
+  public barChartBulletpointsData: any = [];
+  public barChartCharLengthData: any = [];
+
+  // Pie Chart Brand Rating details
   // Radar Chart
   public radarChartLabels = ['Q1', 'Q2', 'Q3', 'Q4'];
   public radarChartData = [
@@ -36,7 +45,14 @@ export class OrganicSummaryDashboardComponent implements OnInit {
   ];
   public radarChartType = 'radar';
 
-  constructor() { }
+  headerTitle: any;
+  productTitle: any;
+  jobId: any;
+  showDatePicker: boolean;
+  isBrandDataAvailable: boolean;
+  isBarGraphDataAvailable: boolean;
+
+  constructor(public route: ActivatedRoute, public router: Router, public jobsService: JobsService) { }
 
   ngOnInit() {
   //   const chart = new CanvasJS.Chart('chartContainer', {
@@ -63,6 +79,64 @@ export class OrganicSummaryDashboardComponent implements OnInit {
   //     }]
   //   });
   //   chart.render();
-  //   chart.getCredits().setEnabled(false);
+      this.headerTitle = this.route.snapshot.paramMap.get('headerTitle');
+      this.productTitle = this.route.snapshot.paramMap.get('productTitle');
+      this.jobId = this.route.snapshot.paramMap.get('jobId');
+      if (this.headerTitle && this.headerTitle.toLowerCase() === 'organic keyword') {
+        this.showDatePicker = true;
+      }
+      this.isBarGraphDataAvailable = false;
+      this.isBrandDataAvailable = false;
+      this.getBrandsData();
+      this.getBrandRatingsData();
+      this.getNumberOfImages();
+      this.getNumberOfBulletPoints();
+      this.getNumberOfCharacters();
+   }
+
+   getBrandsData() {
+    this.jobsService.getBrandPresenceDetails(this.jobId).then(res => {
+      this.pieChartBrandData.push(res.brandProducts);
+      this.pieChartBrandData.push(res.otherBrandProducts);
+    });
+   }
+
+   getBrandRatingsData() {
+    this.jobsService.getBrandRatingDetails(this.jobId).then( (data: any ) => {
+      if (data.userRating) {
+        const userRating = data.userRating;
+        this.isBrandDataAvailable = true;
+        this.pieChartBrandRatingLabels = Object.keys(userRating);
+        this.pieChartBrandRatingValues = Object.values(userRating);
+      }
+    });
+   }
+
+   getNumberOfImages() {
+    this.jobsService.getNumberOfImages(this.jobId).then( (data: any ) => {
+      if (data.stats) {
+        this.barChartBrandLabels = data.stats.map( stat => stat.vendorname ? stat.vendorname : '');
+        this.barChartImagesData.data = data.stats.map( stat => stat.avgimageCount ? stat.avgimageCount : 0);
+      }
+    });
+   }
+
+   getNumberOfBulletPoints() {
+    this.jobsService.getNumberOfBulletPoints(this.jobId).then( (data: any ) => {
+      if (data.stats) {
+        const userRating = data.stats;
+        this.barChartBulletpointsData.data = data.stats.map( stat => stat.avgBulletsCount ? stat.avgBulletsCount : 0);
+      }
+    });
+   }
+
+   getNumberOfCharacters() {
+    this.jobsService.getNumberOfCharacters(this.jobId).then( (data: any ) => {
+      if (data.stats) {
+        const userRating = data.stats;
+        this.barChartCharLengthData.data = data.stats.map( stat => stat.avgTitleLength ? stat.avgTitleLength : 0);
+        this.isBarGraphDataAvailable = true;
+      }
+    });
    }
 }

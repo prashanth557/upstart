@@ -1,6 +1,55 @@
 <div class="keyword-container">
-    <app-result-header [jobResults]="jobResults"></app-result-header>
-    <app-job-details [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
-    [showCreateButton]="true" [pageCount]="allProductDetails?.length"
-    [currentpageIndex]='currentpageIndex' (pageChange)="onPageChange($event)"></app-job-details>
-  </div>
+  <app-result-header [jobResults]="jobResults"></app-result-header>
+  <app-job-details *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
+    [showCreateButton]="true" (createJob)="addNewKeyword($event)" [pageCount]="totalItems" [showSearch]="true"
+    [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)">
+    <ng-template #filedsHeader let-product>
+        <td>
+            <span>{{product?.title}}</span>
+        </td>
+        <td>
+            <span class="status-wrapper" [style.background]="getBackgroundColor(product)">{{product?.status}}</span>
+        </td>
+        <td>
+            <span>{{product?.lastRunAt | date: 'MMM d, y, h:mm:ss a'}}</span>
+        </td>
+        <td>
+            <span>{{product?.createdAt | date: 'MMM d, y, h:mm:ss a'}}</span>
+        </td>
+        <td>
+            <span *ngFor="let line of actionItems; let i = index;">
+                <a class="action-icons glyphicon {{line?.icon}}" (click)="navigateTo(product, i)"></a>
+            </span>
+        </td>
+    </ng-template>
+</app-job-details>
+
+  <app-upstart-modal *ngIf="createNewJob" [modalTitle]="modalTitle">
+    <div class="add-modal-body">
+      <form (ngSubmit)="addKeywords()">
+        <div class="form-group row">
+          <label for="jobTitle" class="col-sm-4 col-form-label">Job Title<span class="mandatory-field">*</span></label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control-plaintext" id="jobTitle">
+          </div>
+        </div>
+        <div class="form-group row form-group-file">
+          <label for="jobFile" class="col-sm-4 col-form-label">Select excel file to upload<span class="mandatory-field">*</span></label>
+          <!-- <input type="file" accept="application/vnd.ms-excel" id="jobFile" style="display: none;">
+          <button class="btn btn-default btn-file">Choose..</button> -->
+          <label class="btn btn-default btn-file browse-button">
+            Browse <input type="file" id="jobFile" accept="application/vnd.ms-excel" style="display: none;">
+        </label>
+        </div>
+        <div>
+            <span class="file-message">Excel file should contain AslNs, their map and notification emails for each in predefined format</span>
+        </div>
+
+        <div class="form-group-buttons">
+          <button type="submit" class="save-button">Save Job</button>
+          <button type="submit" class="close-button" (click)="closeModal()">Close</button>
+        </div>
+      </form>
+    </div>
+  </app-upstart-modal>
+</div>

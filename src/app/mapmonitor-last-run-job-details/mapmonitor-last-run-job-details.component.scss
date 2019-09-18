@@ -1,0 +1,74 @@
+.mapjob-container {
+    padding: 20px 10px 20px 10px;
+    .map-job-header-text {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+    .map-job-header-details{
+        padding-right: 15px;
+        padding-left: 15px;
+        padding-top: 20px;
+        .map-job-details{    
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .status-wrapper{
+            padding: 3px 15px 3px 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 12px;
+        }
+    }
+    .last-run-job-table{
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 15px;
+        padding-right: 15px;
+        padding-left: 15px;
+        .job-candiate-row{
+            background: #dedada;
+        }
+        .asin-wrapper{
+            color: #6c10e8;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .map-wrapper {
+            padding: 5px 15px 5px 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 16px;
+            background: #6c10e8;
+            margin-right: 10px;
+        }
+        .seller-wrapper {
+            padding: 5px 15px 5px 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 16px;
+            background: #2fc6d6;
+            margin-right: 10px;
+        }
+        .map-breach-wrapper {
+            padding: 5px 15px 5px 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 16px;
+            background: #2A2073;
+            margin-right: 10px;
+        }
+        app-job-details .job-results{
+            margin-top:0px !important;
+        }
+    }
+    td {
+        //width: 180px;
+        text-align: left;
+        padding: 15px 10px 15px 15px;
+        font-size:12px;
+        @media (min-width: 768px) and (max-width: 1024px) {
+            width: 150px;
+        }
+    }
+}

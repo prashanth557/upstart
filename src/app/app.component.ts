@@ -46,7 +46,8 @@ export class AppComponent implements OnInit {
   }
 
   logoutUser() {
-    Cookie.deleteAll();
-    this.router.navigate(['/login']);
+    Cookie.delete('userName');
+    Cookie.delete('password');
+    window.location.href = '/login';
   }
 }

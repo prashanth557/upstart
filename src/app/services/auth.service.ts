@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpWrapper, IRequestOptions } from '../services/http-wrapper/http-wrapper';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import { from } from 'rxjs';
+import { UrlConfig } from '../config/url-config';
 import { Cookie } from 'ng2-cookies';
 
 @Injectable({
@@ -7,10 +14,11 @@ import { Cookie } from 'ng2-cookies';
 })
 export class AuthService {
 
-  constructor(public http: Http) { }
+  config: any = new UrlConfig().getConfig();
+  constructor(public http: HttpWrapper) { }
 
   getPrivileges(): Promise<any> {
-    return this.http.get('').toPromise().then(res => {
+    return this.http.authenticatedGet('').toPromise().then(res => {
     });
   }
 
@@ -25,7 +33,26 @@ export class AuthService {
     return Cookie.get('_token');
   }
 
-  setPrivilages(userName, password, isRemberMeChecked): Promise<any> {
+  validateUserDetails(username, password, isRemberMeChecked): Promise<any> {
+    const url = this.config.loginUrl;
+    console.log('Login Url', url);
+    const body = {
+      'username': username,
+      'password': password,
+      'grantType': password
+    };
+    return this.http.authenticatedPost(url, body).toPromise().then((res: any) => {
+      if (res) {
+        Cookie.set('_token', JSON.stringify(res));
+        this.setPrivilages(username, password, isRemberMeChecked);
+        return res;
+      }
+    }).catch(err => {
+      return this.handleError(err);
+    });
+  }
+
+  setPrivilages(userName, password, isRemberMeChecked) {
       Cookie.set('username', userName);
       Cookie.set('password', password);
       if (isRemberMeChecked) {
@@ -33,6 +60,54 @@ export class AuthService {
         localStorage.setItem('password', password);
         localStorage.setItem('isRemberMeChecked', isRemberMeChecked);
       }
-      return Promise.resolve({data: 'user details stored successfully'});
+  }
+
+  public handleError(error: any): Promise<any> {
+    console.error('An error in api execution occurred', error);
+    return Promise.reject(error.message || error);
+  }
+
+  getAuthToken() {
+    return Cookie.get('_token');
+  }
+
+  refreshToken(): Observable<any> {
+    console.log('refresh token called');
+    const url = this.config.homeUrl + '/token';
+    return this.http.authenticatedGet(url);
+  }
+
+  deleteTokens() {
+    Cookie.deleteAll();
+  }
+
+  resetPassword(username) {
+    const body = {
+      'email': username
+    };
+    const url = this.config.forgotPasswordUrl;
+    return this.http.authenticatedPost(url, body).toPromise().then((res: any) => {
+      if (res) {
+        return res;
+      }
+    }).catch(err => {
+      return this.handleError(err);
+    });
+  }
+
+  changePassword(oldPassword, newPassword, confirmPassword) {
+    const body = {
+      'currentPassword': oldPassword,
+      'newPassword': newPassword,
+      'confirmPassword': confirmPassword
+    };
+    const url = this.config.changePasswordUrl;
+    return this.http.authenticatedPost(url, body).toPromise().then((res: any) => {
+      if (res) {
+        return res;
+      }
+    }).catch(err => {
+      return this.handleError(err);
+    });
   }
 }
