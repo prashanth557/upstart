@@ -12,16 +12,56 @@ import { JobsService } from '../../services/jobs.service';
 export class OrganicSummaryDashboardComponent implements OnInit {
 
   // Bar graphs data
+  // public barChartOptions = {
+  //   scaleShowVerticalLines: false,
+  //   responsive: true
+  // };
+  // public barChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  // public barChartType = 'bar';
+  // public barChartLegend = true;
+  // public barChartData = [
+  //   {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A', color: 'pink'},
+  //   {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B', color: '#6c10e8'}
+  // ];
+
   public barChartOptions = {
-    scaleShowVerticalLines: false,
-    responsive: true
+    scaleShowVerticalLines: true,
+    responsive: true,
+    scales: {
+      xAxes: [
+        {
+          stacked: true,
+          gridLines: {
+            display: false,
+            lineWidth: 10,
+            color: 'rgba(255,255,255,0)'
+          },
+          ticks: {
+            fontSize: 10
+          }
+        }],
+      yAxes: [{
+        stacked: true,
+        ticks: {
+          min: 0
+        },
+        gridLines: {
+          display: true,
+          // lineWidth: 10,
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'No. of products'
+        }
+      }]
+    }
   };
-  public barChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartLabels = ['Sponsored', 'Best seller', 'Amazon Prime', 'Amazons choice'];
   public barChartType = 'bar';
   public barChartLegend = true;
   public barChartData = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
+    {  label: 'Branded Products', data: [18, 30, 55, 5]},
+    {  label: 'Total Products',  data: [60, 40, 60, 10]}
   ];
 
   // Pie Chart Brand details
@@ -31,10 +71,11 @@ export class OrganicSummaryDashboardComponent implements OnInit {
   public pieChartBrandRatingLabels = [];
   public pieChartBrandRatingValues = [];
 
-  public barChartBrandLabels: any = [];
-  public barChartImagesData: any = [];
-  public barChartBulletpointsData: any = [];
-  public barChartCharLengthData: any = [];
+  public barChartBrandLabels: any = ['Turcotte, Funk and Orn', 'Stokes-Roberts', 'Emmerich-Abbott', 'Nitzsche Group',
+  'Hyatt, Gusikowski and Casper'];
+  public barChartImagesData: any = [{data: [72, 37, 94, 27, 79]}];
+  public barChartBulletpointsData: any = [{data: [7, 2, 9, 1, 5]}];
+  public barChartCharLengthData: any = [{data: [41, 25, 37, 19, 24]}];
 
   // Pie Chart Brand Rating details
   // Radar Chart

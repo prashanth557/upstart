@@ -1,9 +1,10 @@
-import { ContentChild, Component, EventEmitter, OnInit, OnChanges, Input, Output, TemplateRef } from '@angular/core';
+import { ContentChild, Component, EventEmitter, OnInit, OnChanges, Input, Output, TemplateRef, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-job-details',
   templateUrl: './job-details.component.html',
-  styleUrls: ['./job-details.component.scss']
+  styleUrls: ['./job-details.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class JobDetailsComponent implements OnInit, OnChanges {
 

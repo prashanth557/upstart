@@ -88,10 +88,19 @@ td {
     }
 }
 
-a.action-icons {
+.action-icons {
     padding-right: 15px;
-    font-size: 12px;
-    text-decoration: underline;
+    font-size: 14px;
+    text-decoration: none;
+    height:20px;
     cursor: pointer;
     color: rgb(47, 198, 214);
+}
+.hide-icons{
+    display:none;
+}
+.rotate-image {
+    @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+    @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+    @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 }

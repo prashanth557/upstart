@@ -14,3 +14,8 @@
         }
     }
 }
+
+:host ::ng-deep canvas .chartjs-render-monitor {
+    height: 300px;
+    width: 400px !important;
+}

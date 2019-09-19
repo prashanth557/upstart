@@ -30,8 +30,8 @@
           <span class="map-breach-wrapper">1 MAP Breach</span>
         </td>
       </tr>
-      <div *ngIf="displaySellerIndex === i && productDetails?.length > 0 && showSellersInfo">
-        <app-job-details [jobHeaders]="jobHeaders" [productDetails]="productDetails" [isLoading]="isLoading">
+      <tr *ngIf="displaySellerIndex === i && productDetails?.length > 0 && showSellersInfo">
+      <app-job-details [jobHeaders]="jobHeaders" [productDetails]="productDetails" [isLoading]="isLoading">
           <ng-template #filedsHeader let-product>
             <td>
               <span>{{product?.name}}</span>
@@ -50,7 +50,7 @@
             </td>
           </ng-template>
         </app-job-details>
-      </div>
+      </tr>
     </ng-container>
   </table>
   <!-- <app-loader [show]='productDetails?.length === 0'></app-loader> -->
