@@ -28,6 +28,7 @@
         padding-left: 15px;
         .job-candiate-row{
             background: #dedada;
+            cursor: pointer;
         }
         .asin-wrapper{
             color: #6c10e8;
@@ -58,9 +59,6 @@
             background: #2A2073;
             margin-right: 10px;
         }
-        app-job-details .job-results{
-            margin-top:0px !important;
-        }
     }
     td {
         //width: 180px;
@@ -71,4 +69,28 @@
             width: 150px;
         }
     }
+
+    // .seller-info-header{
+    //     border-top: 1px solid #dcdcd7;
+    //     text-align: left;
+    //     padding: 15px;
+    //     // max-width: 300px;
+    // }
+
+    .seller-info-table {
+        table-layout: fixed ;
+        width: 100% ;
+    }
+
+    .seller-info-table tbody tr:nth-child(odd) {
+        background-color: #f7f4f46b;
+    }
+}
+:host ::ng-deep .job-results{
+    margin-top:0px !important;
+}
+
+:host ::ng-deep .job-results-wrapper {
+    padding-top: 0px !important;
+    min-height: 100px !important;
 }

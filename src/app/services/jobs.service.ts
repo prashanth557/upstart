@@ -190,6 +190,27 @@ export class JobsService {
     });
   }
 
+  // getOrganicKeywordsMap
+  getAllOrganicJobDetails(offset) {
+    const url = this.config.organicKeywordUrl + '?offset=' + offset + '&limit=5';
+     const options: IRequestOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'responseType': 'text'
+      })
+    };
+    // const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', }), responseType: 'application/json' };
+    return this.http.authenticatedGet(url, options)
+    .toPromise()
+    .then((res: any) => {
+      if (res) {
+        return Promise.resolve(res);
+      }
+    }).catch(err => {
+      return this.handleError(err);
+    });
+  }
+
   public handleError(error: any): Promise<any> {
     console.error('An error in api execution occurred', error);
     return Promise.reject(error.message || error);

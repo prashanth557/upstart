@@ -1,26 +1,26 @@
 <div class="home-container">
-    <app-result-header [jobResults]="jobResults"></app-result-header>
-    <app-result-header [jobResults]="jobResults"></app-result-header>
+    <app-result-header [jobResults]="jobResults1"></app-result-header>
+    <app-result-header [jobResults]="jobResults2"></app-result-header>
     <div class="home-recent-records">
-        <app-job-details class="col-sm-12 col-md-8" *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders"
+        <app-job-details class="col-sm-12 col-md-7" *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders"
             [productDetails]="productDetails" [showCreateButton]="false" [showSearch]="false" (createJob)="addNewKeyword($event)"
             [pageCount]="totalItems" [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)"
             [showDownloadButton]="true">
             <ng-template #filedsHeader let-product>
                 <td>
-                    <span>{{product?.title}}</span>
+                    <span>{{product?.asin}}</span>
                 </td>
                 <td>
-                    <span>{{product?.price}}</span>
+                    <span>{{product?.map}}</span>
                 </td>
                 <td>
-                    <span>{{product?.userRating}}</span>
+                    <span>{{product?.seller}}</span>
                 </td>
                 <td>
-                    <span>{{product?.images}}</span>
+                    <span>{{product?.sellingPrice}}</span>
                 </td>
                 <td>
-                    <span>{{product?.info}}</span>
+                    <span>{{product?.variation}}</span>
                 </td>
                 <!-- <td>
                     <span class="status-wrapper" [style.background]="getBackgroundColor(product)">{{product?.status}}</span>
@@ -38,12 +38,30 @@
                 </td>
             </ng-template>
         </app-job-details>
-        <div class="col-sm-12 col-md-4 graph-section">
-            <h4 class="product-label">Product with specific labels</h4>
-            <div class="canavas-section" style="display: block">
-                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
-                    [chartType]="barChartType">
-                </canvas>
+        <div class="col-sm-12 col-md-5 graph-section-wrapper">
+            <div class="graph-section">
+                <h3 class="product-label">Product with specific labels</h3>
+                <h5 class="graph-header">Data from recent 5 Keyword relevance crawls</h5>
+                <div class="canavas-section" style="display: block">
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
+                        [chartType]="barChartType">
+                    </canvas>
+                </div>
+            </div>
+            <div class="organic-cloud-section">
+                    <h3 class="product-label">Organic Keyword Cloud</h3>
+                    <div class="home-section-labels">
+                        <a class="organic-cloud-labels">adipiscing (1)</a>
+                        <a class="organic-cloud-labels">bibh (1)</a>
+                        <a class="organic-cloud-labels">commade (1)</a>
+                        <a class="organic-cloud-labels">dolor (1)</a>
+                        <a class="organic-cloud-labels">els (1)</a>
+                        <a class="organic-cloud-labels">eu (1)</a><br>
+                        <img class="magna-text" src="../assets/images/magna-text.png"/>(2)
+                        <span class="organic-cloud-labels">massa (1)</span>
+                        <span class="organic-cloud-labels">maximus (1)</span>
+                        <span class="organic-cloud-labels">product (1)</span>
+                    </div>
             </div>
         </div>
     </div>

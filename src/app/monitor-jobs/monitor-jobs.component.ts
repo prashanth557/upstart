@@ -64,7 +64,7 @@ export class MonitorJobsComponent implements OnInit {
     } else if (index === 1) {
       this.router.navigate(['/mapjobslist/' + product.id]);
     } else if (index === 2) {
-      this.router.navigate(['/mapjobsList//' + product.id + '/lastrun']);
+      this.router.navigate(['/mapjobslist/' + product.id + '/lastrun']);
     } else if (index === 3) {
       // this.deleteJob(product.id);
     } else if (index === 4) {
@@ -96,12 +96,12 @@ export class MonitorJobsComponent implements OnInit {
 
   deleteJob(productId) {
     this.jobsService.deleteJob(productId).then( (res: any) => {
-      const message: string = 'Your request for delete record ( Job Id : ' + productId + ' ) is deleted successfully deleted.';
+      const message: string = 'Your request for delete record ( Job Id : ' + productId + ' ) is successfully deleted.';
       this.notification.displayNotification(true, true, message);
       setTimeout(() => {
         this.notification.displayNotification(false, true, '');
         this.getDetails(this.offsetPage);
-      });
+      }, 5000);
     }).catch(err => {
       console.log('Error while deleting the Job', err);
     });

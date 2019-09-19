@@ -74,14 +74,13 @@ export class KeywordRelevantJobsComponent implements OnInit {
 
   deleteJob(productId) {
     this.jobsService.deleteJob(productId).then( (res: any) => {
-      const message: string = 'Your request for delete record ( Job Id : ' + productId + ' ) is deleted successfully deleted.';
+      const message: string = 'Your request for delete record ( Job Id : ' + productId + ' ) is successfully deleted.';
       this.notification.displayNotification(true, true, message);
       setTimeout(() => {
         this.notification.displayNotification(false, true, '');
         this.getDetails(this.offsetPage);
-      });
-    }).catch(err => {
-      console.log('Error while deleting the Job', err);
+      }, 5000);
+    }, err => {
     });
   }
 
@@ -112,7 +111,12 @@ export class KeywordRelevantJobsComponent implements OnInit {
   runJob(productId) {
     this.jobsService.runJob(productId, 'kwdrelvncjobs').then( (res: any) => {
       if (res) {
-        console.log('Job Runned Successfully');
+        const message: string = 'Your ( Job Id : ' + productId + ' ) is executed successfully.';
+        this.notification.displayNotification(true, true, message);
+        setTimeout(() => {
+          this.notification.displayNotification(false, true, '');
+          this.getDetails(this.offsetPage);
+        }, 5000);
       }
     }).catch( error => {
       console.log('Error while running the job' + productId + error);

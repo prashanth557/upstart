@@ -12,6 +12,7 @@ export class UrlConfig {
           'forgotPasswordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/users/forgotpass',
           'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
           'mapMontiorJobsUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorjobs',
+          'organicKeywordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/organickwds',
         };
       case 'local':
         return {
@@ -22,6 +23,7 @@ export class UrlConfig {
           'forgotPasswordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/users/forgotpass',
           'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
           'mapMontiorJobsUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorjobs',
+          'organicKeywordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/organickwds',
         };
       case 'dev':
         return {
@@ -32,6 +34,7 @@ export class UrlConfig {
           'forgotPasswordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/users/forgotpass',
           'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
           'mapMontiorJobsUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorjobs',
+          'organicKeywordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/organickwds',
         };
       case 'uat':
         return {
@@ -42,6 +45,7 @@ export class UrlConfig {
           'forgotPasswordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/users/forgotpass',
           'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
           'mapMontiorJobsUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorjobs',
+          'organicKeywordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/organickwds',
         };
       case 'prod':
         return {
@@ -52,6 +56,7 @@ export class UrlConfig {
           'forgotPasswordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/users/forgotpass',
           'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
           'mapMontiorJobsUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorjobs',
+          'organicKeywordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/organickwds',
         };
       default:
         return {
@@ -62,6 +67,7 @@ export class UrlConfig {
           'forgotPasswordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/users/forgotpass',
           'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
           'mapMontiorJobsUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorjobs',
+          'organicKeywordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/organickwds',
         };
     }
   }

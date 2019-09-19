@@ -15,13 +15,14 @@ export class OrganicKeywordsComponent implements OnInit {
   // Header Title
   headerTitle: String = 'Organic Keywords Set';
   // Details to be displayed inside table
-  actionItems = [{ icon: 'Edit', route: 'keywordset/keywordresultdash' },
-  { icon: 'Deactivate', route: '' },
-  { icon: 'Last run result summary', route: 'keywordset/keywordresultdash' },
-  { icon: 'Run History', route: 'keywordset/organicRunHistory' },
-  { icon: 'Schedule', route: 'schedulesList' }];
+  actionItems = [{icon: 'glyphicon-pencil'},
+  {icon: 'glyphicon-list-alt'},
+  {icon: 'glyphicon-tasks'},
+  {icon: 'glyphicon-time'},
+  {icon: 'glyphicon-trash'},
+];
   // Table Headers
-  jobHeaders = ['Job Title', 'Keyword Input', 'Status', 'Last Run At', 'Created At', 'Quick Actions'];
+  jobHeaders = ['Keyword', 'Last Updated On', 'Status', 'Quick Actions'];
   createNewKeyword: boolean;
   productDetails: any = [];
   // Required for Pagination
@@ -57,11 +58,11 @@ export class OrganicKeywordsComponent implements OnInit {
   }
 
   getBackgroundColor(product) {
-    return product.status.toLowerCase() === 'ready' ? '#2A2073 ' : '#2fc6d6';
+    return product.status.toLowerCase() === 'active' ? '#2A2073 ' : 'rgb(219, 220, 220)';
   }
 
   getDetails(currentPageIndex) {
-    this.jobsService.getAllKeywordRelevanceJobDetails(this.offsetPage).then((res: any) => {
+    this.jobsService.getAllOrganicJobDetails(this.offsetPage).then((res: any) => {
       this.totalItems = res.totalItems;
       this.productDetails = res.items;
       this.isLoading = false;
@@ -69,6 +70,14 @@ export class OrganicKeywordsComponent implements OnInit {
       console.log('Error while fetching Keyword Relevance Job Details', err);
       this.isLoading = false;
     });
+  }
+
+  checkStatus(status) {
+    if (status.toLowerCase() === 'inactive') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

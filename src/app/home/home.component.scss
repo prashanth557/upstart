@@ -1,9 +1,32 @@
 .home-container{
     padding:20px;
+    .graph-section-wrapper{
+        margin-bottom:20px;
+    }
     .graph-section {
         background: white;
         margin-top: 30px;
-        height: 300px;
+        max-height: 350px;
+        padding: 10px;
+        .product-label{
+            padding-left:10px;
+        }
+        .graph-header{
+            font-size: 16px;
+            font-weight: normal;
+            text-align: center;
+        }
+    }
+    .organic-cloud-section {
+        background: white;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        height: 250px;
+        padding: 20px;
+        .magna-text{
+            height: 40px;
+            padding-top: 5px;
+        }
     }
     .canavas-section{
         margin-top:20px;
@@ -22,5 +45,14 @@
             color: white;
             font-size: 12px;
         }
+    }
+    .home-section-labels {
+        padding: 5px;
+    }
+    .organic-cloud-labels {
+        color: #8a9aca;
+        padding-right: 5px;
+        font-size: 12px;
+        font-weight: bold;
     }
 }

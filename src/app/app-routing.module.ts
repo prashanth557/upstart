@@ -38,7 +38,7 @@ export const routes: Routes = [
   // Routes Related to Map Monitor Jobs
   { path: 'mapjobslist', component: MonitorJobsComponent, canActivate: [AuthGuard]},
   { path: 'mapjobslist/:jobId', component: MapmonitorJobDetailsComponent, canActivate: [AuthGuard]},
-  { path: 'mapjobsList/:jobId/lastrun', component: MapmonitorLastRunJobDetailsComponent, canActivate: [AuthGuard]},
+  { path: 'mapjobslist/:jobId/lastrun', component: MapmonitorLastRunJobDetailsComponent, canActivate: [AuthGuard]},
   // Routes related to alerts
   { path: 'alerts', component: AlertsComponent, canActivate: [AuthGuard]},
   // Routes related to settings
