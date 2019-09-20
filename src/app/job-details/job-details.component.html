@@ -2,15 +2,18 @@
   <div *ngIf="showDownloadButton" class="download-report-section">
     <button class="download-report-button">Download Report</button>
   </div>
-  <div *ngIf="headerTitle" class="job-results-header">
-    <span class="result-header-text">{{headerTitle}}</span>
-  </div>
+  <h3 *ngIf="headerTitle" class="job-results-header">{{headerTitle}}</h3>
   <div class="search-wrapper" *ngIf="showSearch || showCreateButton">
     <button class="create-job" *ngIf="showCreateButton" (click)="createNewJob()" data-toggle="modal" data-target="#showModalCenter">Create New Job</button>
     <span class="search-input-text" *ngIf="showSearch">Search:&nbsp;
       <input type="text" class="search-input" />
     </span>
   </div>
+  <!-- <div class="show-entries"><b>Showing&nbsp;</b>
+      <select class="browser-default custom-select">
+          <option [value]="value" *ngFor="let value of optionValues">{{value}}</option>
+      </select>&nbsp;<b>entries</b>
+    </div> -->
   <div class="job-results-wrapper">
     <table class="job-results-table" *ngIf="jobHeaders?.length > 0  || productDetails?.length > 0">
       <ng-container *ngFor="let header of jobHeaders">
