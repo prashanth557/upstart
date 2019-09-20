@@ -4,13 +4,13 @@ import { JobsService } from '../services/jobs.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   jobResults1 = [{ jobType: 'Keyword relevance Jobs', count: 27 },
   { jobType: 'Organic Keywords', count: 12 }, { jobType: 'Bulk Product Crawl Jobs', count: '06' }];
-  jobResults2 = [{ jobType: 'Seller Crawl Jobs', count: '02' },
-  { jobType: 'Map Monitor Crawls', count: 1239 }, { jobType: 'Scheduled Crawl Jobs', count: '07' }];
+  jobResults2 = [{ jobType: 'Seller Crawl Jobs', count: '02', color: '#0B5EA8' },
+  { jobType: 'Map Monitor Crawls', count: 1239, color: '#2A2073' }, { jobType: 'Scheduled Crawl Jobs', count: '07', color: '#6c10e8' }];
   currentpageIndex: number;
   jobHeaders = ['ASIN', 'MAP', 'sellerName', 'Selling price', '% of price variation'];
   // Table Header title
@@ -20,21 +20,6 @@ export class HomeComponent implements OnInit {
   offsetPage: number = 0;
 
   allProductDetails: any = [{
-    asin: 'B005ZH862', map: '$394.30',
-    seller: 'Schimmel-Greenholt', sellingPrice: '$348.56',
-    variation: '88.40%'
-  },
-  {
-    asin: 'B005ZH862', map: '$394.30',
-    seller: 'Schimmel-Greenholt', sellingPrice: '$348.56',
-    variation: '88.40%'
-  },
-  {
-    asin: 'B005ZH862', map: '$394.30',
-    seller: 'Schimmel-Greenholt', sellingPrice: '$348.56',
-    variation: '88.40%'
-  },
-  {
     asin: 'B005ZH862', map: '$394.30',
     seller: 'Schimmel-Greenholt', sellingPrice: '$348.56',
     variation: '88.40%'
@@ -100,16 +85,17 @@ export class HomeComponent implements OnInit {
     {  label: 'Branded Products', data: [18, 30, 55, 5]},
     {  label: 'Total Products',  data: [60, 40, 60, 10]}
   ];
-  public colors = [
-    {
-      backgroundColor: [
-        '#6c10e8',
-        'pink'
-      ]
-    }
-  ];
   isLoading: boolean;
   totalItems: number;
+  colors = [
+    { // 1st Year.
+      backgroundColor: '#6c10e8'
+    },
+    { // 2nd Year.
+      backgroundColor: '#c068e4'
+    }
+  ];
+
   constructor(public jobsService: JobsService) { }
 
   ngOnInit() {

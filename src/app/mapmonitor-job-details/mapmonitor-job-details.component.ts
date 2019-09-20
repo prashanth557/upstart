@@ -17,6 +17,7 @@ export class MapmonitorJobDetailsComponent implements OnInit {
   totalItems: number;
   headerTitle: String = 'Candidate ASINs';
   jobHeaders: any = ['ASIN', 'Minimum Adv.Price in $', 'Send email notifications to'];
+  offsetPage: number = 0;
   constructor(public jobsService: JobsService, public route: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
@@ -45,6 +46,14 @@ export class MapmonitorJobDetailsComponent implements OnInit {
 
   getBackgroundColor(status) {
     return status.toLowerCase() === 'ready' ? '#2A2073 ' : '#2fc6d6';
+  }
+
+  onPageChange(event) {
+    this.currentpageIndex = event.offset;
+    console.log('CurrentPageIndex', this.currentpageIndex);
+    const currentIndex = (event.offset - 1) * event.limitPerPage;
+    this.offsetPage = currentIndex;
+    this.getJobDetails(this.offsetPage);
   }
 
 }

@@ -53,7 +53,7 @@
     }
 
     .label-details {
-        width: 130px;
+        width: 150px;
         min-width: 95px;
         margin-right: 30px;
         color: #928e8e;
@@ -144,6 +144,10 @@
     }
     .invalid-error{
         color:red;
+        font-weight: 400;
+    }
+    .success-message {
+        color:#0ac;
         font-weight: 400;
     }
 }

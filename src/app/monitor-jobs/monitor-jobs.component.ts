@@ -39,10 +39,10 @@ export class MonitorJobsComponent implements OnInit {
     this.getDetails(this.currentpageIndex);
   }
 
-  onPageChange(offset) {
-    this.currentpageIndex = offset;
+  onPageChange(event) {
+    this.currentpageIndex = event.offset;
     console.log('CurrentPageIndex', this.currentpageIndex);
-    const currentIndex = (offset - 1) * this.limitPerPage;
+    const currentIndex = (event.offset - 1) * event.limitPerPage;
     this.offsetPage = currentIndex;
     this.getDetails(this.offsetPage);
   }
@@ -86,9 +86,11 @@ export class MonitorJobsComponent implements OnInit {
 
   runJob(productId) {
     this.jobsService.runJob(productId, 'mapmonitorjobs').then( (res: any) => {
-      if (res) {
-        console.log('Job Runned Successfully');
-      }
+      const message: string = 'Your request for running job ( Job Id : ' + productId + ' ) is successfully processed.';
+      this.notification.displayNotification(true, true, message);
+      setTimeout(() => {
+        this.notification.displayNotification(false, true, '');
+      }, 5000);
     }).catch( error => {
       console.log('Error while running the job' + productId + error);
     });

@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
   changePasswordForm: FormGroup;
   submitted: boolean;
   updateMesssage: string;
-  constructor(public formBuilder: FormBuilder, public authService: AuthService) {  }
+  constructor(public formBuilder: FormBuilder, public authService: AuthService) { }
 
   ngOnInit() {
     // this.changePasswordForm = this.formBuilder.group({

@@ -47,6 +47,7 @@ import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard
 import { BarchartsComponent } from './barcharts/barcharts.component';
 import { MapmonitorJobDetailsComponent } from './mapmonitor-job-details/mapmonitor-job-details.component';
 import { MapmonitorLastRunJobDetailsComponent } from './mapmonitor-last-run-job-details/mapmonitor-last-run-job-details.component';
+import { ResultHeaderDupComponent } from './result-header-dup/result-header-dup.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { MapmonitorLastRunJobDetailsComponent } from './mapmonitor-last-run-job-
     SummaryDashboardComponent,
     BarchartsComponent,
     MapmonitorJobDetailsComponent,
-    MapmonitorLastRunJobDetailsComponent
+    MapmonitorLastRunJobDetailsComponent,
+    ResultHeaderDupComponent
   ],
   imports: [
     BrowserModule,

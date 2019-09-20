@@ -56,7 +56,8 @@
       </div>
       <div>
         <div>
-          <span *ngIf="passwordMistach" class="invalid-error">Password didnt match</span>
+          <span *ngIf="passwordMistach" class="invalid-error">Passwords didnt match</span>
+          <span *ngIf="updateMesssage" class="success-message">{{updateMesssage}}</span>
         </div>
         <ul class="list-elements">
           <li class="password-details">

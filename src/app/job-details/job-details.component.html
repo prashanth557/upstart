@@ -2,15 +2,26 @@
   <div *ngIf="showDownloadButton" class="download-report-section">
     <button class="download-report-button">Download Report</button>
   </div>
-  <div *ngIf="headerTitle" class="job-results-header">
-    <span class="result-header-text">{{headerTitle}}</span>
-  </div>
+  <h3 *ngIf="headerTitle" class="job-results-header">{{headerTitle}}</h3>
   <div class="search-wrapper" *ngIf="showSearch || showCreateButton">
     <button class="create-job" *ngIf="showCreateButton" (click)="createNewJob()" data-toggle="modal" data-target="#showModalCenter">Create New Job</button>
     <span class="search-input-text" *ngIf="showSearch">Search:&nbsp;
       <input type="text" class="search-input" />
     </span>
   </div>
+  <form class="show-entries">
+    <b>showing</b>&nbsp;
+    <select class="browser-default custom-select" (change)="pageCountChange($event.target.value)">
+      <!-- <option value=5 selected>5</option>
+      <option value=10>10</option>
+      <option value=15>15</option>
+      <option value=20>20</option> -->
+      <option *ngFor="let option of optionsValues" value={{option}}>
+        {{option}}
+    </option>
+    </select>
+    &nbsp;<b>entries</b>
+  </form>
   <div class="job-results-wrapper">
     <table class="job-results-table" *ngIf="jobHeaders?.length > 0  || productDetails?.length > 0">
       <ng-container *ngFor="let header of jobHeaders">
@@ -25,7 +36,7 @@
     </table>
     <div *ngIf="!isLoading && pageCount" class="pagination-wrapper">
       <span class="result-text">Showing {{ fromCount }} to {{ toCount }} of {{pageCount}} entries</span>
-      <app-pagination *ngIf="pageCount > 5" [pageCount]='pageCount' [currentPage]="currentpageIndex" [itemsPerPage]='5' (selectedPage)='onPageChange($event)'></app-pagination>
+      <app-pagination *ngIf="pageCount > 5" [pageCount]='pageCount' [currentPage]="currentpageIndex" [itemsPerPage]="itemsTobeDisplayedPerPage" (selectedPage)='onPageChange($event)'></app-pagination>
     </div>
     <app-loader [show]='isLoading'></app-loader>
   </div>

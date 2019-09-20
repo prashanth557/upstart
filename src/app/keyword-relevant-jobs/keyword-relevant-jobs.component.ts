@@ -84,10 +84,10 @@ export class KeywordRelevantJobsComponent implements OnInit {
     });
   }
 
-  onPageChange(offset) {
-    this.currentpageIndex = offset;
+  onPageChange(event) {
+    this.currentpageIndex = event.offset;
     console.log('CurrentPageIndex', this.currentpageIndex);
-    const currentIndex = (offset - 1) * this.limitPerPage;
+    const currentIndex = (event.offset - 1) * event.limitPerPage;
     this.offsetPage = currentIndex;
     this.getDetails(this.offsetPage);
   }
