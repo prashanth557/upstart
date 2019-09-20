@@ -12,11 +12,5 @@ export class ResultHeaderComponent implements OnInit {
 
   ngOnInit() {
   }
-  getBackground(result) {
-    if (result && result.color) {
-      const color =  result.color + '!important';
-      return color;
-    }
-  }
 
 }

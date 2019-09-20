@@ -18,15 +18,6 @@ export class BarchartsComponent implements OnInit {
   @Input() barChartLabels: any = [];
   @Input() barChartData: any = [];
 
-  colors = [
-    { // 1st Year.
-      backgroundColor: '#6c10e8'
-    },
-    { // 2nd Year.
-      backgroundColor: '#c068e4'
-    }
-  ];
-
   constructor() { }
 
   ngOnInit() {

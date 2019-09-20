@@ -1,7 +1,7 @@
 <div class="keyword-header" *ngIf="jobResults?.length > 0">
   <div class="keyword-box">
     <div *ngFor="let result of jobResults" class="keyword-box-wrapper" [class.col-sm-4]= "jobResults?.length === 3 " [class.col-sm-6]= "jobResults?.length === 2 ">
-      <div class="keyword-data" [style.background]="getBackground(result)">
+      <div class="keyword-data">
         <div class="keyword-box-data">
           <span class="jobs-type">{{result?.jobType}}</span>
           <span class="jobs-count">{{result?.count}}</span>

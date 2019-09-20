@@ -24,16 +24,11 @@ export class JobDetailsComponent implements OnInit, OnChanges {
   keys: any = [];
   fromCount: number;
   toCount: number;
-  optionValues: any = [];
-  selectedEntryValue: any;
   constructor() { }
 
   ngOnInit() {
-    let i ;
-    for ( i = 1; i <= this.pageCount ; i * 5) {
-      this.optionValues.push(i * 5);
-    }
-    this.selectedEntryValue = this.optionValues[0];
+    console.log('headerTitle', this.headerTitle);
+    console.log('jobHeaders', this.jobHeaders);
   }
 
   ngOnChanges() {
