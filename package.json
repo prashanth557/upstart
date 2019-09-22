@@ -30,6 +30,7 @@
     "ng2-charts": "^1.6.0",
     "ng2-cookies": "^1.0.12",
     "ngx-pagination": "^3.2.1",
+    "ngx-ui-switch": "^8.2.0",
     "rxjs": "6.2.2",
     "rxjs-compat": "6.2.2",
     "zone.js": "^0.8.26"

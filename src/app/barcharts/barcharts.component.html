@@ -1,26 +1,32 @@
 <div class="competetor-bar-charts">
   <div class="product-bar-chart chart">
     <div style="display: block">
-      <!-- <canvas baseChart [datasets]="barChartImagesData" [labels]="barChartBrandLabels" [options]="barChartOptions" [legend]="barChartLegend"
-        [chartType]="barChartType">
+      <canvas baseChart [datasets]="barChartImagesData" [labels]="barChartImageLabels" [options]="barChartImageOptions" [legend]="barChartLegend"
+        [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;">
+      </canvas>
+     <!-- <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
+      [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;"> 
+    </canvas> -->
+    </div>
+  </div>
+  <div class="product-bar-chart chart">
+    <div style="display: block">
+        <canvas baseChart [datasets]="barChartBulletpointsData" [labels]="barChartBulletpointsLabels" [options]="barChartBulletOptions" [legend]="barChartLegend"
+        [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;">
+      </canvas>
+      <!-- <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
+        [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;">
       </canvas> -->
-      <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
-      [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;">
-    </canvas>
     </div>
   </div>
   <div class="product-bar-chart chart">
     <div style="display: block">
-      <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
+        <canvas baseChart [datasets]="barChartCharLengthData" [labels]="barChartCharLengthLabels" [options]="barChartCharLengthOptions" [legend]="barChartLegend"
         [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;">
       </canvas>
-    </div>
-  </div>
-  <div class="product-bar-chart chart">
-    <div style="display: block">
-      <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
+      <!-- <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
         [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;">
-      </canvas>
+      </canvas> -->
     </div>
   </div>
 </div>

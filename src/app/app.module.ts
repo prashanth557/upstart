@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
+import { UiSwitchModule } from 'ngx-ui-switch';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 // Services
@@ -87,7 +88,8 @@ import { ResultHeaderDupComponent } from './result-header-dup/result-header-dup.
     RouterModule,
     ChartsModule,
     NgxPaginationModule,
-    HttpClientModule
+    HttpClientModule, 
+    UiSwitchModule
   ],
   providers: [
     PrivilegeService,

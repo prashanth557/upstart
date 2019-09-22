@@ -23,39 +23,6 @@ export class OrganicSummaryDashboardComponent implements OnInit {
   //   {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A', color: 'pink'},
   //   {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B', color: '#6c10e8'}
   // ];
-
-  public barChartOptions = {
-    scaleShowVerticalLines: true,
-    responsive: true,
-    scales: {
-      xAxes: [
-        {
-          stacked: true,
-          gridLines: {
-            display: false,
-            lineWidth: 10,
-            color: 'rgba(255,255,255,0)'
-          },
-          ticks: {
-            fontSize: 10
-          }
-        }],
-      yAxes: [{
-        stacked: true,
-        ticks: {
-          min: 0
-        },
-        gridLines: {
-          display: true,
-          // lineWidth: 10,
-        },
-        scaleLabel: {
-          display: true,
-          labelString: 'No. of products'
-        }
-      }]
-    }
-  };
   public barChartLabels = ['Sponsored', 'Best seller', 'Amazon Prime', 'Amazons choice'];
   public barChartType = 'bar';
   public barChartLegend = true;
@@ -69,12 +36,16 @@ export class OrganicSummaryDashboardComponent implements OnInit {
   public pieChartBrandData = [];
 
   public pieChartBrandRatingLabels = [];
-  public pieChartBrandRatingValues = [];
+  public pieChartBrandRatingValues: any = [];
 
-  public barChartBrandLabels: any = ['Turcotte, Funk and Orn', 'Stokes-Roberts', 'Emmerich-Abbott', 'Nitzsche Group',
-  'Hyatt, Gusikowski and Casper'];
+  // Image lables and data
+  public barChartImageLabels: any = [];
   public barChartImagesData: any = [{data: [72, 37, 94, 27, 79]}];
+ // Bulletpoint lables and data
+  public barChartBulletpointsLabels: any = [];
   public barChartBulletpointsData: any = [{data: [7, 2, 9, 1, 5]}];
+  // characters labels and data
+  public barChartCharLengthLabels: any = [];
   public barChartCharLengthData: any = [{data: [41, 25, 37, 19, 24]}];
 
   // Pie Chart Brand Rating details
@@ -92,6 +63,7 @@ export class OrganicSummaryDashboardComponent implements OnInit {
   showDatePicker: boolean;
   isBrandDataAvailable: boolean;
   isBarGraphDataAvailable: boolean;
+  dashboardApiUrls: any = ['brandspresence', 'brandsproductrating', 'brandsavgimages', 'brandsavgbullets', 'brandsavgtitlelength'];
 
   constructor(public route: ActivatedRoute, public router: Router, public jobsService: JobsService) { }
 
@@ -128,11 +100,12 @@ export class OrganicSummaryDashboardComponent implements OnInit {
       }
       this.isBarGraphDataAvailable = false;
       this.isBrandDataAvailable = false;
-      this.getBrandsData();
-      this.getBrandRatingsData();
-      this.getNumberOfImages();
-      this.getNumberOfBulletPoints();
-      this.getNumberOfCharacters();
+      this.getAnalytics();
+      // this.getBrandsData();
+      // this.getBrandRatingsData();
+      // this.getNumberOfImages();
+      // this.getNumberOfBulletPoints();
+      // this.getNumberOfCharacters();
    }
 
    getBrandsData() {
@@ -156,7 +129,7 @@ export class OrganicSummaryDashboardComponent implements OnInit {
    getNumberOfImages() {
     this.jobsService.getNumberOfImages(this.jobId).then( (data: any ) => {
       if (data.stats) {
-        this.barChartBrandLabels = data.stats.map( stat => stat.vendorname ? stat.vendorname : '');
+        // this.barChartBrandLabels = data.stats.map( stat => stat.vendorname ? stat.vendorname : '');
         this.barChartImagesData.data = data.stats.map( stat => stat.avgimageCount ? stat.avgimageCount : 0);
       }
     });
@@ -180,4 +153,40 @@ export class OrganicSummaryDashboardComponent implements OnInit {
       }
     });
    }
+
+   getAnalytics() {
+    const promiseList: any[] = [];
+    this.dashboardApiUrls.forEach(url => {
+      const promise = this.jobsService.getAnalyticsDetails(url, this.jobId);
+      promiseList.push(promise);
+    });
+    Promise.all(promiseList).then((details) => {
+      this.splitAnalyticsDetails(details);
+
+    });
+  }
+  splitAnalyticsDetails(details) {
+    console.log('Analytics Data', details);
+    this.pieChartBrandData.push(details[0].brandProducts);
+    this.pieChartBrandData.push(details[0].otherBrandProducts);
+    if (details[1].userRating) {
+      const userRating = details[1].userRating;
+      this.pieChartBrandRatingLabels = Object.keys(userRating);
+      this.pieChartBrandRatingValues = Object.values(userRating);
+      // Image Labels and data
+      this.barChartImageLabels = details[2].stats.map( stat => stat.vendorname ? stat.vendorname : '');
+      this.barChartImagesData.data = details[2].stats.map( stat => stat.avgimageCount ? stat.avgimageCount : 0);
+      this.barChartImagesData.label = 'No of Images';
+      // Bullet points labels and data
+      this.barChartBulletpointsLabels = details[3].stats.map( stat => stat.vendorname ? stat.vendorname : '');
+      this.barChartBulletpointsData.data = details[3].stats.map( stat => stat.avgBulletsCount ? stat.avgBulletsCount : 0);
+      this.barChartBulletpointsData.label = 'No of Bullet Points';
+      // Char length labels and data
+      this.barChartCharLengthLabels = details[4].stats.map( stat => stat.vendorname ? stat.vendorname : '');
+      this.barChartCharLengthData.data = details[4].stats.map( stat => stat.avgTitleLength ? stat.avgTitleLength : 0);
+      this.barChartCharLengthData.label = 'No of Character lenth';
+      this.isBrandDataAvailable = true;
+    }
+  }
+
 }

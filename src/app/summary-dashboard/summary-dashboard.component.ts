@@ -14,6 +14,14 @@ export class SummaryDashboardComponent implements OnInit {
   @Input() pieChartBrandRatingValues: any = [];
   public pieChartType = 'pie';
   @Input() barChartOptions: any = [];
+  pieChartColors = [
+    {
+      backgroundColor: [
+        '#6c10e8',
+        '#c068e4'
+    ]
+    }
+  ];
   constructor() { }
 
   ngOnInit() {

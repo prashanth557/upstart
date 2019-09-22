@@ -1,4 +1,4 @@
-<div class="app-login-page">
+<div *ngIf="showLoginPage" class="app-login-page">
   <!-- <img class="login-background" src = "../assets/images/login-bg.png" /> -->
   <div *ngIf="!showForgotPasswordPage" class="login-form">
     <form (submit)="login()" method="post">

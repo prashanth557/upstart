@@ -87,7 +87,6 @@ export class JobsService {
   }
 
   // get brand presence for a job Id
-
   getBrandPresenceDetails(jobId) {
     const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/brandspresence';
     return this.http.authenticatedGet(url)
@@ -209,6 +208,20 @@ export class JobsService {
     }).catch(err => {
       return this.handleError(err);
     });
+  }
+
+  getAnalyticsDetails(urlPath, jobId ) {
+      const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/' + urlPath;
+      return this.http.authenticatedGet(url)
+        .toPromise()
+        .then((response: any) => {
+          if (response) {
+            return response;
+          } else {
+            return {};
+          }
+        })
+        .catch(this.handleError);
   }
 
   public handleError(error: any): Promise<any> {

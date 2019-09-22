@@ -150,4 +150,9 @@
         color:#0ac;
         font-weight: 400;
     }
+    .label-input-value{
+        @media(max-width: 1024px) {
+            border: 1px solid #bdbaba !important;
+        }
+    }
 }

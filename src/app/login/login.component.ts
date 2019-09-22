@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterStateSnapshot} from '@angular/router';
+import { Location } from '@angular/common';
+import { Cookie } from 'ng2-cookies';
 
 @Component({
   selector: 'app-login',
@@ -14,15 +16,28 @@ export class LoginComponent implements OnInit {
   queryParams: any = {};
   showForgotPasswordPage: boolean;
   isRemberMeChecked: boolean;
-  constructor(public _authService: AuthService, private route: ActivatedRoute, public router: Router) { }
+  showLoginPage: boolean;
+  constructor(public _authService: AuthService, private route: ActivatedRoute, public router: Router, public location: Location) { }
 
   ngOnInit() {
-    this.autoFillUserDetails();
-    this.route.queryParams
-    .subscribe((params: any) => {
-      this.queryParams = this.getValidFilters(params);
-      this.showForgotPasswordPage = this.queryParams.forgotPassword ? true : false;
-    });
+    if (this.checkIfUserLoggedin()) {
+      this.location.back();
+      this.showLoginPage = false;
+    } else {
+      this.showLoginPage = true;
+      this.autoFillUserDetails();
+      this.route.queryParams
+      .subscribe((params: any) => {
+        this.queryParams = this.getValidFilters(params);
+        this.showForgotPasswordPage = this.queryParams.forgotPassword ? true : false;
+      });
+    }
+  }
+
+  checkIfUserLoggedin() {
+    if (Cookie.get('_token')) {
+      return true;
+    } return false;
   }
 
   autoFillUserDetails() {
@@ -38,7 +53,7 @@ export class LoginComponent implements OnInit {
       this._authService.validateUserDetails(this.userName, this.password, this.isRemberMeChecked).then(res => {
        if (res) {
          // Navigating to home page.
-          window.location.href = '';
+         this.location.back();
        }
       });
     }

@@ -18,12 +18,13 @@
                     <a class="action-icons glyphicon {{line?.icon}}" (click)="navigateTo(product, i)"></a>
                 </span> -->
                 <span>
-                    <a class="action-icons glyphicon glyphicon-pencil" [class.hide-icons]="checkStatus(product?.status)"></a>
+                    <i class="action-icons glyphicon" [class.glyphicon-pencil]="!checkStatus(product?.status)"></i>
                     <img class="action-icons"  src="{{checkStatus(product.status) ?'../assets/images/icon-reverse-switch.png' : '../assets/images/icon-switch.png'}}"/>
-                    <img class="action-icons"  [class.hide-icons]="checkStatus(product?.status)" src="../assets/images/icon-flash.png"/>
-                    <img class="action-icons" [class.hide-icons]="checkStatus(product?.status)" src="../assets/images/icon-timer.png"/>
-                    <a class="action-icons glyphicon glyphicon-time" [class.hide-icons]="checkStatus(product?.status)" ></a>
-                    <a class="action-icons glyphicon glyphicon-trash" [class.hide-icons]="checkStatus(product?.status)"></a>
+                    <!-- <ui-switch [checked]="checkStatus(product?.status)" (change)="toggleSushi()"></ui-switch> -->
+                    <img class="action-icons"  [hidden]="checkStatus(product?.status)" src="../assets/images/icon-flash.png"/>
+                    <img class="action-icons" [hidden]="checkStatus(product?.status)" src="../assets/images/icon-timer.png"/>
+                    <i class="action-icons glyphicon" [class.glyphicon-time]="!checkStatus(product?.status)" ></i>
+                    <i class="action-icons glyphicon" [class.glyphicon-trash]="!checkStatus(product?.status)"></i>
                 </span>
             </td>
         </ng-template>
