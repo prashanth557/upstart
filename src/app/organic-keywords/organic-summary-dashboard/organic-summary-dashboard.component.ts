@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as CanvasJS from '../../../assets/canvasjs.min';
+import * as CanvasJS from '../../canvasjs.min';
 import { ChartsModule } from 'ng2-charts';
 import { JobsService } from '../../services/jobs.service';
 
@@ -29,7 +29,7 @@ export class OrganicSummaryDashboardComponent implements OnInit {
           ticks: {
             fontSize: 10,
             autoSkip: false,
-            display: false // Make it to True if you want to display labels at x axis
+            display: true // Make it to True if you want to display labels at x axis
           },
           scaleInstance: {
             width: 100
@@ -267,7 +267,7 @@ export class OrganicSummaryDashboardComponent implements OnInit {
           ticks: {
             fontSize: 10,
             autoSkip: false,
-            display: false
+            display: true
           },
           scaleInstance: {
             width: 100
@@ -365,7 +365,7 @@ export class OrganicSummaryDashboardComponent implements OnInit {
       this.pieChartData.push({ labels: Object.keys(userRating) });
       this.pieChartData[1].data = Object.values(userRating);
       // Image Labels and data
-      this.barChartData.push({ labels: details[2].stats.map(stat => stat.vendorname ? stat.vendorname : '') });
+      this.barChartData.push({ labels: details[2].stats.map(stat => stat.vendorname ? this.formatLabel(stat.vendorname, 10) : '') });
       this.barChartData[0].data = details[2].stats.map(stat => stat.avgimageCount ? stat.avgimageCount : 0);
       this.barChartData[0].options = this.barChartImageOptions;
       // Bullet points labels and data
@@ -408,5 +408,40 @@ export class OrganicSummaryDashboardComponent implements OnInit {
   selectCategory(catergory) {
     this.selectedCategory = catergory;
   }
+
+  formatLabel(str, maxwidth) {
+  const sections = [];
+  const words = str.split(' ');
+  let temp = '';
+  words.forEach(function (item, index) {
+    if (temp.length > 0) {
+      const concat = temp + ' ' + item;
+      if (concat.length > maxwidth) {
+        sections.push(temp);
+        temp = '';
+      } else {
+        if (index === (words.length - 1)) {
+          sections.push(concat);
+          return;
+        } else {
+          temp = concat;
+          return;
+        }
+      }
+    }
+    if (index === (words.length - 1)) {
+      sections.push(item);
+      return;
+    }
+    if (item.length < maxwidth) {
+      temp = item;
+    } else {
+      sections.push(item);
+    }
+
+  });
+
+  return sections;
+}
 
 }
