@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JobsService } from '../services/jobs.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -48,6 +49,15 @@ export class HomeComponent implements OnInit {
   public barChartOptions = {
     scaleShowVerticalLines: true,
     responsive: true,
+    legend: {
+      display: true,
+      position: 'bottom',
+      labels: {
+        fontColor: '#333',
+        fontSize: 12,
+        usePointStyle: true,
+      }
+    },
     scales: {
       xAxes: [
         {
@@ -96,7 +106,7 @@ export class HomeComponent implements OnInit {
     }
   ];
 
-  constructor(public jobsService: JobsService) { }
+  constructor(public jobsService: JobsService, public router: Router) { }
 
   ngOnInit() {
     this.currentpageIndex = 0;
@@ -127,6 +137,16 @@ export class HomeComponent implements OnInit {
 
   getBackgroundColor(product) {
     return product.status.toLowerCase() === 'ready' ? '#2A2073 ' : '#2fc6d6';
+  }
+
+  redirectToPages(event) {
+    if (event.type && event.type.toLowerCase() === 'keyword relevance jobs') {
+      this.router.navigate(['/keywordjoblist']);
+    } else if (event.type && event.type.toLowerCase() === 'organic keywords') {
+      this.router.navigate(['/keywordset']);
+    } else if (event.type && event.type.toLowerCase() === 'map monitor crawls') {
+      this.router.navigate(['/mapjobslist']);
+    }
   }
 
 }

@@ -1,32 +1,8 @@
 <div class="competetor-bar-charts">
-  <div class="product-bar-chart chart">
-    <div style="display: block">
-      <canvas baseChart [datasets]="barChartImagesData" [labels]="barChartImageLabels" [options]="barChartImageOptions" [legend]="barChartLegend"
-        [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;">
+  <div class="product-bar-chart chart col-xs-12 col-sm-4 col-md-4 col-lg-4" *ngFor="let chartData of barChartData">
+      <canvas *ngIf="!chartData?.isStacked" baseChart [data]="chartData?.data" [labels]="chartData?.labels" [options]="chartData?.options" [legend]="false" [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;">
       </canvas>
-     <!-- <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
-      [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;"> 
-    </canvas> -->
-    </div>
-  </div>
-  <div class="product-bar-chart chart">
-    <div style="display: block">
-        <canvas baseChart [datasets]="barChartBulletpointsData" [labels]="barChartBulletpointsLabels" [options]="barChartBulletOptions" [legend]="barChartLegend"
-        [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;">
-      </canvas>
-      <!-- <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
-        [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;">
-      </canvas> -->
-    </div>
-  </div>
-  <div class="product-bar-chart chart">
-    <div style="display: block">
-        <canvas baseChart [datasets]="barChartCharLengthData" [labels]="barChartCharLengthLabels" [options]="barChartCharLengthOptions" [legend]="barChartLegend"
-        [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;">
-      </canvas>
-      <!-- <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
-        [chartType]="barChartType" [colors]="colors" style="height: 300px; width: 360px;">
-      </canvas> -->
-    </div>
+      <canvas baseChart *ngIf="chartData?.isStacked" [datasets]="chartData?.data" [labels]="chartData?.labels" [options]="chartData?.options" [chartType]="barChartType" [colors]="stackedChartColors" style="height: 300px; width: 360px;">
+    </canvas>
   </div>
 </div>

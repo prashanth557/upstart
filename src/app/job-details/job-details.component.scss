@@ -1,7 +1,7 @@
 .job-results {
     //border: 1px solid black;
     //border-radius: 5px;
-    margin: 30px 30px 15px 15px;
+    margin: 30px 15px 15px 15px;
     background: white;
     .download-report-section{
         padding: 10px;
@@ -55,7 +55,7 @@
 
     td {
         //width: 180px;
-        font-size:12px;
+        font-size:13px;
         @media (min-width: 768px) and (max-width: 1024px) {
             width: 150px;
         }
@@ -63,7 +63,7 @@
             padding: 5px 20px 5px 20px;
             border-radius: 15px;
             color: white;
-            font-size: 12px;
+            font-size: 13px;
         }
     }
 
@@ -78,7 +78,7 @@
         // margin: 30px 0px 0px 0px;
         margin-top: 20px;
         .result-text {
-            font-size:12px;
+            font-size:13px;
             font-weight: bold;
             font-family: sans-serif;
             padding: 10px;
@@ -88,4 +88,8 @@
     .show-entries{
         padding: 10px 10px 10px 15px;
     }
+}
+.highlight-map-breach{
+    background: #2A2073 !important;
+    color: white !important;
 }

@@ -48,6 +48,6 @@ export class AppComponent implements OnInit {
   logoutUser() {
     Cookie.delete('userName');
     Cookie.delete('password');
-    window.location.href = '/login';
+    this.router.navigate(['/login']);
   }
 }

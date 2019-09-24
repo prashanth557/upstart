@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'app-result-header-dup',
@@ -7,9 +7,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ResultHeaderDupComponent implements OnInit {
   @Input() jobResults: any;
+  @Output() redirectEmit = new EventEmitter;
   constructor() { }
 
   ngOnInit() {
+  }
+  redirectToTabs(type) {
+    this.redirectEmit.emit({type: type});
+
   }
 
 }

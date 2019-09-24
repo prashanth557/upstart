@@ -109,18 +109,24 @@ export class KeywordRelevantJobsComponent implements OnInit {
   }
 
   runJob(productId) {
-    this.jobsService.runJob(productId, 'kwdrelvncjobs').then( (res: any) => {
-      if (res) {
-        const message: string = 'Your ( Job Id : ' + productId + ' ) is executed successfully.';
-        this.notification.displayNotification(true, true, message);
-        setTimeout(() => {
-          this.notification.displayNotification(false, true, '');
-          this.getDetails(this.offsetPage);
-        }, 5000);
-      }
-    }).catch( error => {
-      console.log('Error while running the job' + productId + error);
-    });
+    const message: string = 'Your ( Job Id : ' + productId + ' ) is executed successfully.';
+    this.notification.displayNotification(true, true, message);
+    setTimeout(() => {
+      this.notification.displayNotification(false, true, '');
+      this.getDetails(this.offsetPage);
+    }, 5000);
+    // this.jobsService.runJob(productId, 'kwdrelvncjobs').then( (res: any) => {
+    //   if (res) {
+    //     const message: string = 'Your ( Job Id : ' + productId + ' ) is executed successfully.';
+    //     this.notification.displayNotification(true, true, message);
+    //     setTimeout(() => {
+    //       this.notification.displayNotification(false, true, '');
+    //       this.getDetails(this.offsetPage);
+    //     }, 5000);
+    //   }
+    // }).catch( error => {
+    //   console.log('Error while running the job' + productId + error);
+    // });
   }
 
 }

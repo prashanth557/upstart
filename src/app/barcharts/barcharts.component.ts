@@ -7,152 +7,37 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class BarchartsComponent implements OnInit {
 
-  @Input() barChartBrandLabels: any = [];
-  @Input() barChartCharLengthData: any = [];
-  @Input() barChartBulletpointsData: any = [];
-  @Input() barChartImagesData: any = [];
-  @Input() barChartOptions: any = [];
-  @Input() barChartImageLabels: any = [];
-  @Input() barChartBulletpointsLabels: any = [];
-  @Input() barChartCharLengthLabels: any = [];
+  @Input() barChartData: any[] = [];
   public barChartType = 'bar';
   public barChartLegend = true;
-
-  @Input() barChartLabels: any = [];
-  @Input() barChartData: any = [];
   colors = [
-    { // 2nd Year.
-      backgroundColor: '#c068e4'
+    {
+      backgroundColor: [
+        '#6c10e8',
+        '#c068e4',
+        '#2fc6d6',
+        '#0B5EA8',
+        '#a91de2'
+     ],
     }
   ];
 
-  public barChartImageOptions = {
-    scaleShowVerticalLines: true,
-    responsive: true,
-    legend: false,
-    scales: {
-      xAxes: [
-        {
-          stacked: false,
-          gridLines: {
-            display: false,
-            lineWidth: 10,
-            color: 'rgba(255,255,255,0)'
-          },
-          ticks: {
-            fontSize: 10,
-            autoSkip: false
-          }
-        }],
-      yAxes: [{
-        stacked: false,
-        ticks: {
-          min: 0,
-          stepSize: 20
-        },
-        gridLines: {
-          display: true,
-          // lineWidth: 10,
-        },
-        scaleLabel: {
-          display: true,
-          labelString: 'No. of Images'
-        }
-      }]
+  stackedChartColors = [
+    { // Title
+      backgroundColor: '#6c10e8'
     },
-    tooltips: {
-      enabled: true,
+    { // bullets
+      backgroundColor: '#c068e4'
     },
-    title: {
-      display: true,
-      text: 'Average number of Images in product detail page'
-  }
-  };
-  public barChartBulletOptions = {
-    scaleShowVerticalLines: true,
-    responsive: true,
-    legend: false,
-    scales: {
-      xAxes: [
-        {
-          stacked: false,
-          gridLines: {
-            display: false,
-            lineWidth: 10,
-            color: 'rgba(255,255,255,0)'
-          },
-          ticks: {
-            fontSize: 10,
-            autoSkip: false
-          }
-        }],
-      yAxes: [{
-        stacked: false,
-        ticks: {
-          min: 0,
-          stepSize: 2
-        },
-        gridLines: {
-          display: true,
-          // lineWidth: 10,
-        },
-        scaleLabel: {
-          display: true,
-          labelString: 'No. of bulletpoints'
-        }
-      }]
-    },
-    tooltips: {
-      enabled: true,
-    },
-    title: {
-      display: true,
-      text: 'Average number of bullet points in product detail page'
-  }
-  };
-  public barChartCharLengthOptions = {
-    scaleShowVerticalLines: true,
-    responsive: true,
-    legend: false,
-    scales: {
-      xAxes: [
-        {
-          stacked: false, //
-          gridLines: {
-            display: false,
-            lineWidth: 10,
-            color: 'rgba(255,255,255,0)'
-          },
-          ticks: {
-            fontSize: 10,
-            autoSkip: false // It wont skip the lables
-          }
-        }],
-      yAxes: [{
-        stacked: false,
-        ticks: {
-          min: 0,
-          stepSize: 20
-        },
-        gridLines: {
-          display: true,
-          // lineWidth: 10,
-        },
-        scaleLabel: {
-          display: true,
-          labelString: 'No. of characters'
-        }
-      }]
-    },
-    title: {
-      display: true,
-      text: 'Average number of characters in product detail page'
-  }
-  };
+    { // Description
+      backgroundColor: '#2fc6d6'
+    }
+  ];
 
   constructor() { }
 
   ngOnInit() {
+    console.log('BarChartData', this.barChartData);
   }
 
 }

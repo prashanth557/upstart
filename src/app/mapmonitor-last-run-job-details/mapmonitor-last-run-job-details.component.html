@@ -18,7 +18,7 @@
   </div>
   <app-result-header [jobResults]="jobResults"></app-result-header>
   <h3 class="map-job-header-text">ASINs Seller Data</h3>
-  <table class="last-run-job-table">
+  <table *ngIf="!isLoading" class="last-run-job-table">
     <ng-container *ngFor="let header of jobCandidateDetails; let i = index; ">
       <tr class="job-candiate-row" (click)="getSellerInfo(i)">
         <td>
@@ -27,11 +27,11 @@
         <td>
           <span class="map-wrapper">MAP - {{header?.map}}</span>
           <span class="seller-wrapper">{{header?.map}} Sellers</span>
-          <span class="map-breach-wrapper">1 MAP Breach</span>
+          <span class="map-breach-wrapper">{{header?.mapBreachesCount}} MAP Breach</span>
         </td>
       </tr>
       <tr *ngIf="displaySellerIndex === i && productDetails?.length > 0 && showSellersInfo">
-      <app-job-details [jobHeaders]="jobHeaders" [productDetails]="productDetails" [isLoading]="isLoading">
+      <app-job-details [jobHeaders]="jobHeaders" [productDetails]="productDetails" [isLoading]="isLoading" [pageCount]="productDetails?.length">
           <ng-template #filedsHeader let-product>
             <td>
               <span>{{product?.name}}</span>
@@ -53,5 +53,5 @@
       </tr>
     </ng-container>
   </table>
-  <!-- <app-loader [show]='productDetails?.length === 0'></app-loader> -->
+  <app-loader [show]='isLoading'></app-loader>
 </div>

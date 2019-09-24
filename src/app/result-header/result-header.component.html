@@ -2,7 +2,7 @@
   <div class="keyword-box">
     <div *ngFor="let result of jobResults; let i = index" class="keyword-box-wrapper" [class.col-sm-4]= "jobResults?.length > 2 " [class.col-sm-6]= "jobResults?.length === 2 ">
       <div class="keyword-data">
-        <div class="keyword-box-data">
+        <div class="keyword-box-data" (click)="redirectToTabs(result?.jobType)">
           <span class="jobs-type">{{result?.jobType}}</span>
           <span class="jobs-count">{{result?.count}}</span>
         </div>

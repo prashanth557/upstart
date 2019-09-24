@@ -22,7 +22,7 @@ export class MonitorJobsComponent implements OnInit {
 ];
   // Table Headers
   jobHeaders = ['Job Title', 'Status', 'Last Run At', 'Created At', 'Quick Actions'];
-  productDetails: any;
+  productDetails: any = [];
   // Table Header title
   headerTitle: String = 'MAP Breach Crawl Jobs';
   currentpageIndex: number;
@@ -85,15 +85,20 @@ export class MonitorJobsComponent implements OnInit {
   }
 
   runJob(productId) {
-    this.jobsService.runJob(productId, 'mapmonitorjobs').then( (res: any) => {
       const message: string = 'Your request for running job ( Job Id : ' + productId + ' ) is successfully processed.';
       this.notification.displayNotification(true, true, message);
       setTimeout(() => {
         this.notification.displayNotification(false, true, '');
       }, 5000);
-    }).catch( error => {
-      console.log('Error while running the job' + productId + error);
-    });
+    // this.jobsService.runJob(productId, 'mapmonitorjobs').then( (res: any) => {
+    //   const message: string = 'Your request for running job ( Job Id : ' + productId + ' ) is successfully processed.';
+    //   this.notification.displayNotification(true, true, message);
+    //   setTimeout(() => {
+    //     this.notification.displayNotification(false, true, '');
+    //   }, 5000);
+    // }).catch( error => {
+    //   console.log('Error while running the job' + productId + error);
+    // });
   }
 
   deleteJob(productId) {

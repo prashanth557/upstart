@@ -1,12 +1,7 @@
 <div class="brand-product-presence">
-  <div class="product-chart chart">
+  <div class="product-chart chart col-xs-12 col-sm-6 col-md-6 col-lg-6" *ngFor="let chartData of pieChartData">
     <div style="display: block">
-      <canvas baseChart [data]="pieChartBrandData" [labels]="pieChartBrandLabels" [chartType]="pieChartType" [colors]="pieChartColors"></canvas>
-    </div>
-  </div>
-  <div class="product-chart chart">
-    <div style="display: block">
-      <canvas baseChart [data]="pieChartBrandRatingValues" [labels]="pieChartBrandRatingLabels" [chartType]="pieChartType" [colors]="pieChartColors"></canvas>
+      <canvas baseChart [data]="chartData?.data" [labels]="chartData?.labels" [chartType]="pieChartType" [colors]="pieChartColors" [options]="pieChartOptions"></canvas>
     </div>
   </div>
 </div>

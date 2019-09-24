@@ -1,6 +1,6 @@
 <div class="job-results">
   <div *ngIf="showDownloadButton" class="download-report-section">
-    <button class="download-report-button">Download Report</button>
+    <button class="download-report-button">Download</button>
   </div>
   <h3 *ngIf="headerTitle" class="job-results-header">{{headerTitle}}</h3>
   <div class="search-wrapper" *ngIf="showSearch || showCreateButton">
@@ -28,8 +28,8 @@
         <th>{{header}}</th>
       </ng-container>
       <tbody *ngIf="!isLoading">
-        <tr *ngFor="let product of productDetails">
-          <ng-container class="detail-container" *ngTemplateOutlet="filedsHeader, context: { $implicit: product }">
+        <tr *ngFor="let product of productDetails" [class.highlight-map-breach]="product.mapBreach">
+          <ng-container  class="detail-container" *ngTemplateOutlet="filedsHeader, context: { $implicit: product }">
           </ng-container>
         </tr>
       </tbody>

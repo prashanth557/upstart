@@ -1,5 +1,5 @@
 <!-- <div id="chartContainer" class="brand-product-presence"></div> -->
-<div class="dashboard-container">
+<div class="pie-chart-container">
   <div class="dashboard-header">
     <span class="dashboard-header-text">{{headerTitle}} : {{productTitle}} </span>
     <select *ngIf="showDatePicker" class="browser-default custom-select">
@@ -24,47 +24,28 @@
     </div>
   </div>
   <div class="pie-chart-section">
-    <app-summary-dashboard *ngIf="isBrandDataAvailable" [pieChartBrandLabels]="pieChartBrandLabels" [pieChartBrandData]="pieChartBrandData" [barChartOptions]="barChartOptions"
-      [pieChartBrandRatingLabels]="pieChartBrandRatingLabels" [pieChartBrandRatingValues]="pieChartBrandRatingValues"></app-summary-dashboard>
+    <app-summary-dashboard *ngIf="isBrandDataAvailable" [pieChartData]="pieChartData" [pieChartOptions]="pieChartOptions"></app-summary-dashboard>
       <app-loader [show]='!isBrandDataAvailable'></app-loader>
-    </div>
+  </div>
+</div>
+<div class="bar-chart-container">
   <div class="competetor-analysis-wrapper">
     <div class="competetor-header">
-      <span class="competetor-header-text">Competetor Analysis</span>
-      <span class="radio">
+      <div class="competetor-header-text">Competetor Analysis</div>
+      <div>
+        <span (click)="selectCategory('brand')" [class.active]="selectedCategory === 'brand' " class="analytics-category" >Brand wise</span>
+        <span (click)="selectCategory('product')" [class.active]="selectedCategory === 'product' " class="analytics-category">Product wise</span>
+      </div>
+      <!-- <span class="radio">
         <label class="competetor-header-text">
           <input type="radio" name="optradio" checked>Brand Based </label>
         <label class="competetor-header-text">
-          <input type="radio" name="optradio">Product Based</label>
-      </span>
+        <input type="radio" name="optradio">Product Based</label>
+      </span> -->
     </div>
     <div class="bar-graph-section">
-      <app-barcharts *ngIf="isBrandDataAvailable" [barChartBrandLabels]="barChartBrandLabels" [barChartImagesData]="barChartImagesData" [barChartCharLengthData]="barChartCharLengthData" [barChartImageLabels]="barChartImageLabels" [barChartBulletpointsLabels]="barChartBulletpointsLabels" [barChartCharLengthLabels]="barChartCharLengthLabels"
-        [barChartBulletpointsData]="barChartBulletpointsData" [barChartOptions]="barChartOptions"></app-barcharts>
-        <app-loader [show]='!isBrandDataAvailable'></app-loader>
+      <app-barcharts *ngIf="isBrandDataAvailable" [barChartData]="barChartData"></app-barcharts>
+      <app-loader [show]='!isBrandDataAvailable'></app-loader>
     </div>
-    <!-- <div class="competetor-bar-charts" *ngIf="isBrandDataAvailable">
-      <div class="product-bar-chart chart">
-        <div style="display: block">
-          <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
-            [chartType]="barChartType">
-          </canvas>
-        </div>
-      </div>
-      <div class="product-bar-chart chart">
-        <div style="display: block">
-          <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
-            [chartType]="barChartType">
-          </canvas>
-        </div>
-      </div>
-      <div class="product-bar-chart chart">
-        <div style="display: block">
-          <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
-            [chartType]="barChartType">
-          </canvas>
-        </div>
-      </div>
-    </div> -->
   </div>
 </div>

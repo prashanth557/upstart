@@ -1,6 +1,6 @@
 <div class="home-container">
-    <app-result-header [jobResults]="jobResults1"></app-result-header>
-    <app-result-header-dup [jobResults]="jobResults2"></app-result-header-dup>
+    <app-result-header [jobResults]="jobResults1" (redirectEmit)="redirectToPages($event)"></app-result-header>
+    <app-result-header-dup [jobResults]="jobResults2" (redirectEmit)="redirectToPages($event)"></app-result-header-dup>
     <div class="home-recent-records">
         <app-job-details class="col-sm-12 col-md-12 col-lg-7" *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders"
             [productDetails]="productDetails" [showCreateButton]="false" [showSearch]="false" (createJob)="addNewKeyword($event)"
@@ -57,7 +57,7 @@
                         <a class="organic-cloud-labels">dolor (1)</a>
                         <a class="organic-cloud-labels">els (1)</a>
                         <a class="organic-cloud-labels">eu (1)</a><br>
-                        <img class="magna-text" src="../assets/images/magna-text.png"/>(2)
+                        <img class="magna-text" src="assets/images/magna-text.png"/>(2)
                         <span class="organic-cloud-labels">massa (1)</span>
                         <span class="organic-cloud-labels">maximus (1)</span>
                         <span class="organic-cloud-labels">product (1)</span>
@@ -74,7 +74,7 @@
                 <a class="organic-cloud-labels">els (1)</a>
                 <a class="organic-cloud-labels">eu (1)</a>
                 <br>
-                <img class="magna-text" src="../assets/images/magna-text.png" />(2)
+                <img class="magna-text" src="assets/images/magna-text.png" />(2)
                 <span class="organic-cloud-labels">massa (1)</span>
                 <span class="organic-cloud-labels">maximus (1)</span>
                 <span class="organic-cloud-labels">product (1)</span>

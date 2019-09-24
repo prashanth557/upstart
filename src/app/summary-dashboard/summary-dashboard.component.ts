@@ -8,12 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class SummaryDashboardComponent implements OnInit {
 
   // Inputs for pieCharts
-  @Input() pieChartBrandLabels: any = [];
-  @Input() pieChartBrandData: any = [];
-  @Input() pieChartBrandRatingLabels: any = [];
-  @Input() pieChartBrandRatingValues: any = [];
+  @Input() pieChartData: any [] = [];
+  @Input() pieChartOptions: any;
   public pieChartType = 'pie';
-  @Input() barChartOptions: any = [];
   pieChartColors = [
     {
       backgroundColor: [

@@ -15,8 +15,8 @@ export class MapmonitorLastRunJobDetailsComponent implements OnInit {
   productDetails: any = [];
   jobCandidateDetails: any = [];
   items: any = [];
-  jobResults: any = [{jobType: 'ASINs Tracked', count: 10},
-  {jobType: 'MAP Breach Recorded', count: 4}, {jobType: 'Sellers Extracted', count: 53}];
+  jobResults: any = [{jobType: 'ASINs Tracked', count: 2},
+  {jobType: 'MAP Breach Recorded', count: 3}, {jobType: 'Sellers Extracted', count: 53}];
   headerTitle: String = 'ASINs Seller Data';
   jobHeaders: any = ['seller', 'price', ' Items condition', 'shipping info', 'Below Map?'];
   showSellersInfo: boolean;
@@ -37,10 +37,24 @@ export class MapmonitorLastRunJobDetailsComponent implements OnInit {
       this.totalItems = res && res.totalItems ? res.totalItems : 0;
       this.items = res && res.items ? res.items : [];
       this.jobCandidateDetails = this.items && this.items[0] ? this.items[0].candidates : [];
+      this.calculateMapBreaches();
       this.isLoading = false;
     }).catch(err => {
       console.log('Error while fetching Job Details', err);
-      this.isLoading = false;
+      // this.isLoading = false;
+    });
+  }
+
+  calculateMapBreaches() {
+    this.jobCandidateDetails.forEach( jobDetail => {
+      let index = 0;
+      jobDetail.sellers.forEach( sellerInfo => {
+        if ( Number(sellerInfo.price.replace(/[$,]+/g, '')) < Number(jobDetail.map.replace(/[$,]+/g, '')) ) {
+            sellerInfo.mapBreach = true;
+            index++;
+        }
+      });
+      jobDetail.mapBreachesCount = index;
     });
   }
 

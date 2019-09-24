@@ -216,6 +216,7 @@ export class JobsService {
         .toPromise()
         .then((response: any) => {
           if (response) {
+            console.log('TypeOf urlPath', typeof response);
             return response;
           } else {
             return {};

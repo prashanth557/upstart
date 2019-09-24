@@ -1,5 +1,5 @@
 .mapjob-container {
-    padding: 20px 10px 20px 10px;
+    padding: 20px 0px 20px 10px;
     .map-job-header-text {
         padding-right: 15px;
         padding-left: 15px;
@@ -24,7 +24,7 @@
         //width: 180px;
         text-align: left;
         padding: 15px 10px 15px 15px;
-        font-size:12px;
+        font-size:13px;
         @media (min-width: 768px) and (max-width: 1024px) {
             width: 150px;
         }
