@@ -64,8 +64,7 @@ export class AppComponent implements OnInit {
   }
 
   logoutUser() {
-    Cookie.delete('_token');
-    Cookie.delete('refresh_token');
+    Cookie.deleteAll('/');
     this.router.navigate(['/login']);
   }
 }

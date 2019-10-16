@@ -21,8 +21,9 @@
         </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary btn-block">
-          <span *ngIf="!requestInProgress">Sign In</span></button>
-          <img *ngIf="requestInProgress" class="loader" src="assets/icon/spin-white.svg"/>
+          <span *ngIf="!requestInProgress">Sign In</span>
+          <img *ngIf="requestInProgress" class="loader center" src="assets/icons/spin-white.svg"/>
+        </button>
       </div>
     </form>
     <!-- <p class="text-center"><a href="#">Create an Account</a></p> -->

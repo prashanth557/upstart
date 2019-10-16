@@ -49,7 +49,7 @@ export class JobsService {
 
   // Get Keywordrelevance Job details
   getKeyWordRelevanceJobDetails(jobId) {
-    const url = this.config.keywordRelevanceUrl + '/' + jobId;
+    const url = 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs/' + jobId + '/lastresult';
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -61,7 +61,7 @@ export class JobsService {
 
     // Get Keywordrelevance Job details
     getKeyWordRelevanceLastJobSummary(jobId) {
-      const url = this.config.keywordRelevanceUrl + '/' + jobId;
+      const url = 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs/' + jobId + '/lastresultsummary';
       return this.http.authenticatedGet(url)
       .toPromise()
       .then(res => {
@@ -156,7 +156,8 @@ export class JobsService {
 
   // Map montior summary
   getMapMonitorSummary() {
-    const url = this.config.baseApiUrl + '/mapmonitorsummary';
+    // const url = this.config.baseApiUrl + '/mapmonitorsummary';
+    const url = 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorsummary';
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {

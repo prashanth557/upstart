@@ -75,6 +75,10 @@ export class AuthService {
     return Cookie.get('_token');
   }
 
+  getRole() {
+    return Cookie.get('role');
+  }
+
   refreshToken(): Observable<any> {
     console.log('refresh token called');
     const url = this.config.homeUrl + '/token';
