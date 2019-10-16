@@ -49,7 +49,7 @@ export class JobsService {
 
   // Get Keywordrelevance Job details
   getKeyWordRelevanceJobDetails(jobId) {
-    const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult';
+    const url = this.config.keywordRelevanceUrl + '/' + jobId;
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -58,6 +58,18 @@ export class JobsService {
       return this.handleError(err);
     });
   }
+
+    // Get Keywordrelevance Job details
+    getKeyWordRelevanceLastJobSummary(jobId) {
+      const url = this.config.keywordRelevanceUrl + '/' + jobId;
+      return this.http.authenticatedGet(url)
+      .toPromise()
+      .then(res => {
+        return res;
+      }).catch(err => {
+        return this.handleError(err);
+      });
+    }
 
   // Delete a job using jobId
   deleteJob(jobId) {
@@ -142,6 +154,17 @@ export class JobsService {
     });
   }
 
+  // Map montior summary
+  getMapMonitorSummary() {
+    const url = this.config.baseApiUrl + '/mapmonitorsummary';
+    return this.http.authenticatedGet(url)
+    .toPromise()
+    .then(res => {
+      return res;
+    }).catch(err => {
+      return this.handleError(err);
+    });
+  }
 
   // Map Montior Jobs
 

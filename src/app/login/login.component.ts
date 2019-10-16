@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   showForgotPasswordPage: boolean;
   isRemberMeChecked: boolean;
   showLoginPage: boolean;
+  requestInProgress: boolean;
   constructor(public _authService: AuthService, private route: ActivatedRoute, public router: Router, public location: Location) { }
 
   ngOnInit() {
@@ -49,12 +50,17 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.requestInProgress = true;
     if (this.userName && this.password) {
       this._authService.validateUserDetails(this.userName, this.password, this.isRemberMeChecked).then(res => {
        if (res) {
          // Navigating to home page.
-         this.location.back();
+        //  this.location.back();
+         this.requestInProgress = false;
+         this.router.navigate(['/home']);
        }
+      }).catch(err => {
+        this.requestInProgress = false;
       });
     }
   }

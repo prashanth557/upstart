@@ -9,19 +9,19 @@
         <ul class="list-elements">
           <li class="user-role-details">
             <p class="label-details">Role</p>
-            <p class="label-values">User</p>
+            <p class="label-values">{{userDetails?.role}}</p>
           </li>
           <li class="profile-details">
             <div>
               <p class="label-details">First Name</p>
-              <p *ngIf="!editFirstName" class="label-values">Prashanth
+              <p *ngIf="!editFirstName" class="label-values">{{userDetails?.given_name}}
                 <a (click)="editDetails('firstName')" class="edit_icon glyphicon glyphicon-pencil"></a>
               </p>
               <input *ngIf="editFirstName" type="text" class="label-values label-input-value" [(ngModel)]='user.firstName' [ngModelOptions]="{standalone: true}">
             </div>
             <div>
               <p class="label-details">Last Name</p>
-              <p *ngIf="!editLastName" class="label-values">Vanama
+              <p *ngIf="!editLastName" class="label-values">{{userDetails?.family_name}}
                 <a (click)="editDetails('lastName')" class="edit_icon glyphicon glyphicon-pencil"></a>
               </p>
               <input *ngIf="editLastName" type="text" class="label-values label-input-value" [(ngModel)]='user.lastName' [ngModelOptions]="{standalone: true}">
@@ -31,7 +31,7 @@
             <p class="label-details">Email</p>
           </li>
           <li>
-            <p class="label-values">user@user.com</p>
+            <p class="label-values">{{userDetails?.emails[0]}}</p>
           </li>
         </ul>
       </div>

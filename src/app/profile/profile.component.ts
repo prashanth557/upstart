@@ -12,11 +12,11 @@ export class ProfileComponent implements OnInit {
   confirmPassword: String = '';
   editFirstName: boolean;
   editLastName: boolean;
-  user: any = {};
   passwordMistach: boolean;
   changePasswordForm: FormGroup;
   submitted: boolean;
   updateMesssage: string;
+  userDetails: any;
   constructor(public formBuilder: FormBuilder, public authService: AuthService) { }
 
   ngOnInit() {
@@ -25,6 +25,7 @@ export class ProfileComponent implements OnInit {
     //   newPasssword: ['', Validators.required, Validators.minLength(6)],
     //   confirmNewPassword: ['', Validators.required, Validators.minLength(6)]
     // }, {validator: this.checkPasswords });
+    this.fetchUserDetails();
   }
 
   // get passwordFields() {
@@ -36,6 +37,15 @@ export class ProfileComponent implements OnInit {
   //   const confirmPass = group.get('confirmNewPassword').value;
   //   return pass === confirmPass ? null : { notSame: true };
   // }
+
+  fetchUserDetails() {
+    this.userDetails = this.authService.fetchUserDetails();
+    if (this.userDetails.extension_isAdmin) {
+      this.userDetails.role = 'Admin';
+    } else {
+      this.userDetails.role = 'Vendor';
+    }
+  }
 
   checkPasswords() {
     return this.newPassword === this.confirmPassword ? true : false;

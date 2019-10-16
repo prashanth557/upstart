@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpWrapper, IRequestOptions } from '../services/http-wrapper/http-wrapper';
+import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
@@ -8,6 +9,7 @@ import 'rxjs/add/operator/catch';
 import { from } from 'rxjs';
 import { UrlConfig } from '../config/url-config';
 import { Cookie } from 'ng2-cookies';
+import * as jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +25,7 @@ export class AuthService {
   }
 
   isAuthenticated() {
-      if (Cookie.get('username') && Cookie.get('password')) {
+      if (Cookie.get('_token')) {
         return true;
       }
       return false;
@@ -36,19 +38,21 @@ export class AuthService {
   validateUserDetails(username, password, isRemberMeChecked): Promise<any> {
     const url = this.config.loginUrl;
     console.log('Login Url', url);
-    const body = {
-      'username': username,
-      'password': password,
-      'grantType': password
+    const options: IRequestOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+      })
     };
-    return this.http.authenticatedPost(url, body).toPromise().then((res: any) => {
+    const body = {
+      'password': password,
+      'username': username
+    };
+    return this.http.authenticatedPost(url, body, options).toPromise().then((res: any) => {
       if (res) {
-        Cookie.set('_token', JSON.stringify(res));
-        this.setPrivilages(username, password, isRemberMeChecked);
-        return res;
+        Cookie.set('_token', res.access_token);
+        Cookie.set('refresh_token', res.refresh_token);
       }
-    }).catch(err => {
-      return this.handleError(err);
+      return res;
     });
   }
 
@@ -109,5 +113,12 @@ export class AuthService {
     }).catch(err => {
       return this.handleError(err);
     });
+  }
+
+  fetchUserDetails() {
+    const token = this.getAuthToken();
+    const decodedToken = jwt_decode(token);
+    console.log('decoded Token', decodedToken);
+    return decodedToken;
   }
 }
