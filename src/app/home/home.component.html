@@ -1,6 +1,6 @@
 <div class="home-container">
-    <app-result-header [jobResults]="jobResults1" (redirectEmit)="redirectToPages($event)"></app-result-header>
-    <app-result-header-dup [jobResults]="jobResults2" (redirectEmit)="redirectToPages($event)"></app-result-header-dup>
+    <app-result-header *ngIf="jobResults1?.length > 0 " [jobResults]="jobResults1" (redirectEmit)="redirectToPages($event)"></app-result-header>
+    <app-result-header-dup *ngIf="jobResults2?.length > 0 " [jobResults]="jobResults2" (redirectEmit)="redirectToPages($event)"></app-result-header-dup>
     <div class="home-recent-records">
         <app-job-details class="col-sm-12 col-md-12 col-lg-7" *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders"
             [productDetails]="productDetails" [showCreateButton]="false" [showSearch]="false" (createJob)="addNewKeyword($event)"
@@ -39,7 +39,7 @@
             </ng-template>
         </app-job-details>
         <div class="col-sm-12 col-md-12 col-lg-5 graph-section-wrapper">
-            <div class="graph-section">
+            <div *ngIf="role ==='Vendor' " class="graph-section">
                 <h3 class="product-label">Product with specific labels</h3>
                 <h5 class="graph-header">Data from recent 5 Keyword relevance crawls</h5>
                 <div class="canavas-section" style="display: block">

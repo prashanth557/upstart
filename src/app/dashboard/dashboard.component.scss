@@ -1,0 +1,61 @@
+.pie-chart-container {
+    //border: 1px solid black;
+    //border-radius: 5px;
+    margin: 20px;
+    background: white;
+    .dashboard-header {
+        // display: flex;
+        // justify-content: space-between;
+        padding: 15px 20px 20px 15px; //top right bottom left
+        .dashboard-header-text {
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-left: 10px;
+            @media (min-width: 768px) and ( max-width: 1023px ){
+                font-size:15px;
+                margin-left: 8px;
+            }
+        }
+    }
+    .pie-chart-section {
+        min-height: 350px;
+    }
+}
+.bar-chart-container {
+    margin: 20px;
+    background: white;
+    .competetor-analysis-wrapper {
+        // border: 1px solid black;
+        // border-radius: 5px;
+        padding: 20px 20px 20px 0px;
+        .competetor-header{
+            display: flex;
+            justify-content: space-between;
+            .competetor-header-text{
+                padding: 15px;
+                font-size: 16px;
+                font-weight: bold;
+                color: black;
+            }
+            .analytics-category{
+                padding: 5px 10px 5px 10px;
+                margin-right: 10px;
+                cursor: pointer;
+            }
+            .analytics-category.active {
+                background: #6c10e8;
+                border-radius: 25px;
+                color: white;
+            }
+        }
+    }
+    .bar-graph-section{
+        @media(max-width: 1023px) {
+            min-height: 500px;
+        }
+       @media(min-width: 1024px) {
+           min-height: 600px;
+       }
+    }
+}

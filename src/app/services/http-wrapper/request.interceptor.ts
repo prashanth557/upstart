@@ -11,7 +11,6 @@ import {
     HttpResponse,
     HttpSentEvent,
     HttpUserEvent } from '@angular/common/http';
-
 import { AuthService } from '../auth.service';
 
 @Injectable()
@@ -20,7 +19,7 @@ export class RequestInterceptorService implements HttpInterceptor {
     tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
     constructor(private injector: Injector) {}
     addToken(req: HttpRequest<any>, token: string): HttpRequest<any> {
-        return req.clone({ setHeaders: { Authorization: 'idtoken ' + token }});
+        return req.clone({ setHeaders: { Authorization: 'Bearer ' +  token }});
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler):
@@ -37,9 +36,9 @@ export class RequestInterceptorService implements HttpInterceptor {
                         case 400:
                             return this.handle400Error(error);
                         case 401:
-                            return this.handleError(error);
+                            return this.handle401Error(req, next);
                         case 403:
-                          return this.handle401Error(req, next);
+                          return this.handleError(error);
                         default:
                           return this.handleError(error);
                     }

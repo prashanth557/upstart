@@ -80,4 +80,8 @@ export class OrganicKeywordsComponent implements OnInit {
     }
   }
 
+  navigateToDashboard(product) {
+    this.router.navigate(['/keywordset/' + product.id + '/dashboard']);
+  }
+
 }

@@ -65,8 +65,7 @@ export class KeywordRelevantJobsComponent implements OnInit {
     } else if (index === 1) {
       this.router.navigate(['/keywordjoblist/' + product.id]);
     } else if (index === 2) {
-      this.router.navigate(['/keywordjoblist/' + product.id + '/dashboard',
-      { headerTitle: 'Keyword', productTitle: 'Real Estate Investment Trusts crawl'}]);
+      this.router.navigate(['/keywordjoblist/' + product.id + '/dashboard']);
     } else if (index === 3) {
       this.deleteJob(product.id);
     }
@@ -81,6 +80,11 @@ export class KeywordRelevantJobsComponent implements OnInit {
         this.getDetails(this.offsetPage);
       }, 5000);
     }, err => {
+      const message: String = 'Your request for delete record is not successfull.';
+      this.notification.displayNotification(true, false, message);
+      setTimeout(() => {
+        this.notification.displayNotification(false, false, '');
+      }, 5000);
     });
   }
 
@@ -109,24 +113,30 @@ export class KeywordRelevantJobsComponent implements OnInit {
   }
 
   runJob(productId) {
-    const message: string = 'Your ( Job Id : ' + productId + ' ) is executed successfully.';
-    this.notification.displayNotification(true, true, message);
-    setTimeout(() => {
-      this.notification.displayNotification(false, true, '');
-      this.getDetails(this.offsetPage);
-    }, 5000);
-    // this.jobsService.runJob(productId, 'kwdrelvncjobs').then( (res: any) => {
-    //   if (res) {
-    //     const message: string = 'Your ( Job Id : ' + productId + ' ) is executed successfully.';
-    //     this.notification.displayNotification(true, true, message);
-    //     setTimeout(() => {
-    //       this.notification.displayNotification(false, true, '');
-    //       this.getDetails(this.offsetPage);
-    //     }, 5000);
-    //   }
-    // }).catch( error => {
-    //   console.log('Error while running the job' + productId + error);
-    // });
+    // const message: string = 'Your ( Job Id : ' + productId + ' ) is executed successfully.';
+    // this.notification.displayNotification(true, true, message);
+    // setTimeout(() => {
+    //   this.notification.displayNotification(false, true, '');
+    //   this.getDetails(this.offsetPage);
+    // }, 5000);
+    this.jobsService.runJob(productId, 'kwdrelvncjobs').then( (res: any) => {
+      if (res) {
+        const message: string = 'Your ( Job Id : ' + productId + ' ) is executed successfully.';
+        this.notification.displayNotification(true, true, message);
+        setTimeout(() => {
+          this.notification.displayNotification(false, true, '');
+          this.getDetails(this.offsetPage);
+        }, 5000);
+      }
+    }).catch( error => {
+      console.log('Error while running the job' + productId + error);
+      const message: String = 'Your Job running is not successfull.';
+      this.notification.displayNotification(true, false, message);
+      setTimeout(() => {
+        this.notification.displayNotification(false, false, '');
+        this.getDetails(this.offsetPage);
+      }, 5000);
+    });
   }
 
 }

@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ProfileComponent } from './profile/profile.component';
 import { KeywordRelevantJobsComponent } from './keyword-relevant-jobs/keyword-relevant-jobs.component';
+import { KeywordRelevanceDashboardComponent } from './keyword-relevant-jobs/keyword-relevance-dashboard/keyword-relevance-dashboard.component';
 import { OrganicKeywordsComponent } from './organic-keywords/organic-keywords.component';
 import { OrganicSummaryDashboardComponent } from './organic-keywords/organic-summary-dashboard/organic-summary-dashboard.component';
 import { OrganicRunHistoryComponent } from './organic-keywords/organic-run-history/organic-run-history.component';
@@ -28,10 +29,10 @@ export const routes: Routes = [
   // Routes related to Keyword Relevance Tab
   { path: 'keywordjoblist', component: KeywordRelevantJobsComponent, canActivate: [AuthGuard]},
   { path: 'keywordjoblist/:jobId', component: OrganicJoblistComponent, canActivate: [AuthGuard]},
-  { path: 'keywordjoblist/:jobId/dashboard', component: OrganicSummaryDashboardComponent, canActivate: [AuthGuard]},
+  { path: 'keywordjoblist/:jobId/dashboard', component: KeywordRelevanceDashboardComponent, canActivate: [AuthGuard]},
   // Routes Related to Organic Keywords Tab
   { path: 'keywordset', component: OrganicKeywordsComponent, canActivate: [AuthGuard] },
-  { path: 'keywordset/keywordresultdash', component: OrganicSummaryDashboardComponent, canActivate: [AuthGuard]},
+  { path: 'keywordset/:jobId/dashboard', component: OrganicSummaryDashboardComponent, canActivate: [AuthGuard]},
   { path: 'keywordset/organicRunHistory', component: OrganicRunHistoryComponent, canActivate: [AuthGuard]},
   { path: 'schedulesList', component: AutoRunScheduleComponent, canActivate: [AuthGuard]},
   { path: 'keywordset/organicJobList', component: OrganicJoblistComponent, canActivate: [AuthGuard]},

@@ -49,6 +49,8 @@ import { BarchartsComponent } from './barcharts/barcharts.component';
 import { MapmonitorJobDetailsComponent } from './mapmonitor-job-details/mapmonitor-job-details.component';
 import { MapmonitorLastRunJobDetailsComponent } from './mapmonitor-last-run-job-details/mapmonitor-last-run-job-details.component';
 import { ResultHeaderDupComponent } from './result-header-dup/result-header-dup.component';
+import { KeywordRelevanceDashboardComponent } from './keyword-relevant-jobs/keyword-relevance-dashboard/keyword-relevance-dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,9 @@ import { ResultHeaderDupComponent } from './result-header-dup/result-header-dup.
     BarchartsComponent,
     MapmonitorJobDetailsComponent,
     MapmonitorLastRunJobDetailsComponent,
-    ResultHeaderDupComponent
+    ResultHeaderDupComponent,
+    KeywordRelevanceDashboardComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,7 +92,7 @@ import { ResultHeaderDupComponent } from './result-header-dup/result-header-dup.
     RouterModule,
     ChartsModule,
     NgxPaginationModule,
-    HttpClientModule, 
+    HttpClientModule,
     UiSwitchModule
   ],
   providers: [

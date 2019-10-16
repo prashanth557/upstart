@@ -11,9 +11,8 @@ import { TopNotificationComponent } from '../top-notification/top-notification.c
 export class MonitorJobsComponent implements OnInit {
   @ViewChild(TopNotificationComponent) notification: TopNotificationComponent;
   // Banner Results
-  jobResults: any = [{ jobType: 'Jobs Created', count: 56 },
-  { jobType: 'Product being tracked', count: 985 }, { jobType: 'MAP breached recorded', count: 475 }];
-
+  jobResults: any = [{ jobType: 'Jobs Created', count: 0 },
+  { jobType: 'Product being tracked', count: 0 }, { jobType: 'MAP breached recorded', count: 0 }];
   actionItems = [{icon: 'glyphicon-flash'},
   {icon: 'glyphicon-list-alt'},
   {icon: 'glyphicon-tasks'},
@@ -32,11 +31,23 @@ export class MonitorJobsComponent implements OnInit {
   createNewJob: boolean;
   totalItems: number;
   isLoading: boolean;
+  isMapSummaryLoading: boolean;
   constructor(public jobsService: JobsService, public router: Router) { }
 
   ngOnInit() {
     this.currentpageIndex = 0;
-    this.getDetails(this.currentpageIndex);
+    this.isMapSummaryLoading = true;
+    this.getMapSummaryDetails();
+  }
+
+  getMapSummaryDetails() {
+    this.jobsService.getMapMonitorSummary().then( (res: any) => {
+      this.jobResults[0].count = res.totalJobs;
+      this.jobResults[1].count = res.productsTracked;
+      this.jobResults[2].count = res.mapBreaches;
+      this.isMapSummaryLoading = false;
+      this.getDetails(this.currentpageIndex);
+    });
   }
 
   onPageChange(event) {
@@ -48,7 +59,6 @@ export class MonitorJobsComponent implements OnInit {
   }
 
   getDetails(currentPageIndex) {
-    // this.productDetails = this.allProductDetails.slice(this.offsetPage, this.offsetPage + 5);
     this.isLoading = true;
     this.jobsService.getAllMapMontiorJobDetails().then( (res: any) => {
       this.totalItems = res.totalItems;

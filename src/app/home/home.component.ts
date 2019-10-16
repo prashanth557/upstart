@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JobsService } from '../services/jobs.service';
+import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,10 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  jobResults1 = [{ jobType: 'Keyword relevance Jobs', count: 27 },
-  { jobType: 'Organic Keywords', count: 12 }, { jobType: 'Bulk Product Crawl Jobs', count: '06' }];
-  jobResults2 = [{ jobType: 'Seller Crawl Jobs', count: '02', color: '#0B5EA8' },
-  { jobType: 'Map Monitor Crawls', count: 1239, color: '#2A2073' }, { jobType: 'Scheduled Crawl Jobs', count: '07', color: '#6c10e8' }];
+  jobResults1: any = [];
+  jobResults2: any = [];
   currentpageIndex: number;
   jobHeaders = ['ASIN', 'MAP', 'sellerName', 'Selling price', '% of price variation'];
   // Table Header title
@@ -106,10 +105,13 @@ export class HomeComponent implements OnInit {
     }
   ];
 
-  constructor(public jobsService: JobsService, public router: Router) { }
+  role: String;
+
+  constructor(public jobsService: JobsService, public router: Router, public authService: AuthService) { }
 
   ngOnInit() {
     this.currentpageIndex = 0;
+    this.role = this.authService.getRole();
     this.getDetails(this.currentpageIndex);
   }
   getDetails(currentPageIndex) {
@@ -117,6 +119,16 @@ export class HomeComponent implements OnInit {
     this.totalItems = this.allProductDetails.length;
     this.productDetails = this.allProductDetails.slice(currentPageIndex, currentPageIndex + 5);
     this.isLoading = false;
+    if (this.role && this.role.toLowerCase() === 'vendor') {
+      this.jobResults1 = [{ jobType: 'Keyword relevance Jobs', count: 27 },
+      { jobType: 'Organic Keywords', count: 12 }, { jobType: 'Bulk Product Crawl Jobs', count: '06' }];
+      this.jobResults2 = [{ jobType: 'Seller Crawl Jobs', count: '02', color: '#0B5EA8' },
+      { jobType: 'Map Monitor Crawls', count: 1239, color: '#2A2073' }, { jobType: 'Scheduled Crawl Jobs', count: '07', color: '#6c10e8' }];
+    } else if (this.role && this.role.toLowerCase() === 'admin') {
+      this.jobResults1 = [{ jobType: 'Vendors Registred', count: 19 },
+      { jobType: 'Organic Keywords', count: '54' }, { jobType: 'Map Breaches in this Week', count: '372' }];
+      this.jobResults2 = [];
+    }
     // this.jobsService.getAllKeywordRelevanceJobDetails(this.offsetPage).then((res: any) => {
     //   this.totalItems = res.totalItems;
     //   this.productDetails = res.items;

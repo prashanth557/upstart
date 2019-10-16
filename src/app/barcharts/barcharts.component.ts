@@ -17,7 +17,8 @@ export class BarchartsComponent implements OnInit {
         '#c068e4',
         '#2fc6d6',
         '#0B5EA8',
-        '#a91de2'
+        '#a91de2',
+        '#660090'
      ],
     }
   ];
