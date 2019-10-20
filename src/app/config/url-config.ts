@@ -12,7 +12,7 @@ export class UrlConfig {
           'forgotPasswordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/users/forgotpass',
           'keywordRelevanceUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/kwdrelvncjobs',
           // 'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
-          'mapMontiorJobsUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorjobs',
+          'mapMontiorJobsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/mapmonitorjobs',
           'organicKeywordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/organickwds',
         };
       case 'local':
@@ -25,7 +25,7 @@ export class UrlConfig {
           'forgotPasswordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/users/forgotpass',
           'keywordRelevanceUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/kwdrelvncjobs',
           // 'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
-          'mapMontiorJobsUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorjobs',
+          'mapMontiorJobsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/mapmonitorjobs',
           'organicKeywordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/organickwds',
         };
       case 'dev':
@@ -38,7 +38,7 @@ export class UrlConfig {
           'forgotPasswordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/users/forgotpass',
           'keywordRelevanceUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/kwdrelvncjobs',
           // 'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
-          'mapMontiorJobsUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorjobs',
+          'mapMontiorJobsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/mapmonitorjobs',
           'organicKeywordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/organickwds',
         };
       case 'uat':
@@ -51,7 +51,7 @@ export class UrlConfig {
           'forgotPasswordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/users/forgotpass',
           'keywordRelevanceUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/kwdrelvncjobs',
           // 'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
-          'mapMontiorJobsUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorjobs',
+          'mapMontiorJobsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/mapmonitorjobs',
           'organicKeywordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/organickwds',
         };
       case 'prod':
@@ -64,7 +64,7 @@ export class UrlConfig {
           'forgotPasswordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/users/forgotpass',
           'keywordRelevanceUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/kwdrelvncjobs',
           // 'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
-          'mapMontiorJobsUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorjobs',
+          'mapMontiorJobsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/mapmonitorjobs',
           'organicKeywordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/organickwds',
         };
       default:
@@ -77,7 +77,7 @@ export class UrlConfig {
           'forgotPasswordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/users/forgotpass',
           'keywordRelevanceUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/kwdrelvncjobs',
           // 'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
-          'mapMontiorJobsUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorjobs',
+          'mapMontiorJobsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/mapmonitorjobs',
           'organicKeywordUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/organickwds',
         };
     }

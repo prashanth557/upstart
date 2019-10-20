@@ -8,6 +8,8 @@ import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
+
 
 // Services
 import { PrivilegeService } from './services/privilege.service';
@@ -51,6 +53,7 @@ import { MapmonitorLastRunJobDetailsComponent } from './mapmonitor-last-run-job-
 import { ResultHeaderDupComponent } from './result-header-dup/result-header-dup.component';
 import { KeywordRelevanceDashboardComponent } from './keyword-relevant-jobs/keyword-relevance-dashboard/keyword-relevance-dashboard.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { MapmonitorRunHistoryComponent } from './mapmonitor-run-history/mapmonitor-run-history.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +85,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ResultHeaderDupComponent,
     KeywordRelevanceDashboardComponent,
     DashboardComponent,
+    MapmonitorRunHistoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,6 +104,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     CookieService,
     AuthGuard,
     AuthService,
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptorService,

@@ -7,7 +7,7 @@
                 <span>{{product?.keyword}}</span>
             </td>
             <td>
-                <span>{{product?.updatedOn | date: 'MMM d, y, h:mm:ss a'}}</span>
+                <span>{{product?.updatedOn ? createdDate(product?.updatedOn) : ''}}</span>
             </td>
             <td>
                 <span class="status-wrapper" [style.background]="getBackgroundColor(product)">{{product?.status}}</span>

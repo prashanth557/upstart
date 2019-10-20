@@ -1,0 +1,20 @@
+<div class="keyword-container">
+    <app-job-details *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails" [pageCount]="totalItems"
+      [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)">
+      <ng-template #filedsHeader let-product>
+        <td>
+            <span>{{product?.runId}}</span>
+        </td>
+        <td>
+            <span>{{product?.runAt ? createdDate(product?.runAt) : ''}}</span>
+        </td>
+        <td>
+            <span>{{product?.status}}</span>
+        </td>
+        <td>
+            <a class="view-result" (click)="navigateToRunDetails(product.runId)">View Result</a>
+        </td>
+    </ng-template>
+    </app-job-details>
+    <app-loader [show]='productDetails?.length === 0'></app-loader>
+  </div>

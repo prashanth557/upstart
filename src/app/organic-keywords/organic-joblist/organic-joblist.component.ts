@@ -42,15 +42,15 @@ export class OrganicJoblistComponent implements OnInit {
       this.jobResults[1].count = res.extractedProducts;
       this.jobResults[2].count = res.brandProducts;
       this.isSummarResultsLoading = false;
-      this.getJobDetails(this.jobId);
+      this.getJobDetails();
     }).catch(err => {
       console.log('Error while fetching LastRun Summary', err);
       this.isSummarResultsLoading = false;
     });
   }
 
-  getJobDetails(jobId) {
-    this.jobsService.getKeyWordRelevanceJobDetails(jobId).then((res: any) => {
+  getJobDetails() {
+    this.jobsService.getKeyWordRelevanceJobDetails(this.jobId, this.offsetPage, this.limitPerPage).then((res: any) => {
       this.totalItems = res.totalItems;
       this.productDetails = res.items;
       this.isLoading = false;
@@ -60,13 +60,14 @@ export class OrganicJoblistComponent implements OnInit {
     });
   }
 
-  onPageChange(offset) {
-    this.currentpageIndex = offset;
+  onPageChange(event) {
+    this.currentpageIndex = event.offset;
     console.log('CurrentPageIndex', this.currentpageIndex);
-    const currentIndex = (offset - 1) * this.limitPerPage;
+    this.limitPerPage = event.limitPerPage;
+    const currentIndex = (this.currentpageIndex - 1) * this.limitPerPage;
     this.offsetPage = currentIndex;
     this.isLoading = true;
-    this.getJobDetails(this.offsetPage);
+    this.getJobDetails();
   }
 
 }

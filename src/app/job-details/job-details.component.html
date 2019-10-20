@@ -5,9 +5,9 @@
   <h3 *ngIf="headerTitle" class="job-results-header">{{headerTitle}}</h3>
   <div class="search-wrapper" *ngIf="showSearch || showCreateButton">
     <button class="create-job" *ngIf="showCreateButton" (click)="createNewJob()" data-toggle="modal" data-target="#showModalCenter">Create New Job</button>
-    <span class="search-input-text" *ngIf="showSearch">Search:&nbsp;
+    <!-- <span class="search-input-text" *ngIf="showSearch">Search:&nbsp;
       <input type="text" class="search-input" />
-    </span>
+    </span> -->
   </div>
   <form class="show-entries">
     <b>showing</b>&nbsp;
@@ -28,7 +28,7 @@
         <th>{{header}}</th>
       </ng-container>
       <tbody *ngIf="!isLoading">
-        <tr *ngFor="let product of productDetails" [class.highlight-map-breach]="product.mapBreach">
+        <tr *ngFor="let product of productDetails" [class.highlight-map-breach]="product.belowMap">
           <ng-container  class="detail-container" *ngTemplateOutlet="filedsHeader, context: { $implicit: product }">
           </ng-container>
         </tr>

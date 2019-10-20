@@ -84,4 +84,13 @@ export class OrganicKeywordsComponent implements OnInit {
     this.router.navigate(['/keywordset/' + product.id + '/dashboard']);
   }
 
+  createdDate(date) {
+    const d = new Date(0);
+    d.setUTCSeconds(date);
+    d.toLocaleTimeString();
+    // console.log('Date:::', d, 'typeOf', d.toLocaleTimeString(date));
+    const stringifedDate = d.toString();
+    return stringifedDate.substr(3, stringifedDate.indexOf('+') - 3 );
+  }
+
 }

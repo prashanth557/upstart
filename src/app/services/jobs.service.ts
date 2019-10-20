@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { HttpWrapper, IRequestOptions } from '../services/http-wrapper/http-wrapper';
 import { UrlConfig } from '../config/url-config';
 import { Cookie} from 'ng2-cookies';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class JobsService {
   constructor( public http: HttpWrapper) { }
 
   // Get all the keyword relevance job details
-  getAllKeywordRelevanceJobDetails(offset) {
-    const url = this.config.keywordRelevanceUrl + '?offset=' + offset + '&limit=5';
+  getAllKeywordRelevanceJobDetails(offset, limit) {
+    const url = this.config.keywordRelevanceUrl + '?offset=' + offset + '&limit=' + limit;
      const options: IRequestOptions = {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -33,10 +34,9 @@ export class JobsService {
     });
   }
 
-  // Run a particular job
-  runJob(productId, path) {
-    const url = this.config.baseApiUrl + path + '/' + productId + '/run';
-    return this.http.authenticatedGet(url)
+  getSpecificJobDetails(jobId) {
+    const url = this.config.keywordRelevanceUrl + '/' + jobId;
+    return this.http.authenticatedGet(url , {})
     .toPromise()
     .then(res => {
       if (res) {
@@ -48,8 +48,8 @@ export class JobsService {
   }
 
   // Get Keywordrelevance Job details
-  getKeyWordRelevanceJobDetails(jobId) {
-    const url = 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs/' + jobId + '/lastresult';
+  getKeyWordRelevanceJobDetails(jobId, offset, limit) {
+    const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult' + '?offset=' + offset + '&limit=' + limit;
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -59,25 +59,39 @@ export class JobsService {
     });
   }
 
-    // Get Keywordrelevance Job details
-    getKeyWordRelevanceLastJobSummary(jobId) {
-      const url = 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs/' + jobId + '/lastresultsummary';
-      return this.http.authenticatedGet(url)
-      .toPromise()
-      .then(res => {
-        return res;
-      }).catch(err => {
-        return this.handleError(err);
-      });
-    }
+  // Get Keywordrelevance Job details
+  getKeyWordRelevanceLastJobSummary(jobId) {
+    const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresultsummary';
+    return this.http.authenticatedGet(url)
+    .toPromise()
+    .then(res => {
+      return res;
+    }).catch(err => {
+      return this.handleError(err);
+    });
+  }
 
   // Delete a job using jobId
-  deleteJob(jobId) {
-    const url = this.config.keywordRelevanceUrl + '/' + jobId;
+  deleteJob(jobId, urlPath) {
+    const url = this.config.baseApiUrl + urlPath + '/' + jobId;
     return this.http.authenticatedDelete(url)
     .toPromise()
     .then(res => {
       return res;
+    }).catch(err => {
+      return this.handleError(err);
+    });
+  }
+
+  // Run a particular job
+  runJob(productId, urlPath) {
+    const url = this.config.baseApiUrl + urlPath + '/' + productId + '/run';
+    return this.http.authenticatedPost(url , {})
+    .toPromise()
+    .then(res => {
+      if (res) {
+        return res;
+      }
     }).catch(err => {
       return this.handleError(err);
     });
@@ -100,7 +114,8 @@ export class JobsService {
 
   // get brand presence for a job Id
   getBrandPresenceDetails(jobId) {
-    const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/brandspresence';
+    // const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/brandspresence';
+    const url = 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs/' + jobId + '/lastresult/brandspresence';
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -111,7 +126,8 @@ export class JobsService {
   }
 
   getBrandRatingDetails(jobId) {
-    const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/brandsproductrating';
+    // const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/brandsproductrating';
+    const url = 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs/' + jobId + '/lastresult/brandsproductrating';
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -122,7 +138,8 @@ export class JobsService {
   }
 
   getNumberOfImages(jobId) {
-    const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/brandsavgimages';
+    // const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/brandsavgimages';
+    const url = 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs/' + jobId + '/lastresult/brandsavgimages';
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -133,7 +150,8 @@ export class JobsService {
   }
 
   getNumberOfBulletPoints(jobId) {
-    const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/brandsavgbullets';
+    // const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/brandsavgbullets';
+    const url = 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs/' + jobId + '/lastresult/brandsavgbullets';
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -144,7 +162,8 @@ export class JobsService {
   }
 
   getNumberOfCharacters(jobId) {
-    const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/brandsavgtitlelength';
+    // const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/brandsavgtitlelength';
+    const url = 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs/' + jobId + '/lastresult/brandsavgtitlelength';
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -156,8 +175,8 @@ export class JobsService {
 
   // Map montior summary
   getMapMonitorSummary() {
-    // const url = this.config.baseApiUrl + '/mapmonitorsummary';
-    const url = 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorsummary';
+    const url = this.config.baseApiUrl + '/mapmonitorsummary';
+    // const url = 'https://private-15aca8-ucrawl1.apiary-mock.com/mapmonitorsummary';
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -235,6 +254,13 @@ export class JobsService {
   }
 
   getAnalyticsDetails(urlPath, jobId ) {
+      // const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/' + urlPath;
+      // let url = '';
+      // if (urlPath === 'brandspresence' || urlPath === 'brandsproductrating') {
+      //    url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/' + urlPath;
+      // } else {
+      //    url = 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs/' +  jobId + '/lastresult/' + urlPath;
+      // }
       const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/' + urlPath;
       return this.http.authenticatedGet(url)
         .toPromise()
@@ -246,7 +272,42 @@ export class JobsService {
             return {};
           }
         })
-        .catch(this.handleError);
+        .catch( err => {
+          this.handleError(err);
+        });
+  }
+
+  createMapMonitorJob(jobTitle: string, file: File) {
+    const url = 'http://23.99.204.212:9292/exucrawluploader/mapmonitorjobs';
+    const formdata: FormData = new FormData();
+    formdata.append('file', file);
+    formdata.append('jobTitlte', jobTitle);
+    formdata.append('token', Cookie.get('_token'));
+    console.log('formData', formdata);
+    // const body = {
+    //   'jobTitle': jobTitle,
+    //   'file': file,
+    //   'token': Cookie.get('_token')
+    // };
+    const options: IRequestOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'multipart/form-data'
+      })
+    };
+    return this.http.authenticatedPost(url, formdata, options).toPromise().then(data => {
+      return data;
+    }).catch( err => {
+      this.handleError(err);
+    });
+  }
+
+  getMapMonitorRunHistoryDetails(jobId: any, offset, limit) {
+    const url = this.config.mapMontiorJobsUrl + '/' + jobId + '/runhistory?offset=' + offset + '&limit=' + limit ;
+    return this.http.authenticatedGet(url).toPromise().then( res => {
+      return res;
+    }).catch( err => {
+      this.handleError(err);
+    });
   }
 
   public handleError(error: any): Promise<any> {

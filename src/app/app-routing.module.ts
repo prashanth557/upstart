@@ -14,6 +14,7 @@ import { AutoRunScheduleComponent } from './auto-run-schedule/auto-run-schedule.
 import { OrganicJoblistComponent } from './organic-keywords/organic-joblist/organic-joblist.component';
 import { MonitorJobsComponent } from './monitor-jobs/monitor-jobs.component';
 import { MapmonitorLastRunJobDetailsComponent } from './mapmonitor-last-run-job-details/mapmonitor-last-run-job-details.component';
+import { MapmonitorRunHistoryComponent } from './mapmonitor-run-history/mapmonitor-run-history.component';
 import { AlertsComponent } from './alerts/alerts.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { MapmonitorJobDetailsComponent} from './mapmonitor-job-details/mapmonitor-job-details.component';
@@ -40,6 +41,7 @@ export const routes: Routes = [
   { path: 'mapjobslist', component: MonitorJobsComponent, canActivate: [AuthGuard]},
   { path: 'mapjobslist/:jobId', component: MapmonitorJobDetailsComponent, canActivate: [AuthGuard]},
   { path: 'mapjobslist/:jobId/lastrun', component: MapmonitorLastRunJobDetailsComponent, canActivate: [AuthGuard]},
+  { path: 'mapjobslist/:jobId/runhistory', component: MapmonitorRunHistoryComponent, canActivate: [AuthGuard]},
   // Routes related to alerts
   { path: 'alerts', component: AlertsComponent, canActivate: [AuthGuard]},
   // Routes related to settings

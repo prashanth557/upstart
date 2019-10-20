@@ -12,7 +12,7 @@ export class MonitorJobsComponent implements OnInit {
   @ViewChild(TopNotificationComponent) notification: TopNotificationComponent;
   // Banner Results
   jobResults: any = [{ jobType: 'Jobs Created', count: 0 },
-  { jobType: 'Product being tracked', count: 0 }, { jobType: 'MAP breached recorded', count: 0 }];
+  { jobType: 'Product being tracked', count: 0 }, { jobType: 'MAP breaches recorded', count: 0 }];
   actionItems = [{icon: 'glyphicon-flash'},
   {icon: 'glyphicon-list-alt'},
   {icon: 'glyphicon-tasks'},
@@ -20,7 +20,7 @@ export class MonitorJobsComponent implements OnInit {
   {icon: 'glyphicon-trash'},
 ];
   // Table Headers
-  jobHeaders = ['Job Title', 'Status', 'Last Run At', 'Created At', 'Quick Actions'];
+  jobHeaders = ['Job Title', 'Status', 'Last Run At', 'Created At', 'Created By', 'Vendor Name', 'Quick Actions'];
   productDetails: any = [];
   // Table Header title
   headerTitle: String = 'MAP Breach Crawl Jobs';
@@ -32,6 +32,9 @@ export class MonitorJobsComponent implements OnInit {
   totalItems: number;
   isLoading: boolean;
   isMapSummaryLoading: boolean;
+  jobTitle: string;
+  fileToUpload: File;
+  fileName: any;
   constructor(public jobsService: JobsService, public router: Router) { }
 
   ngOnInit() {
@@ -43,7 +46,7 @@ export class MonitorJobsComponent implements OnInit {
   getMapSummaryDetails() {
     this.jobsService.getMapMonitorSummary().then( (res: any) => {
       this.jobResults[0].count = res.totalJobs;
-      this.jobResults[1].count = res.productsTracked;
+      this.jobResults[1].count = res.produtsTracked;
       this.jobResults[2].count = res.mapBreaches;
       this.isMapSummaryLoading = false;
       this.getDetails(this.currentpageIndex);
@@ -76,14 +79,17 @@ export class MonitorJobsComponent implements OnInit {
     } else if (index === 2) {
       this.router.navigate(['/mapjobslist/' + product.id + '/lastrun']);
     } else if (index === 3) {
-      // this.deleteJob(product.id);
+      this.router.navigate(['/mapjobslist/' + product.id + '/runhistory']);
     } else if (index === 4) {
       this.deleteJob(product.id);
     }
   }
 
   createNewMapJob() {
-    this.createNewJob = true;
+    // this.createNewJob = true;
+    this.jobsService.createMapMonitorJob(this.jobTitle, this.fileToUpload).then(res => {
+      console.log('response', res);
+    });
   }
 
   closeModal() {
@@ -95,33 +101,60 @@ export class MonitorJobsComponent implements OnInit {
   }
 
   runJob(productId) {
-      const message: string = 'Your request for running job ( Job Id : ' + productId + ' ) is successfully processed.';
-      this.notification.displayNotification(true, true, message);
-      setTimeout(() => {
-        this.notification.displayNotification(false, true, '');
-      }, 5000);
-    // this.jobsService.runJob(productId, 'mapmonitorjobs').then( (res: any) => {
-    //   const message: string = 'Your request for running job ( Job Id : ' + productId + ' ) is successfully processed.';
-    //   this.notification.displayNotification(true, true, message);
-    //   setTimeout(() => {
-    //     this.notification.displayNotification(false, true, '');
-    //   }, 5000);
-    // }).catch( error => {
-    //   console.log('Error while running the job' + productId + error);
-    // });
-  }
-
-  deleteJob(productId) {
-    this.jobsService.deleteJob(productId).then( (res: any) => {
-      const message: string = 'Your request for delete record ( Job Id : ' + productId + ' ) is successfully deleted.';
+    this.jobsService.runJob(productId, 'mapmonitorjobs').then((res: any) => {
+      const message: String = 'Your Job is added to queue for run.';
       this.notification.displayNotification(true, true, message);
       setTimeout(() => {
         this.notification.displayNotification(false, true, '');
         this.getDetails(this.offsetPage);
       }, 5000);
-    }).catch(err => {
-      console.log('Error while deleting the Job', err);
+    }).catch(error => {
+      console.log('Error while running the job' + productId + error);
+      const message: String = 'Error while running the job. Please try after sometime.';
+      this.notification.displayNotification(true, false, message);
+      setTimeout(() => {
+        this.notification.displayNotification(false, false, '');
+        this.getDetails(this.offsetPage);
+      }, 5000);
     });
   }
+
+  deleteJob(productId) {
+    this.jobsService.deleteJob(productId, 'mapmonitorjobs').then((res: any) => {
+      const message: String = 'Your request for delete record is successfully deleted.';
+      this.notification.displayNotification(true, true, message);
+      setTimeout(() => {
+        this.notification.displayNotification(false, true, '');
+        this.getDetails(this.offsetPage);
+      }, 5000);
+    }, err => {
+      const message: String = 'Erorr while deleting the record. Please try after sometime';
+      this.notification.displayNotification(true, false, message);
+      setTimeout(() => {
+        this.notification.displayNotification(false, false, '');
+      }, 5000);
+    });
+  }
+
+  createdDate(date) {
+    const d = new Date(0);
+    d.setUTCSeconds(date);
+    d.toLocaleTimeString();
+    // console.log('Date:::', d, 'typeOf', d.toLocaleTimeString(date));
+    const stringifedDate = d.toString();
+    return stringifedDate.substr(3, stringifedDate.indexOf('+') - 3 );
+  }
+
+  addNewKeyword(event) {
+    if (event) {
+      this.createNewJob = true;
+    }
+  }
+
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+    this.fileName = this.fileToUpload.name;
+    // this.fileName = files.item(0);
+}
 
 }

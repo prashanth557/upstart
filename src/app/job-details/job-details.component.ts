@@ -68,7 +68,7 @@ export class JobDetailsComponent implements OnInit, OnChanges {
   pageCountChange(count) {
     console.log('items to be displayed', count);
     this.itemsTobeDisplayedPerPage = Number(count);
-    this.onPageChange(0);
+    this.onPageChange(1);
   }
 
 }

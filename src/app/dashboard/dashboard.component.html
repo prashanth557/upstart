@@ -24,7 +24,7 @@
     </div>
   </div>
   <div class="pie-chart-section">
-    <app-summary-dashboard *ngIf="isBrandDataAvailable" [pieChartData]="pieChartData" [pieChartOptions]="pieChartOptions"></app-summary-dashboard>
+    <app-summary-dashboard *ngIf="isBrandDataAvailable" [pieChartData]="pieChartData" [pieChartOptions1]="pieChartOptions1" [pieChartOptions2]="pieChartOptions2"></app-summary-dashboard>
       <app-loader [show]='!isBrandDataAvailable'></app-loader>
   </div>
 </div>
@@ -32,10 +32,10 @@
   <div class="competetor-analysis-wrapper">
     <div class="competetor-header">
       <div class="competetor-header-text">Competetor Analysis</div>
-      <div>
+      <!-- <div>
         <span (click)="selectCategory('brand')" [class.active]="selectedCategory === 'brand' " class="analytics-category" >Brand wise</span>
         <span (click)="selectCategory('product')" [class.active]="selectedCategory === 'product' " class="analytics-category">Product wise</span>
-      </div>
+      </div> -->
       <!-- <span class="radio">
         <label class="competetor-header-text">
           <input type="radio" name="optradio" checked>Brand Based </label>

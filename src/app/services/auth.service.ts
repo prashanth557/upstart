@@ -86,7 +86,7 @@ export class AuthService {
   }
 
   deleteTokens() {
-    Cookie.deleteAll();
+    Cookie.deleteAll( '/exucrawl' );
   }
 
   resetPassword(username) {

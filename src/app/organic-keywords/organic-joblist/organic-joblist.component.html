@@ -16,10 +16,14 @@
           <span>{{product?.userRating}}</span>
       </td>
       <td>
-          <span>{{product?.bulletPoints}}</span>
+          <span *ngIf="product?.bulletPoints">
+              <ul *ngFor="let point of product?.bulletPoints">
+                  <li>{{point}}</li>
+              </ul>
+          </span>
       </td>
       <td>
-          <span>{{product?.numberOfImages}}</span>
+          <span>{{product?.imagesAndVideosCount}}</span>
       </td>
       <td>
          <span>{{product.byInfo}}</span>
