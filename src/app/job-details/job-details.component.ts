@@ -46,7 +46,7 @@ export class JobDetailsComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.keys = Object.keys(this.productDetails[0]);
-    this.fromCount = this.currentpageIndex > 0 ? ( this.currentpageIndex - 1 ) * this.itemsTobeDisplayedPerPage : 1;
+    this.fromCount = this.currentpageIndex > 1 ? ( (this.currentpageIndex - 1 )  * this.itemsTobeDisplayedPerPage ) : 1;
     this.toCount = this.fromCount === 1 ? this.itemsTobeDisplayedPerPage : this.fromCount + this.itemsTobeDisplayedPerPage;
     if (this.toCount > this.pageCount) {
       this.toCount = this.pageCount;

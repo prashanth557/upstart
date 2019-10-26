@@ -32,18 +32,18 @@ export class KeywordRelevantJobsComponent implements OnInit {
   createNewKeyword: boolean;
   modalTitle: String = 'Add New Keyword Relevance Job';
   // Required for Pagination
-  currentpageIndex: number;
+  currentpageIndex: number = 1;
   limitPerPage: number = 5;
-  offsetPage: number = 0;
   isLoading: boolean;
   keywordInput: string;
   jobTitle: string;
   keywordInputType: any;
   jobCreated: boolean;
+  showErrorMessage: string;
   constructor(public jobsService: JobsService, public router: Router, private datePipe: DatePipe) { }
 
   ngOnInit() {
-    this.currentpageIndex = 0;
+    this.currentpageIndex = 1;
     this.getDetails(this.currentpageIndex);
   }
 
@@ -57,8 +57,11 @@ export class KeywordRelevantJobsComponent implements OnInit {
     this.jobsService.createKeywordJob(this.keywordInput, this.jobTitle).then((res: any) => {
       if (res) {
         this.jobCreated = true;
-        this.getDetails(0);
-        setTimeout($('#create-modal').dialog('close'), 10000);
+        // this.createNewKeyword = false;
+        this.getDetails(1);
+        setTimeout(function() {
+          $('#create-modal1').modal('hide');
+      }, 3000);
       }
     });
   }
@@ -82,14 +85,14 @@ export class KeywordRelevantJobsComponent implements OnInit {
       this.notification.displayNotification(true, true, message);
       setTimeout(() => {
         this.notification.displayNotification(false, true, '');
-        this.getDetails(this.offsetPage);
-      }, 5000);
+        this.getDetails(1);
+      }, 3000);
     }, err => {
       const message: String = 'Erorr while deleting the record. Please try after sometime';
       this.notification.displayNotification(true, false, message);
       setTimeout(() => {
         this.notification.displayNotification(false, false, '');
-      }, 5000);
+      }, 3000);
     });
   }
 
@@ -97,19 +100,18 @@ export class KeywordRelevantJobsComponent implements OnInit {
     this.currentpageIndex = event.offset;
     this.limitPerPage = event.limitPerPage;
     console.log('CurrentPageIndex', this.currentpageIndex);
-    const currentIndex = (this.currentpageIndex - 1) * this.limitPerPage;
-    this.offsetPage = currentIndex;
-    this.getDetails(this.offsetPage);
+    this.getDetails(this.currentpageIndex);
   }
 
   getDetails(currentPageIndex) {
     this.isLoading = true;
-    this.jobsService.getAllKeywordRelevanceJobDetails(this.offsetPage, this.limitPerPage).then((res: any) => {
+    this.jobsService.getAllKeywordRelevanceJobDetails(currentPageIndex, this.limitPerPage).then((res: any) => {
       this.totalItems = res.totalItems;
       this.productDetails = res.items;
       this.isLoading = false;
     }).catch(err => {
       console.log('Error while fetching Keyword Relevance Job Details', err);
+      this.showErrorMessage = err.error.message;
       this.isLoading = false;
     });
   }
@@ -124,7 +126,7 @@ export class KeywordRelevantJobsComponent implements OnInit {
       this.notification.displayNotification(true, true, message);
       setTimeout(() => {
         this.notification.displayNotification(false, true, '');
-        this.getDetails(this.offsetPage);
+        this.getDetails(1);
       }, 5000);
     }).catch(error => {
       console.log('Error while running the job' + productId + error);
@@ -132,7 +134,7 @@ export class KeywordRelevantJobsComponent implements OnInit {
       this.notification.displayNotification(true, false, message);
       setTimeout(() => {
         this.notification.displayNotification(false, false, '');
-        this.getDetails(this.offsetPage);
+        this.getDetails(1);
       }, 5000);
     });
   }
@@ -141,7 +143,6 @@ export class KeywordRelevantJobsComponent implements OnInit {
     const d = new Date(0);
     d.setUTCSeconds(date);
     d.toLocaleTimeString();
-    // console.log('Date:::', d, 'typeOf', d.toLocaleTimeString(date));
     const stringifedDate = d.toString();
     return stringifedDate.substr(3, stringifedDate.indexOf('+') - 3);
   }

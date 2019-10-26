@@ -20,13 +20,14 @@ export class OrganicJoblistComponent implements OnInit {
   totalItems: number;
   isSummarResultsLoading: boolean;
   isLoading: boolean;
-  currentpageIndex: number;
+  currentpageIndex: number = 1;
   limitPerPage: number = 5;
   offsetPage: number = 0;
+  showErrorMessage: String;
   constructor(public jobsService: JobsService, public route: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
-    this.currentpageIndex = 0;
+    this.currentpageIndex = 1;
     this.isLoading = true;
     this.route.params
     .subscribe((params: any) => {
@@ -42,32 +43,31 @@ export class OrganicJoblistComponent implements OnInit {
       this.jobResults[1].count = res.extractedProducts;
       this.jobResults[2].count = res.brandProducts;
       this.isSummarResultsLoading = false;
-      this.getJobDetails();
-    }).catch(err => {
+      this.getJobDetails(1);
+    }).catch( (err) => {
       console.log('Error while fetching LastRun Summary', err);
+      this.showErrorMessage = err.error.message;
       this.isSummarResultsLoading = false;
     });
   }
 
-  getJobDetails() {
-    this.jobsService.getKeyWordRelevanceJobDetails(this.jobId, this.offsetPage, this.limitPerPage).then((res: any) => {
+  getJobDetails(currentpageIndex) {
+    this.jobsService.getKeyWordRelevanceJobDetails(this.jobId, currentpageIndex, this.limitPerPage).then((res: any) => {
       this.totalItems = res.totalItems;
       this.productDetails = res.items;
       this.isLoading = false;
     }).catch(err => {
       console.log('Error while fetching Job Details', err);
+      this.showErrorMessage = err.error.message;
       this.isLoading = false;
     });
   }
 
   onPageChange(event) {
     this.currentpageIndex = event.offset;
-    console.log('CurrentPageIndex', this.currentpageIndex);
     this.limitPerPage = event.limitPerPage;
-    const currentIndex = (this.currentpageIndex - 1) * this.limitPerPage;
-    this.offsetPage = currentIndex;
-    this.isLoading = true;
-    this.getJobDetails();
+    console.log('CurrentPageIndex', this.currentpageIndex);
+    this.getJobDetails(this.currentpageIndex);
   }
 
 }

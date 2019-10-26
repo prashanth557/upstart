@@ -16,5 +16,8 @@
         </td>
     </ng-template>
     </app-job-details>
-    <app-loader [show]='productDetails?.length === 0'></app-loader>
+    <div class="no-results-text">
+        <span *ngIf='showErrorMessage'>{{showErrorMessage}}</span>
+    </div>
+    <app-loader [show]='isLoading'></app-loader>
   </div>

@@ -14,8 +14,8 @@ export class JobsService {
   constructor( public http: HttpWrapper) { }
 
   // Get all the keyword relevance job details
-  getAllKeywordRelevanceJobDetails(offset, limit) {
-    const url = this.config.keywordRelevanceUrl + '?offset=' + offset + '&limit=' + limit;
+  getAllKeywordRelevanceJobDetails(pagenum, limit) {
+    const url = this.config.keywordRelevanceUrl + '?pagenum=' +  pagenum + '&pagesize=' + limit;
      const options: IRequestOptions = {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ export class JobsService {
 
   // Get Keywordrelevance Job details
   getKeyWordRelevanceJobDetails(jobId, offset, limit) {
-    const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult' + '?offset=' + offset + '&limit=' + limit;
+    const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult' + '?pagenum=' + ( offset + 1) + '&pagesize=' + limit;
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -188,8 +188,8 @@ export class JobsService {
 
   // Map Montior Jobs
 
- getAllMapMontiorJobDetails() {
-    const url = this.config.mapMontiorJobsUrl;
+ getAllMapMontiorJobDetails(pagenum, limit) {
+    const url = this.config.mapMontiorJobsUrl + '?pagenum=' + pagenum + '&pagesize=' + limit;
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -199,8 +199,8 @@ export class JobsService {
     });
   }
 
-  getMapMontiorJobDetails(jobId) {
-    const url = this.config.mapMontiorJobsUrl + '/' + jobId;
+  getMapMontiorJobDetails(jobId, pagenum, limit) {
+    const url = this.config.mapMontiorJobsUrl + '/' + jobId + '?pagenum=' + pagenum + '&pagesize=' + limit;
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -233,8 +233,8 @@ export class JobsService {
   }
 
   // getOrganicKeywordsMap
-  getAllOrganicJobDetails(offset) {
-    const url = this.config.organicKeywordUrl + '?offset=' + offset + '&limit=5';
+  getAllOrganicJobDetails(pagenum, limit) {
+    const url = this.config.organicKeywordUrl + '?pagenum=' +  pagenum  + '&pagesize=' + limit;
      const options: IRequestOptions = {
       headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -278,23 +278,12 @@ export class JobsService {
   }
 
   createMapMonitorJob(jobTitle: string, file: File) {
-    const url = 'http://23.99.204.212:9292/exucrawluploader/mapmonitorjobs';
-    const formdata: FormData = new FormData();
+    const url = 'https://exucfileuploader.azurewebsites.net/mapmonitorjobs';
+    const formdata = new FormData();
     formdata.append('file', file);
-    formdata.append('jobTitlte', jobTitle);
+    formdata.append('jobTitle', jobTitle);
     formdata.append('token', Cookie.get('_token'));
-    console.log('formData', formdata);
-    // const body = {
-    //   'jobTitle': jobTitle,
-    //   'file': file,
-    //   'token': Cookie.get('_token')
-    // };
-    const options: IRequestOptions = {
-      headers: new HttpHeaders({
-      'Content-Type': 'multipart/form-data'
-      })
-    };
-    return this.http.authenticatedPost(url, formdata, options).toPromise().then(data => {
+    return this.http.authenticatedPost(url, formdata).toPromise().then(data => {
       return data;
     }).catch( err => {
       this.handleError(err);
@@ -302,7 +291,7 @@ export class JobsService {
   }
 
   getMapMonitorRunHistoryDetails(jobId: any, offset, limit) {
-    const url = this.config.mapMontiorJobsUrl + '/' + jobId + '/runhistory?offset=' + offset + '&limit=' + limit ;
+    const url = this.config.mapMontiorJobsUrl + '/' + jobId + '/runhistory?pagenum=' + ( offset + 1 ) + '&pagesize=' + limit ;
     return this.http.authenticatedGet(url).toPromise().then( res => {
       return res;
     }).catch( err => {
@@ -312,6 +301,6 @@ export class JobsService {
 
   public handleError(error: any): Promise<any> {
     console.error('An error in api execution occurred', error);
-    return Promise.reject(error.message || error);
+    return Promise.reject(error);
   }
 }

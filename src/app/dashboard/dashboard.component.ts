@@ -381,8 +381,9 @@ export class DashboardComponent implements OnInit {
   isBrandDataAvailable: boolean;
   isBarGraphDataAvailable: boolean;
   // 'brandskeywordpresence'
+  // , 'brandskeywordpresence'
   dashboardApiUrls: any = ['brandspresence', 'brandsproductrating', 'brandsavgimages', 'brandsavgbullets' ,
-  'brandsavgtitlelength', 'brandsavguserreviews', 'brandsavgdesclength', 'brandskeywordpresence'];
+  'brandsavgtitlelength', 'brandsavguserreviews', 'brandsavgdesclength'];
   selectedCategory: String = 'brand';
 
   constructor(public route: ActivatedRoute, public router: Router, public jobsService: JobsService) { }

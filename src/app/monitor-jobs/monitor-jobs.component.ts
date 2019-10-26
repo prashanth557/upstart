@@ -24,9 +24,8 @@ export class MonitorJobsComponent implements OnInit {
   productDetails: any = [];
   // Table Header title
   headerTitle: String = 'MAP Breach Crawl Jobs';
-  currentpageIndex: number;
+  currentpageIndex: number = 1;
   limitPerPage: number = 5;
-  offsetPage: number = 0;
   modalTitle: String = 'Add New Map Montior Crawl Job';
   createNewJob: boolean;
   totalItems: number;
@@ -35,10 +34,11 @@ export class MonitorJobsComponent implements OnInit {
   jobTitle: string;
   fileToUpload: File;
   fileName: any;
+  jobCreated: boolean;
   constructor(public jobsService: JobsService, public router: Router) { }
 
   ngOnInit() {
-    this.currentpageIndex = 0;
+    this.currentpageIndex = 1;
     this.isMapSummaryLoading = true;
     this.getMapSummaryDetails();
   }
@@ -55,15 +55,14 @@ export class MonitorJobsComponent implements OnInit {
 
   onPageChange(event) {
     this.currentpageIndex = event.offset;
+    this.limitPerPage = event.limitPerPage;
     console.log('CurrentPageIndex', this.currentpageIndex);
-    const currentIndex = (event.offset - 1) * event.limitPerPage;
-    this.offsetPage = currentIndex;
-    this.getDetails(this.offsetPage);
+    this.getDetails(this.currentpageIndex);
   }
 
   getDetails(currentPageIndex) {
     this.isLoading = true;
-    this.jobsService.getAllMapMontiorJobDetails().then( (res: any) => {
+    this.jobsService.getAllMapMontiorJobDetails(currentPageIndex, this.limitPerPage).then( (res: any) => {
       this.totalItems = res.totalItems;
       this.productDetails = res.items;
       this.isLoading = false;
@@ -89,6 +88,8 @@ export class MonitorJobsComponent implements OnInit {
     // this.createNewJob = true;
     this.jobsService.createMapMonitorJob(this.jobTitle, this.fileToUpload).then(res => {
       console.log('response', res);
+      this.jobCreated = true;
+      this.getDetails(1);
     });
   }
 
@@ -106,7 +107,7 @@ export class MonitorJobsComponent implements OnInit {
       this.notification.displayNotification(true, true, message);
       setTimeout(() => {
         this.notification.displayNotification(false, true, '');
-        this.getDetails(this.offsetPage);
+        this.getDetails(1);
       }, 5000);
     }).catch(error => {
       console.log('Error while running the job' + productId + error);
@@ -114,7 +115,6 @@ export class MonitorJobsComponent implements OnInit {
       this.notification.displayNotification(true, false, message);
       setTimeout(() => {
         this.notification.displayNotification(false, false, '');
-        this.getDetails(this.offsetPage);
       }, 5000);
     });
   }
@@ -125,7 +125,7 @@ export class MonitorJobsComponent implements OnInit {
       this.notification.displayNotification(true, true, message);
       setTimeout(() => {
         this.notification.displayNotification(false, true, '');
-        this.getDetails(this.offsetPage);
+        this.getDetails(1);
       }, 5000);
     }, err => {
       const message: String = 'Erorr while deleting the record. Please try after sometime';
@@ -148,6 +148,7 @@ export class MonitorJobsComponent implements OnInit {
   addNewKeyword(event) {
     if (event) {
       this.createNewJob = true;
+      this.jobCreated = false;
     }
   }
 

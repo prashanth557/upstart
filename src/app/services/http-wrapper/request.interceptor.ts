@@ -34,8 +34,8 @@ export class RequestInterceptorService implements HttpInterceptor {
             catchError(error => {
                 if (error instanceof HttpErrorResponse) {
                     switch ((<HttpErrorResponse>error).status) {
-                        case 400:
-                            return this.handle400Error(error);
+                        // case 400:
+                        //     return this.handle400Error(error);
                         case 401:
                             return this.handle401Error(req, next);
                         case 403:

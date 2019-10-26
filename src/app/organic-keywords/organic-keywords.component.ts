@@ -49,12 +49,11 @@ export class OrganicKeywordsComponent implements OnInit {
       this.router.navigate([tabName]);
     }
   }
-  onPageChange(offset) {
-    this.currentpageIndex = offset;
+  onPageChange(event) {
+    this.currentpageIndex = event.offset;
+    this.limitPerPage = event.limitPerPage;
     console.log('CurrentPageIndex', this.currentpageIndex);
-    const currentIndex = (offset - 1) * this.limitPerPage;
-    this.offsetPage = currentIndex;
-    this.getDetails(this.offsetPage);
+    this.getDetails(this.currentpageIndex);
   }
 
   getBackgroundColor(product) {
@@ -62,7 +61,7 @@ export class OrganicKeywordsComponent implements OnInit {
   }
 
   getDetails(currentPageIndex) {
-    this.jobsService.getAllOrganicJobDetails(this.offsetPage).then((res: any) => {
+    this.jobsService.getAllOrganicJobDetails(currentPageIndex, this.limitPerPage).then((res: any) => {
       this.totalItems = res.totalItems;
       this.productDetails = res.items;
       this.isLoading = false;

@@ -19,6 +19,7 @@ export class MapmonitorRunHistoryComponent implements OnInit {
   headerTitle: String = 'Map Monitor Run History';
   productDetails: any = [];
   isLoading: boolean;
+  showErrorMessage: string;
   constructor(public route: ActivatedRoute, public router: Router, public jobsService: JobsService) { }
 
   ngOnInit() {
@@ -37,6 +38,7 @@ export class MapmonitorRunHistoryComponent implements OnInit {
       }
     }).catch( err => {
       console.log('Error while run history details', err);
+      this.showErrorMessage = 'No run entries available for this job ';
       this.isLoading = true;
     });
   }
