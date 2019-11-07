@@ -5,7 +5,7 @@
         <app-job-details class="col-sm-12 col-md-12 col-lg-7" *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders"
             [productDetails]="productDetails" [showCreateButton]="false" [showSearch]="false" (createJob)="addNewKeyword($event)"
             [pageCount]="totalItems" [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)"
-            [showDownloadButton]="true">
+            [showDownloadButton]="true" [itemsTobeDisplayedPerPage]="limitPerPage">
             <ng-template #filedsHeader let-product>
                 <td>
                     <span>{{product?.asin}}</span>

@@ -24,6 +24,7 @@ export class SummaryDashboardComponent implements OnInit {
     ]
     }
   ];
+  public pieChartPlugins = [];
   constructor() { }
 
   ngOnInit() {

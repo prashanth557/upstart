@@ -140,6 +140,7 @@ export class HomeComponent implements OnInit {
   }
 
   onPageChange(offset) {
+    window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
     this.currentpageIndex = offset;
     console.log('CurrentPageIndex', this.currentpageIndex);
     const currentIndex = (offset - 1) * this.limitPerPage;

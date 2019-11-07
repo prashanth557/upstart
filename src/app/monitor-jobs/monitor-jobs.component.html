@@ -1,8 +1,8 @@
 <div class="keyword-container">
     <!-- <app-result-header *ngIf="!isMapSummaryLoading" [jobResults]="jobResults"></app-result-header> -->
-    <app-job-details *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
+    <app-job-details *ngIf="!isLoading" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
         [showCreateButton]="true" (createJob)="addNewKeyword($event)" [pageCount]="totalItems" [showSearch]="true" [currentpageIndex]='currentpageIndex'
-        [isLoading]="isLoading" (pageChange)="onPageChange($event)">
+        [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">
         <ng-template #filedsHeader let-product>
             <td>
                 <span>{{product?.title}}</span>
@@ -33,27 +33,29 @@
     <app-upstart-modal *ngIf="createNewJob" [modalTitle]="modalTitle">
         <div class="add-modal-body">
             <form>
+                <div *ngIf="jobCreationError">
+                        <span class="mandatory-field">{{jobCreationError}}</span>
+                </div>
                 <div *ngIf="!jobCreated">
                     <div class="form-group row">
-                        <label for="jobTitle" class="col-sm-4 col-form-label">Job Title
-                            <span class="mandatory-field">*</span>
+                        <label for="jobTitle" class="col-sm-4 col-form-label"><span class="mandatory-field">*&nbsp;</span>Job Title
                         </label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control-plaintext" id="jobTitle" [(ngModel)]="jobTitle" [ngModelOptions]="{standalone: true}"
+                            <input [class.error-input]="!jobTitle && showError" type="text" class="form-control-plaintext" id="jobTitle" [(ngModel)]="jobTitle" [ngModelOptions]="{standalone: true}"
                                 required>
                         </div>
                     </div>
                     <div class="form-group row form-group-file">
-                        <label for="jobFile" class="col-sm-4 col-form-label">Select excel file to upload
-                            <span class="mandatory-field">*</span>
+                        <label for="jobFile" class="col-sm-4 col-form-label"><span class="mandatory-field">*&nbsp;</span>Select excel file to upload
                         </label>
                         <!-- <input type="file" accept="application/vnd.ms-excel" id="jobFile" style="display: none;">
           <button class="btn btn-default btn-file">Choose..</button> -->
                         <label class="btn btn-default btn-file browse-button">
                             Browse
-                            <input type="file" id="jobFile" (change)="handleFileInput($event.target.files)" style="display: none;">
+                            <input [class.error-input]="!fileName && showError" type="file" id="jobFile" (change)="handleFileInput($event.target.files)" style="display: none;">
                         </label>
                         <span class="upload-filename" *ngIf="fileName">{{fileName}}</span>
+                        <span class="mandatory-field" *ngIf="!fileName && showError">&nbsp;&nbsp;File is mandatory</span>
                     </div>
                     <div>
                         <span class="file-message">Excel file should contain AslNs, their map and notification emails for each in predefined format</span>
@@ -61,7 +63,7 @@
 
                     <div class="form-group-buttons">
                         <button type="submit" class="save-button" (click)="createNewMapJob()">Save Job</button>
-                        <button type="submit" class="close-button" (click)="closeModal()">Close</button>
+                        <!-- <button type="submit" class="close-button" (click)="closeModal()">Close</button> -->
                     </div>
                 </div>
                 <div *ngIf="jobCreated">
@@ -70,6 +72,9 @@
             </form>
         </div>
     </app-upstart-modal>
-    <app-loader [show]='productDetails?.length === 0'></app-loader>
+    <app-loader [show]='isLoading'></app-loader>
+    <div class="no-results-text">
+        <span *ngIf='showErrorMessage && !isLoading'>{{showErrorMessage}}</span>
+    </div>
 </div>
 <app-top-notification></app-top-notification>

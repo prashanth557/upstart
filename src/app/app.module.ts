@@ -6,9 +6,10 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
-import { UiSwitchModule } from 'ngx-ui-switch';
+import { UiSwitchModule } from 'ngx-toggle-switch';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 
 
 // Services
@@ -54,6 +55,8 @@ import { ResultHeaderDupComponent } from './result-header-dup/result-header-dup.
 import { KeywordRelevanceDashboardComponent } from './keyword-relevant-jobs/keyword-relevance-dashboard/keyword-relevance-dashboard.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MapmonitorRunHistoryComponent } from './mapmonitor-run-history/mapmonitor-run-history.component';
+import { OrganicKeywordsSchedulesComponent } from './organic-keywords/organic-keywords-schedules/organic-keywords-schedules.component';
+import { OrganicKeywordRunResultComponent } from './organic-keywords/organic-keyword-run-result/organic-keyword-run-result.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +89,8 @@ import { MapmonitorRunHistoryComponent } from './mapmonitor-run-history/mapmonit
     KeywordRelevanceDashboardComponent,
     DashboardComponent,
     MapmonitorRunHistoryComponent,
+    OrganicKeywordsSchedulesComponent,
+    OrganicKeywordRunResultComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,7 +102,8 @@ import { MapmonitorRunHistoryComponent } from './mapmonitor-run-history/mapmonit
     ChartsModule,
     NgxPaginationModule,
     HttpClientModule,
-    UiSwitchModule
+    UiSwitchModule,
+    NguiAutoCompleteModule
   ],
   providers: [
     PrivilegeService,

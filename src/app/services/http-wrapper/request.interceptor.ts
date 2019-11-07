@@ -68,31 +68,29 @@ export class RequestInterceptorService implements HttpInterceptor {
     handle401Error(req: HttpRequest<any>, next: HttpHandler) {
         if (!this.isRefreshingToken) {
             this.isRefreshingToken = true;
-
             // Reset here so that the following requests wait until the token
             // comes back from the refreshToken call.
-            // this.tokenSubject.next(null);
-            // const authService = this.injector.get(AuthService);
-            this.logoutUser();
-            // return authService.refreshToken().pipe(
-            //     switchMap(() => {
-            //         const newToken = authService.getAuthToken();
-            //         console.log('newToken', newToken);
-            //         if (newToken) {
-            //             this.tokenSubject.next(newToken);
-            //             return next.handle(this.addToken(req, newToken));
-            //         }
-            //         // If we don't get a new token, we are in trouble so logout.
-            //         return this.logoutUser();
-            //     }),
-            //     catchError(error => {
-            //         // If there is an exception calling 'refreshToken', bad news so logout.
-            //         console.log('error in refreshtoken', JSON.stringify(error));
-            //         return this.logoutUser();
-            //     }),
-            //     finalize(() => {
-            //         this.isRefreshingToken = false;
-            //     }));
+            this.tokenSubject.next(null);
+            const authService = this.injector.get(AuthService);
+            return authService.refreshToken().pipe(
+                switchMap(() => {
+                    const newToken = authService.getAuthToken();
+                    console.log('newToken', newToken);
+                    if (newToken) {
+                        this.tokenSubject.next(newToken);
+                        return next.handle(this.addToken(req, newToken));
+                    }
+                    // If we don't get a new token, we are in trouble so logout.
+                    return this.logoutUser();
+                }),
+                catchError(error => {
+                    // If there is an exception calling 'refreshToken', bad news so logout.
+                    console.log('error in refreshtoken', JSON.stringify(error));
+                    return this.logoutUser();
+                }),
+                finalize(() => {
+                    this.isRefreshingToken = false;
+                }));
         } else {
             // if (err.message === 'Authentication failed. Athenticating authority returned non OK status - .400') {
             //     return 'Invalid Credentials';

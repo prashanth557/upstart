@@ -64,6 +64,7 @@ export class OrganicJoblistComponent implements OnInit {
   }
 
   onPageChange(event) {
+    window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
     this.currentpageIndex = event.offset;
     this.limitPerPage = event.limitPerPage;
     console.log('CurrentPageIndex', this.currentpageIndex);

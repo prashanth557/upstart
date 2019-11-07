@@ -22,6 +22,9 @@ export class MapmonitorLastRunJobDetailsComponent implements OnInit {
   jobHeaders: any = ['seller', 'price', ' Items condition', 'shipping info', 'Below Map?'];
   showSellersInfo: boolean;
   displaySellerIndex: number;
+  showErrorMessage: string;
+  currentpageIndex: number = 1;
+  limitPerPage: number = 5;
   constructor(public route: ActivatedRoute, public jobsService: JobsService) { }
 
   ngOnInit() {
@@ -44,6 +47,8 @@ export class MapmonitorLastRunJobDetailsComponent implements OnInit {
       }
       this.isLoading = false;
     }).catch(err => {
+      this.showErrorMessage = err.error.message;
+      this.isLoading = false;
       console.log('Error while fetching Job Details', err);
       // this.isLoading = false;
     });
@@ -88,6 +93,14 @@ export class MapmonitorLastRunJobDetailsComponent implements OnInit {
     // console.log('Date:::', d, 'typeOf', d.toLocaleTimeString(date));
     const stringifedDate = d.toString();
     return stringifedDate.substr(3, stringifedDate.indexOf('+') - 3 );
+  }
+
+  onPageChange(event) {
+    window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+    this.currentpageIndex = event.offset;
+    this.limitPerPage = event.limitPerPage;
+    console.log('CurrentPageIndex', this.currentpageIndex);
+    this.getLastRunJobDetails(this.currentpageIndex);
   }
 
 }

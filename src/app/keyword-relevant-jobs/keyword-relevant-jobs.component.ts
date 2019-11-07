@@ -37,9 +37,12 @@ export class KeywordRelevantJobsComponent implements OnInit {
   isLoading: boolean;
   keywordInput: string;
   jobTitle: string;
-  keywordInputType: any;
+  keywordType: string;
   jobCreated: boolean;
   showErrorMessage: string;
+  showError: boolean;
+  choices: any = ['Direct text input', 'Select from organic keywords'];
+  defaultChoice = 'Direct text input';
   constructor(public jobsService: JobsService, public router: Router, private datePipe: DatePipe) { }
 
   ngOnInit() {
@@ -49,21 +52,45 @@ export class KeywordRelevantJobsComponent implements OnInit {
 
   addNewKeyword(event) {
     if (event) {
+      this.resetFields();
+      this.showError = false;
       this.createNewKeyword = true;
+      this.jobCreated = false;
     }
   }
 
+  resetFields() {
+    this.showError = false;
+    this.createNewKeyword = true;
+    this.jobCreated = false;
+    this.jobTitle = '';
+    this.keywordInput = '';
+    this.keywordType = 'Direct text input';
+    this.defaultChoice = 'Direct text input';
+  }
+
+  choose(event) {
+    this.keywordType = event;
+  }
+
   addKeywords() {
-    this.jobsService.createKeywordJob(this.keywordInput, this.jobTitle).then((res: any) => {
-      if (res) {
-        this.jobCreated = true;
-        // this.createNewKeyword = false;
-        this.getDetails(1);
-        setTimeout(function() {
-          $('#create-modal1').modal('hide');
-      }, 3000);
-      }
-    });
+    if (this.jobTitle && this.keywordInput && this.keywordType) {
+      this.jobsService.createKeywordJob(this.keywordInput, this.jobTitle).then((res: any) => {
+        if (res) {
+          this.jobCreated = true;
+          // this.createNewKeyword = false;
+          this.getDetails(1);
+          setTimeout(function() {
+            $('#create-modal1').modal('hide');
+        }, 3000);
+        }
+      }).catch( (err: any) => {
+        this.showErrorMessage = err.error.message;
+        this.jobCreated = false;
+      });
+    } else {
+      this.showError = true;
+    }
   }
 
   navigateTo(product, index) {
@@ -83,9 +110,9 @@ export class KeywordRelevantJobsComponent implements OnInit {
     this.jobsService.deleteJob(productId, 'kwdrelvncjobs').then((res: any) => {
       const message: String = 'Your request for delete record is successfully deleted.';
       this.notification.displayNotification(true, true, message);
+      this.getDetails(1);
       setTimeout(() => {
         this.notification.displayNotification(false, true, '');
-        this.getDetails(1);
       }, 3000);
     }, err => {
       const message: String = 'Erorr while deleting the record. Please try after sometime';
@@ -97,6 +124,7 @@ export class KeywordRelevantJobsComponent implements OnInit {
   }
 
   onPageChange(event) {
+    window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
     this.currentpageIndex = event.offset;
     this.limitPerPage = event.limitPerPage;
     console.log('CurrentPageIndex', this.currentpageIndex);

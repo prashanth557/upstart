@@ -1,5 +1,5 @@
 <div class="mapjob-container">
-  <div *ngIf="!isLoading">
+  <div *ngIf="!isLoading && !showErrorMessage">
     <h4 class="map-job-header-text">Map Breach Job Details</h4>
     <div class="map-job-header-details row">
       <div class="col-sm-6">
@@ -33,7 +33,7 @@
         </tr>
         <table>
         <tr *ngIf="displaySellerIndex === i && productDetails?.length > 0 && showSellersInfo">
-          <app-job-details [jobHeaders]="jobHeaders" [productDetails]="productDetails" [isLoading]="isLoading" [pageCount]="productDetails?.length">
+          <app-job-details [jobHeaders]="jobHeaders" [productDetails]="productDetails" [isLoading]="isLoading" [pageCount]="productDetails?.length" [currentpageIndex]='currentpageIndex' (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">
             <ng-template #filedsHeader let-product>
               <td>
                 <span>{{product?.name}}</span>
@@ -58,4 +58,7 @@
     </table>
   </div>
   <app-loader [show]='isLoading'></app-loader>
+  <div class="no-results-text">
+    <span *ngIf='showErrorMessage && !isLoading'>{{showErrorMessage}}</span>
+</div>
 </div>

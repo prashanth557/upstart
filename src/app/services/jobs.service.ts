@@ -40,7 +40,7 @@ export class JobsService {
     .toPromise()
     .then(res => {
       if (res) {
-        return res;
+        return Promise.resolve(res);
       }
     }).catch(err => {
       return this.handleError(err);
@@ -49,7 +49,7 @@ export class JobsService {
 
   // Get Keywordrelevance Job details
   getKeyWordRelevanceJobDetails(jobId, offset, limit) {
-    const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult' + '?pagenum=' + ( offset + 1) + '&pagesize=' + limit;
+    const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult' + '?pagenum=' +  offset  + '&pagesize=' + limit;
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -235,18 +235,11 @@ export class JobsService {
   // getOrganicKeywordsMap
   getAllOrganicJobDetails(pagenum, limit) {
     const url = this.config.organicKeywordUrl + '?pagenum=' +  pagenum  + '&pagesize=' + limit;
-     const options: IRequestOptions = {
-      headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'responseType': 'text'
-      })
-    };
-    // const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', }), responseType: 'application/json' };
-    return this.http.authenticatedGet(url, options)
+    return this.http.authenticatedGet(url)
     .toPromise()
     .then((res: any) => {
       if (res) {
-        return Promise.resolve(res);
+        return res;
       }
     }).catch(err => {
       return this.handleError(err);
@@ -296,6 +289,118 @@ export class JobsService {
       return res;
     }).catch( err => {
       this.handleError(err);
+    });
+  }
+
+  createOrganicKeyword(title) {
+    const body = {
+      'keyword': title
+    };
+    const url = this.config.organicKeywordUrl;
+    return this.http.authenticatedPost(url, body).toPromise().then( (data: any) => {
+      return data;
+    }).catch( (err: any) => {
+      this.handleError(err);
+    });
+  }
+
+
+  updateOrganicKeyword(jobId, body) {
+    const url = this.config.organicKeywordUrl + '/' + jobId;
+    return this.http.authenticatedPut(url, body).toPromise().then( (data: any) => {
+      if (data) {
+        return data;
+      }
+    }).catch((err) => {
+      this.handleError(err);
+    });
+  }
+
+  enableOrganickeywordsSchedule(jobId) {
+    const url = this.config.organicKeywordUrl + '/' + jobId + '/schedule';
+    return this.http.authenticatedPost(url, {}).toPromise().then( (data: any) => {
+      if (data) {
+        return data;
+      }
+    }).catch( (err: any) => {
+      this.handleError(err);
+    });
+  }
+
+  deleteOrganickeywordsSchedule(jobId) {
+    const url = this.config.organicKeywordUrl + '/' + jobId + '/schedule';
+    return this.http.authenticatedDelete(url).toPromise().then( (data: any) => {
+      // if (data) {
+        return data;
+      // }
+    }).catch( (err: any) => {
+      this.handleError(err);
+    });
+  }
+
+  getOrganickeywordsRunHistory(jobId, pageNumber, pageLimit) {
+    const url = this.config.organicKeywordUrl + '/' + jobId + '/runhistory' + '?pagenum=' +  pageNumber  + '&pagesize=' + pageLimit;
+    return this.http.authenticatedGet(url).toPromise().then( (data: any) => {
+      if (data) {
+        return data;
+      }
+    }).catch( (err: any) => {
+      this.handleError(err);
+    });
+  }
+
+  deleteOrganicKeyword(jobId) {
+    const url = this.config.organicKeywordUrl + '/' + jobId;
+    return this.http.authenticatedDelete(url).toPromise().then( (data: any) => {
+      return data;
+    }).catch( (err ) => {
+      this.handleError(err);
+    });
+  }
+
+  disableOrganicJob(jobId) {
+    const url = this.config.organicKeywordUrl + '/' + jobId;
+    const body = {
+      'jobId': 'jobId'
+    };
+    return this.http.authenticatedPost(url, body).toPromise().then( (data: any) => {
+      return data;
+    }).catch( (err) => {
+      this.handleError(err);
+    });
+  }
+
+  getUserList(path) {
+  const url = this.config.usersUrl + path;
+  return this.http.authenticatedGet(url).toPromise().then( (data: any) => {
+    if (data) {
+     return data;
+    }
+  }).catch( (err) => {
+    this.handleError(err);
+  });
+  }
+
+  createAdmin(path, body) {
+    const url = this.config.baseApiUrl + path;
+    return this.http.authenticatedPost(url, body).toPromise().then( (data: any) => {
+      if (data) {
+        return Promise.resolve(data);
+      }
+    }).catch(err => {
+      return this.handleError(err);
+    });
+  }
+
+  createVendor(path, name) {
+    const url = this.config.baseApiUrl + path;
+    const body = {
+      name: name
+    };
+    return this.http.authenticatedPost(url, body).toPromise().then( (data: any) => {
+      return Promise.resolve(data);
+    }).catch(err => {
+      return this.handleError(err);
     });
   }
 

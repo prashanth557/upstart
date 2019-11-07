@@ -4,7 +4,6 @@ import * as CanvasJS from '../canvasjs.min';
 import { ChartsModule } from 'ng2-charts';
 import { JobsService } from '../services/jobs.service';
 
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',

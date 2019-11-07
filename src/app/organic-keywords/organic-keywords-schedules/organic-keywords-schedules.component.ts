@@ -3,11 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { JobsService } from '../../services/jobs.service';
 
 @Component({
-  selector: 'app-organic-run-history',
-  templateUrl: './organic-run-history.component.html',
-  styleUrls: ['./organic-run-history.component.scss']
+  selector: 'app-organic-keywords-schedules',
+  templateUrl: './organic-keywords-schedules.component.html',
+  styleUrls: ['./organic-keywords-schedules.component.scss']
 })
-export class OrganicRunHistoryComponent implements OnInit {
+export class OrganicKeywordsSchedulesComponent implements OnInit {
   headerTitle: String = 'Job Run History';
   productDetails: any = [];
   actionItems = [{icon: 'View Result', route: '/keywordset/organicJobList'}];

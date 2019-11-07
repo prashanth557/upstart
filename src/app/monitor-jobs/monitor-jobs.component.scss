@@ -70,3 +70,14 @@ td {
 .upload-filename{
     padding-left:20px;
 }
+
+.no-results-text {
+    color:black;
+    font-weight: bold;
+    margin-top:20%;
+    font-size: 20px;
+    text-align: center;
+}
+.error-input{
+    border: 1px solid red !important;
+}

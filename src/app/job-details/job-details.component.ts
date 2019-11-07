@@ -1,4 +1,6 @@
-import { ContentChild, Component, EventEmitter, OnInit, OnChanges, Input, Output, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { ContentChild, Component, EventEmitter, OnInit, OnChanges, Input, Output,
+TemplateRef, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-job-details',
@@ -17,21 +19,22 @@ export class JobDetailsComponent implements OnInit, OnChanges {
   @Input() pageCount: number;
   @Input() currentpageIndex: number;
   @Input() isLoading: boolean;
+  @Input() itemsTobeDisplayedPerPage: number = 5;
   @Output() createJob = new EventEmitter;
   @Output() pageChange = new EventEmitter;
+  @Input() createButtonText: String = 'Create New Job';
   @ContentChild('lineHeader') lineHeaderTmpl: TemplateRef<any>;
   @ContentChild('filedsHeader') filedsHeader: TemplateRef<any>;
   keys: any = [];
   fromCount: number;
   toCount: number;
-  itemsTobeDisplayedPerPage: number = 5;
   optionsValues: any = [];
   constructor() { }
 
   ngOnInit() {
     console.log('headerTitle', this.headerTitle);
     console.log('jobHeaders', this.jobHeaders);
-    let pageNumbers = this.pageCount > 0 && this.pageCount < 5 ? 1 : Math.round(this.pageCount / 5 );
+    let pageNumbers = this.pageCount > 0 && this.pageCount < 5 ? 1 : Math.ceil(this.pageCount / 5 );
     let index = 0;
     while ( pageNumbers > 0) {
       index = index + 5;
@@ -45,11 +48,13 @@ export class JobDetailsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.keys = Object.keys(this.productDetails[0]);
-    this.fromCount = this.currentpageIndex > 1 ? ( (this.currentpageIndex - 1 )  * this.itemsTobeDisplayedPerPage ) : 1;
-    this.toCount = this.fromCount === 1 ? this.itemsTobeDisplayedPerPage : this.fromCount + this.itemsTobeDisplayedPerPage;
-    if (this.toCount > this.pageCount) {
-      this.toCount = this.pageCount;
+    if (this.productDetails && this.productDetails.length > 0) {
+      this.keys = Object.keys(this.productDetails[0]);
+      this.fromCount = this.currentpageIndex > 1 ? ( (this.currentpageIndex - 1 )  * this.itemsTobeDisplayedPerPage ) : 1;
+      this.toCount = this.fromCount === 1 ? this.itemsTobeDisplayedPerPage : this.fromCount + this.itemsTobeDisplayedPerPage;
+      if (this.toCount > this.pageCount) {
+        this.toCount = this.pageCount;
+      }
     }
   }
 

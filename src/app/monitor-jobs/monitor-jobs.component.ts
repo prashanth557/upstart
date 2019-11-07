@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { JobsService } from '../services/jobs.service';
 import { Router } from '@angular/router';
 import { TopNotificationComponent } from '../top-notification/top-notification.component';
@@ -35,6 +35,9 @@ export class MonitorJobsComponent implements OnInit {
   fileToUpload: File;
   fileName: any;
   jobCreated: boolean;
+  showError: boolean;
+  showErrorMessage: string;
+  jobCreationError: string;
   constructor(public jobsService: JobsService, public router: Router) { }
 
   ngOnInit() {
@@ -44,6 +47,7 @@ export class MonitorJobsComponent implements OnInit {
   }
 
   getMapSummaryDetails() {
+    this.isLoading = true;
     this.jobsService.getMapMonitorSummary().then( (res: any) => {
       this.jobResults[0].count = res.totalJobs;
       this.jobResults[1].count = res.produtsTracked;
@@ -54,6 +58,7 @@ export class MonitorJobsComponent implements OnInit {
   }
 
   onPageChange(event) {
+    window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
     this.currentpageIndex = event.offset;
     this.limitPerPage = event.limitPerPage;
     console.log('CurrentPageIndex', this.currentpageIndex);
@@ -65,6 +70,9 @@ export class MonitorJobsComponent implements OnInit {
     this.jobsService.getAllMapMontiorJobDetails(currentPageIndex, this.limitPerPage).then( (res: any) => {
       this.totalItems = res.totalItems;
       this.productDetails = res.items;
+      this.isLoading = false;
+    }).catch((err: any) => {
+      this.showErrorMessage = err.error.message;
       this.isLoading = false;
     });
   }
@@ -86,11 +94,21 @@ export class MonitorJobsComponent implements OnInit {
 
   createNewMapJob() {
     // this.createNewJob = true;
-    this.jobsService.createMapMonitorJob(this.jobTitle, this.fileToUpload).then(res => {
-      console.log('response', res);
-      this.jobCreated = true;
-      this.getDetails(1);
-    });
+    if (this.jobTitle && this.fileName) {
+      this.jobsService.createMapMonitorJob(this.jobTitle, this.fileToUpload).then((res: any) => {
+        if (res) {
+          console.log('response', res);
+          this.jobCreated = true;
+          this.getDetails(1);
+        } else {
+          this.jobCreationError = 'Failed to parse some entries in the input file. Please try again.';
+        }
+      }).catch((err: any) => {
+        this.jobCreationError = err.error.message;
+      });
+    } else {
+     this.showError = true;
+    }
   }
 
   closeModal() {
@@ -147,9 +165,16 @@ export class MonitorJobsComponent implements OnInit {
 
   addNewKeyword(event) {
     if (event) {
-      this.createNewJob = true;
-      this.jobCreated = false;
+      this.resetFields();
     }
+  }
+
+  resetFields() {
+    this.createNewJob = true;
+    this.jobCreated = false;
+    this.jobTitle = '';
+    this.fileName = '';
+    this.jobCreationError = '';
   }
 
   handleFileInput(files: FileList) {

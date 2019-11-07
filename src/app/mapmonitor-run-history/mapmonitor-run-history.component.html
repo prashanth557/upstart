@@ -1,6 +1,6 @@
 <div class="keyword-container">
     <app-job-details *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails" [pageCount]="totalItems"
-      [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)">
+      [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">
       <ng-template #filedsHeader let-product>
         <td>
             <span>{{product?.runId}}</span>

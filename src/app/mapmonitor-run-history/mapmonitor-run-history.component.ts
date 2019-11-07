@@ -44,13 +44,12 @@ export class MapmonitorRunHistoryComponent implements OnInit {
   }
 
   onPageChange(event) {
+    window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
     this.currentpageIndex = event.offset;
+    this.limitPerPage = event.limitPerPage;
     console.log('CurrentPageIndex', this.currentpageIndex);
-    const currentIndex = (event.offset - 1) * event.limitPerPage;
-    this.offsetPage = currentIndex;
-    this.getRunHistoryDetails(this.offsetPage);
+    this.getRunHistoryDetails(this.currentpageIndex);
   }
-
   createdDate(date) {
     const d = new Date(0);
     d.setUTCSeconds(date);

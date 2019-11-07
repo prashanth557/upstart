@@ -10,6 +10,7 @@ import { KeywordRelevanceDashboardComponent } from './keyword-relevant-jobs/keyw
 import { OrganicKeywordsComponent } from './organic-keywords/organic-keywords.component';
 import { OrganicSummaryDashboardComponent } from './organic-keywords/organic-summary-dashboard/organic-summary-dashboard.component';
 import { OrganicRunHistoryComponent } from './organic-keywords/organic-run-history/organic-run-history.component';
+import { OrganicKeywordsSchedulesComponent } from './organic-keywords/organic-keywords-schedules/organic-keywords-schedules.component';
 import { AutoRunScheduleComponent } from './auto-run-schedule/auto-run-schedule.component';
 import { OrganicJoblistComponent } from './organic-keywords/organic-joblist/organic-joblist.component';
 import { MonitorJobsComponent } from './monitor-jobs/monitor-jobs.component';
@@ -21,7 +22,7 @@ import { MapmonitorJobDetailsComponent} from './mapmonitor-job-details/mapmonito
 import { AuthGuard } from './guards/auth-guard.service';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent},
+  { path: 'login', component: LoginComponent, canActivate: []},
   { path: 'reset-password', component: ForgotPasswordComponent},
   // { path: '', canActivate: [AuthGuard], children: [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
@@ -34,7 +35,8 @@ export const routes: Routes = [
   // Routes Related to Organic Keywords Tab
   { path: 'keywordset', component: OrganicKeywordsComponent, canActivate: [AuthGuard] },
   { path: 'keywordset/:jobId/dashboard', component: OrganicSummaryDashboardComponent, canActivate: [AuthGuard]},
-  { path: 'keywordset/organicRunHistory', component: OrganicRunHistoryComponent, canActivate: [AuthGuard]},
+  // { path: 'keywordset/:jobId/schedules', component: OrganicKeywordsSchedulesComponent, canActivate: [AuthGuard]},
+  { path: 'keywordset/:jobId/runhistory', component: OrganicRunHistoryComponent, canActivate: [AuthGuard]},
   { path: 'schedulesList', component: AutoRunScheduleComponent, canActivate: [AuthGuard]},
   { path: 'keywordset/organicJobList', component: OrganicJoblistComponent, canActivate: [AuthGuard]},
   // Routes Related to Map Monitor Jobs
@@ -45,7 +47,7 @@ export const routes: Routes = [
   // Routes related to alerts
   { path: 'alerts', component: AlertsComponent, canActivate: [AuthGuard]},
   // Routes related to settings
-  { path: 'settings', component: UserSettingsComponent, canActivate: [AuthGuard]}
+  { path: 'users', component: UserSettingsComponent, canActivate: [AuthGuard]}
   // ]}
 ];
 

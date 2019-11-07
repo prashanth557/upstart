@@ -55,7 +55,19 @@ a.action-icons {
     }
 }
 
-// td {
-//     text-align: left;
-//     padding: 15px;
-// }
+.no-results-text {
+    color:black;
+    font-weight: bold;
+    margin-top:20%;
+    font-size: 20px;
+    text-align: center;
+}
+
+.showError{
+    border: 1px solid red !important;
+}
+
+.error-input{
+    font-size:14px;
+    color:red;
+}
