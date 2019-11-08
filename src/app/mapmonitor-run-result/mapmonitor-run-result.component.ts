@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { JobsService } from '../../services/jobs.service';
+import { JobsService } from '../services/jobs.service';
+
 @Component({
-  selector: 'app-organic-keyword-run-result',
-  templateUrl: './organic-keyword-run-result.component.html',
-  styleUrls: ['./organic-keyword-run-result.component.scss']
+  selector: 'app-mapmonitor-run-result',
+  templateUrl: './mapmonitor-run-result.component.html',
+  styleUrls: ['./mapmonitor-run-result.component.scss']
 })
-export class OrganicKeywordRunResultComponent implements OnInit {
+export class MapmonitorRunResultComponent implements OnInit {
+
   jobResults = [{ jobType: 'Crawl Jobs Created', count: 22 },
   { jobType: 'Product Data Extracted', count: 1239 }, { jobType: 'Scheduled Crawl Jobs', count: '07' }];
   jobHeaders = ['Product Title', 'Description', 'Price', 'User Rating', 'Bullet Points', 'No. of images', 'By Info'];
@@ -28,7 +30,7 @@ export class OrganicKeywordRunResultComponent implements OnInit {
 
   getDetails(currentPageIndex) {
     this.isLoading = true;
-    this.jobsService.getOrganicRunResults(this.jobId, this.runId, currentPageIndex, this.limitPerPage).then( (data: any) => {
+    this.jobsService.getRunHistoryDetails(this.jobId, this.runId, currentPageIndex, this.limitPerPage).then( (data: any) => {
      if (data) {
       this.productDetails = data.items ? data.items : [];
       this.totalItems = data.totalItems;

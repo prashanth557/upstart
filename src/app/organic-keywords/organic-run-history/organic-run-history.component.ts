@@ -72,5 +72,9 @@ export class OrganicRunHistoryComponent implements OnInit {
   getBackgroundColor(product) {
     return product.status.toLowerCase() === 'Successfully Completed' ? '#2A2073 ' : '#2fc6d6';
   }
+
+  navigateTo(product) {
+    this.router.navigate(['/keywordset/' + this.jobId + '/runhistory/' + product.runId]);
+  }
 }
 

@@ -10,8 +10,7 @@ import { UiSwitchModule } from 'ngx-toggle-switch';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
-
-
+import { EllipsisModule } from 'ngx-ellipsis';
 // Services
 import { PrivilegeService } from './services/privilege.service';
 import { CookieService } from 'ng2-cookies';
@@ -22,8 +21,6 @@ import { AuthService} from './services/auth.service';
 import { AuthGuard } from './guards/auth-guard.service';
 import { HttpWrapper } from './services/http-wrapper';
 import { RequestInterceptorService } from './services/http-wrapper/request.interceptor';
-
-
 // Components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -57,6 +54,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MapmonitorRunHistoryComponent } from './mapmonitor-run-history/mapmonitor-run-history.component';
 import { OrganicKeywordsSchedulesComponent } from './organic-keywords/organic-keywords-schedules/organic-keywords-schedules.component';
 import { OrganicKeywordRunResultComponent } from './organic-keywords/organic-keyword-run-result/organic-keyword-run-result.component';
+import { MapmonitorRunResultComponent } from './mapmonitor-run-result/mapmonitor-run-result.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +89,7 @@ import { OrganicKeywordRunResultComponent } from './organic-keywords/organic-key
     MapmonitorRunHistoryComponent,
     OrganicKeywordsSchedulesComponent,
     OrganicKeywordRunResultComponent,
+    MapmonitorRunResultComponent
   ],
   imports: [
     BrowserModule,
@@ -103,7 +102,8 @@ import { OrganicKeywordRunResultComponent } from './organic-keywords/organic-key
     NgxPaginationModule,
     HttpClientModule,
     UiSwitchModule,
-    NguiAutoCompleteModule
+    NguiAutoCompleteModule,
+    EllipsisModule
   ],
   providers: [
     PrivilegeService,

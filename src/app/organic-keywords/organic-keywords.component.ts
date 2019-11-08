@@ -26,7 +26,7 @@ export class OrganicKeywordsComponent implements OnInit {
   {icon: 'glyphicon-trash'},
 ];
   // Table Headers
-  jobHeaders = ['Keyword', 'Created On', 'Last Updated On', 'Status', 'Quick Actions'];
+  jobHeaders = ['Keyword', 'Vendor name', 'Created On', 'Last Updated On', 'Status', 'Quick Actions'];
   createNewKeyword: boolean;
   productDetails: any = [];
   // Required for Pagination
@@ -56,13 +56,17 @@ export class OrganicKeywordsComponent implements OnInit {
 
   addNewKeyword(event) {
     if (event) {
-      this.createNewKeyword = true;
-      this.organicKeywordTitle = '';
-      this.jobCreated = false;
-      this.updateProductId = '';
-      this.showErrorMessage = '';
-      this.showError = false;
+      this.resetFields();
     }
+  }
+
+  resetFields() {
+    this.createNewKeyword = true;
+    this.organicKeywordTitle = '';
+    this.jobCreated = false;
+    this.updateProductId = '';
+    this.showErrorMessage = '';
+    this.showError = false;
   }
 
   navigateToTabs(tabName) {
@@ -240,16 +244,16 @@ export class OrganicKeywordsComponent implements OnInit {
   }
 
   boundVendor(product) {
+    this.selectedVendorName = product.boundedVendorName;
+    this.createNewKeyword = false;
     this.bindVendor = true;
     this.jobCreated = false;
     this.selectedProduct = product;
     this.showError = false;
-    // this.getVendorList();
   }
 
   valueChanged(newVendorName) {
     this.selectedVendor = this.vendorDetails.find(vendor => vendor.value.name === newVendorName);
-    // this.code = this.selectedVendor.id;
     this.selectedVendorName = this.selectedVendor.value.name;
     console.log('selected Vendor', this.selectedVendor);
     console.log('selected Vendor Name', this.selectedVendorName);

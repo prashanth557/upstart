@@ -1,7 +1,7 @@
 <div class="keyword-container">
     <app-job-details *ngIf="!isLoading" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
         [showCreateButton]="true" (createJob)="addNewKeyword($event)" [pageCount]="totalItems"
-        [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">
+        [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage" [createButtonText]="'Add Keyword'">
         <ng-template #filedsHeader let-product>
             <td>
                 <span>{{product?.keyword}}</span>
@@ -45,13 +45,12 @@
         <form *ngIf="!jobCreated" (ngSubmit)="createOrganicKeyword()" class="create-organic-keyword-section">
             <div class="form-group">
                 <span *ngIf='showErrorMessage && !isLoading'>{{showErrorMessage}}</span>
-                <label for="organicKeywordTitle" class="organic-label"><span class="error-input">*&nbsp;</span>Job Title</label>
                 <div>
-                    <textarea name="organicKeywordTitle" class="organic-text-input" id="organicKeywordTitle" [(ngModel)]="organicKeywordTitle" required [ngModelOptions]="{standalone: true}" [class.showError]="!organicKeywordTitle && showError"></textarea>
+                    <textarea name="organicKeywordTitle" class="organic-text-input" id="organicKeywordTitle" [(ngModel)]="organicKeywordTitle" required [ngModelOptions]="{standalone: true}" [class.showError]="!organicKeywordTitle && showError" placeholder = "Enter Keyword"></textarea>
                 </div>
             </div>
             <div class="form-group">
-                <button type="submit" class="save-button">Save Job</button>
+                <button type="submit" class="save-button">Save</button>
             </div>
         </form>
         <div *ngIf="jobCreated && !updateProductId">
@@ -68,13 +67,13 @@
         <form *ngIf="!jobCreated" (ngSubmit)="bindVendorToJob()" class="create-organic-keyword-section">
           <div #defaultTrialCollection>
                 <div class="collection-values" ngui-auto-complete [source]="vendorNames" (valueChanged)="valueChanged($event)">
-                    <label class="no-overlap" for="collection-Name"><span class="error-input">*&nbsp;</span>Select Vendor</label><br/>
+                    <label class="no-overlap" for="collection-Name"><span class="error-input">*&nbsp;</span>keyword is currently bounded to</label><br/>
                     <input [class.showError]="!selectedVendorName && showError" id="collection-Name" type="text" [ngClass]="{'submitted': submitted,'ng-invalid': (selectedVendorName?.length == 0 || vendorNames.indexOf(selectedVendorName) === -1 )}"
                     placeholder="Select Vendor" [(ngModel)]="selectedVendorName" [ngModelOptions]="{standalone: true}"/>
                 </div>
             </div>
             <div class="form-group">
-                <button type="submit" class="save-button">Save Job</button>
+                <button type="submit" class="save-button">Bind</button>
             </div>
         </form>
         <div *ngIf="jobCreated">

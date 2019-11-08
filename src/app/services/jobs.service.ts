@@ -220,9 +220,9 @@ export class JobsService {
       return this.handleError(err);
     });
   }
-
-  getRunHistoryDetails(jobId, runId) {
-    const url = this.config.mapMontiorJobsUrl + '/' + jobId + '/runhistory/' + runId + '/result';
+  getRunHistoryDetails(jobId, runId, pageNum, pageLimit) {
+    const url = this.config.mapMontiorJobsUrl + '/' + jobId + '/runhistory/' + runId + '/result' +
+    '?pagenum=' +  pageNum  + '&pagesize=' + pageLimit;
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -340,6 +340,18 @@ export class JobsService {
 
   getOrganickeywordsRunHistory(jobId, pageNumber, pageLimit) {
     const url = this.config.organicKeywordUrl + '/' + jobId + '/runhistory' + '?pagenum=' +  pageNumber  + '&pagesize=' + pageLimit;
+    return this.http.authenticatedGet(url).toPromise().then( (data: any) => {
+      if (data) {
+        return data;
+      }
+    }).catch( (err: any) => {
+      this.handleError(err);
+    });
+  }
+
+  getOrganicRunResults(jobId, runId, pageNumber, pageLimit) {
+    const url = this.config.organicKeywordUrl + '/' + jobId + '/runhistory/' + runId
+    + '/result?pagenum=' +  pageNumber  + '&pagesize=' + pageLimit;
     return this.http.authenticatedGet(url).toPromise().then( (data: any) => {
       if (data) {
         return data;

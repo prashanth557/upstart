@@ -59,8 +59,8 @@ export class MapmonitorRunHistoryComponent implements OnInit {
     return stringifedDate.substr(3, stringifedDate.indexOf('+') - 3);
   }
 
-  navigateToRunDetails(jobId) {
-    this.router.navigate(['/mapjobslist/' + jobId + '/lastrun']);
+  navigateToRunDetails(product) {
+    this.router.navigate(['/mapjobslist/' + this.jobId + '/runhistory/' + product.runId]);
   }
 
 }

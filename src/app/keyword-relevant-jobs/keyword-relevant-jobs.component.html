@@ -21,16 +21,16 @@
             </td>
             <td>
                 <span>{{product?.createdBy ? product?.createdBy : ''}}</span>
-             </td>
+            </td>
             <td>
                 <span>{{product?.vendor?.name ? product.vendor.name : ''}}</span>
             </td>
             <td>
                 <!-- <span *ngFor="let line of actionItems; let i = index;"> -->
-                    <a class="action-icons glyphicon glyphicon-flash" (click)="navigateTo(product, 0)"></a>
-                    <a class="action-icons glyphicon glyphicon-eye-open" (click)="navigateTo(product, 1)"></a>
-                    <a *ngIf="product?.lastRunAt" class="action-icons glyphicon glyphicon-th-large" (click)="navigateTo(product, 2)"></a>
-                    <a class="action-icons glyphicon glyphicon-trash" (click)="navigateTo(product, 3)"></a>
+                <a class="action-icons glyphicon glyphicon-flash" (click)="navigateTo(product, 0)"></a>
+                <a class="action-icons glyphicon glyphicon-eye-open" (click)="navigateTo(product, 1)"></a>
+                <a *ngIf="product?.lastRunAt" class="action-icons glyphicon glyphicon-th-large" (click)="navigateTo(product, 2)"></a>
+                <a data-toggle="modal" data-target="#showModalCenter" class="action-icons glyphicon glyphicon-trash" (click)="navigateTo(product, 3)"></a>
                 <!-- </span> -->
             </td>
         </ng-template>
@@ -39,26 +39,34 @@
         <div class="add-modal-body" id="create-modal">
             <form *ngIf="!jobCreated" (ngSubmit)="addKeywords()">
                 <div class="form-group">
-                    <span class="error-input" *ngIf="showErrorMessage">Keyword input already available</span><br/>
-                    <label for="jobTitle" class="col-form-label"><span class="error-input">*&nbsp;</span>Job Title</label>
+                    <span class="error-input" *ngIf="showErrorMessage">Keyword input already available</span>
+                    <br/>
+                    <label for="jobTitle" class="col-form-label">
+                        <span class="error-input">*&nbsp;</span>Job Title</label>
                     <div>
-                        <textarea name="jobTitle" class="form-control-plaintext" id="jobTitle" [(ngModel)]="jobTitle" required [ngModelOptions]="{standalone: true}" [class.showError]="!jobTitle && showError"></textarea>
+                        <textarea name="jobTitle" class="form-control-plaintext" id="jobTitle" [(ngModel)]="jobTitle" required [ngModelOptions]="{standalone: true}"
+                            [class.showError]="!jobTitle && showError"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <span class="error-input" *ngIf="!keywordType && showError">* keyword mode is mandatory</span><br/>
-                    <label class="col-form-label"><span class="error-input">*&nbsp;</span>Keyword Input Mode</label>
+                    <span class="error-input" *ngIf="!keywordType && showError">* keyword mode is mandatory</span>
+                    <br/>
+                    <label class="col-form-label">
+                        <span class="error-input">*&nbsp;</span>Keyword Input Mode</label>
                     <div>
-                    <span *ngFor="let choice of choices">
-                        <input type="radio" id="{{ groupName + choice }}" name="keywordType" [value]="choice" [(ngModel)]="defaultChoice" (ngModelChange)="choose($event)" />    
-                        <label class="form-check-label" for="inlineRadio1">{{choice}}</label>
+                        <span *ngFor="let choice of choices">
+                            <input type="radio" id="{{ groupName + choice }}" name="keywordType" [value]="choice" [(ngModel)]="defaultChoice" (ngModelChange)="choose($event)"
+                            />
+                            <label class="form-check-label" for="inlineRadio1">{{choice}}</label>
                         </span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="keywordName" class="col-form-label"><span class="error-input">*&nbsp;</span>Keyword Input</label>
+                    <label for="keywordName" class="col-form-label">
+                        <span class="error-input">*&nbsp;</span>Keyword Input</label>
                     <div>
-                        <textarea type="textarea" [(ngModel)]="keywordInput" class="form-control-plaintext" id="keywordName" required [ngModelOptions]="{standalone: true}" [class.showError]="!keywordInput && showError"></textarea>
+                        <textarea type="textarea" [(ngModel)]="keywordInput" class="form-control-plaintext" id="keywordName" required [ngModelOptions]="{standalone: true}"
+                            [class.showError]="!keywordInput && showError"></textarea>
                     </div>
                 </div>
                 <!-- <div class="form-group">
@@ -78,6 +86,17 @@
             </form>
             <div *ngIf="jobCreated">
                 <span>Job Created Successfully</span>
+            </div>
+        </div>
+    </app-upstart-modal>
+    <app-upstart-modal class="confirmation-modal-content" *ngIf="showConfirmation">
+        <div class="add-modal-body" id="create-modal">
+            <div>
+                <span class="confirmation-text">Are you sure want to delete ?</span>
+            </div>
+            <div class="form-group confirmation-button-group">
+                <button type="submit" class="confirm-button">Yes</button>
+                <button type="submit" class="confirm-button">No</button>
             </div>
         </div>
     </app-upstart-modal>

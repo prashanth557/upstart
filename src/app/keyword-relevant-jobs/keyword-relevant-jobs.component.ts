@@ -6,7 +6,6 @@ import { TopNotificationComponent } from '../top-notification/top-notification.c
 import * as $ from 'jquery';
 import { DatePipe } from '@angular/common';
 
-
 @Component({
   selector: 'app-keyword-relevant-jobs',
   templateUrl: './keyword-relevant-jobs.component.html',
@@ -43,6 +42,15 @@ export class KeywordRelevantJobsComponent implements OnInit {
   showError: boolean;
   choices: any = ['Direct text input', 'Select from organic keywords'];
   defaultChoice = 'Direct text input';
+  // Delete Confirmation Variables
+  placements: string[] = ['top', 'left', 'right', 'bottom'];
+  popoverTitle: String = 'Are you sure?';
+  popoverMessage: String = 'Are you really <b>sure</b> you want to do this?';
+  confirmText: String = 'Yes <i class="glyphicon glyphicon-ok"></i>';
+  cancelText: String = 'No <i class="glyphicon glyphicon-remove"></i>';
+  confirmClicked: boolean = false;
+  cancelClicked: boolean = false;
+  showConfirmation: boolean = false;
   constructor(public jobsService: JobsService, public router: Router, private datePipe: DatePipe) { }
 
   ngOnInit() {
@@ -107,20 +115,23 @@ export class KeywordRelevantJobsComponent implements OnInit {
   }
 
   deleteJob(productId) {
-    this.jobsService.deleteJob(productId, 'kwdrelvncjobs').then((res: any) => {
-      const message: String = 'Your request for delete record is successfully deleted.';
-      this.notification.displayNotification(true, true, message);
-      this.getDetails(1);
-      setTimeout(() => {
-        this.notification.displayNotification(false, true, '');
-      }, 3000);
-    }, err => {
-      const message: String = 'Erorr while deleting the record. Please try after sometime';
-      this.notification.displayNotification(true, false, message);
-      setTimeout(() => {
-        this.notification.displayNotification(false, false, '');
-      }, 3000);
-    });
+    this.showConfirmation = true;
+    if (this.confirmClicked) {
+      this.jobsService.deleteJob(productId, 'kwdrelvncjobs').then((res: any) => {
+        const message: String = 'Your request for delete record is successfully deleted.';
+        this.notification.displayNotification(true, true, message);
+        this.getDetails(1);
+        setTimeout(() => {
+          this.notification.displayNotification(false, true, '');
+        }, 3000);
+      }, err => {
+        const message: String = 'Erorr while deleting the record. Please try after sometime';
+        this.notification.displayNotification(true, false, message);
+        setTimeout(() => {
+          this.notification.displayNotification(false, false, '');
+        }, 3000);
+      });
+    }
   }
 
   onPageChange(event) {
