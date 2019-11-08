@@ -23,9 +23,11 @@
                 <span>{{product?.vendor?.name ? product.vendor.name: ''}}</span>
             </td>
             <td>
-                <span *ngFor="let line of actionItems; let i = index;">
-                    <a class="action-icons glyphicon {{line?.icon}}" (click)="navigateTo(product, i)"></a>
-                </span>
+                <a class="action-icons glyphicon glyphicon-flash" (click)="navigateTo(product, 0)"></a>
+                <a class="action-icons glyphicon glyphicon-list-alt" (click)="navigateTo(product, 1)"></a>
+                <a class="action-icons glyphicon glyphicon-tasks" (click)="navigateTo(product, 2)"></a>
+                <a class="action-icons glyphicon glyphicon-time" (click)="navigateTo(product, 3)"></a>
+                <a data-toggle="modal" data-target="#showModalCenter" class="action-icons glyphicon glyphicon-trash" (click)="navigateTo(product, 4)"></a>
             </td>
         </ng-template>
     </app-job-details>
@@ -70,6 +72,17 @@
                     <span>Job Created Successfully</span>
                 </div>
             </form>
+        </div>
+    </app-upstart-modal>
+    <app-upstart-modal class="confirmation-modal-content" *ngIf="showConfirmation">
+        <div class="add-modal-body" id="create-modal">
+            <div>
+                <span class="confirmation-text">Are you sure want to delete ?</span>
+            </div>
+            <div class="form-group confirmation-button-group">
+                <button type="submit" class="confirm-button" (click)="deleteJob()" data-dismiss="modal">Yes</button>
+                <button type="submit" class="confirm-button" data-dismiss="modal">No</button>
+            </div>
         </div>
     </app-upstart-modal>
     <app-loader [show]='isLoading'></app-loader>

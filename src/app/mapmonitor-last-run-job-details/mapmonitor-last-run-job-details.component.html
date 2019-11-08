@@ -22,7 +22,7 @@
     <table *ngIf="!isLoading" class="last-run-job-table">
       <ng-container *ngFor="let header of jobCandidateDetails; let i = index; ">
         <tr class="job-candiate-row" (click)="getSellerInfo(i)">
-          <td>
+          <td class="asin-text">
             <span class="asin-wrapper">{{header?.asin}}</span>
           </td>
           <td>
@@ -31,7 +31,7 @@
             <span *ngIf="header?.mapBreachesCount > 0" class="map-breach-wrapper">{{header?.mapBreachesCount}} MAP Breach</span>
           </td>
         </tr>
-        <table>
+        <table class="sellers-information">
         <tr *ngIf="displaySellerIndex === i && productDetails?.length > 0 && showSellersInfo">
           <app-job-details [jobHeaders]="jobHeaders" [productDetails]="productDetails" [isLoading]="isLoading">
             <ng-template #filedsHeader let-product>

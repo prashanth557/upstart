@@ -60,7 +60,8 @@ export class MapmonitorRunHistoryComponent implements OnInit {
   }
 
   navigateToRunDetails(product) {
-    this.router.navigate(['/mapjobslist/' + this.jobId + '/runhistory/' + product.runId]);
+    // this.router.navigate(['/mapjobslist/' + this.jobId + '/runhistory/' + product.runId]);
+    this.router.navigate(['/mapjobslist/' + this.jobId + '/lastrun']);
   }
 
 }

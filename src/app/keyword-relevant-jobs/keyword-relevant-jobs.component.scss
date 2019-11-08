@@ -52,6 +52,7 @@ a.action-icons {
     }
     .form-control-plaintext {
         width: 100%;
+        border: 1px solid #848484;
     }
 }
 
@@ -94,4 +95,8 @@ a.action-icons {
             margin-top:20px;
         }
     }
+}
+
+.confirmation-modal-content /deep/ .modal-header {
+display: none!important;
 }

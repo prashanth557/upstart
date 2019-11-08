@@ -32,14 +32,15 @@
                     <img (click)="navigateTo(product, 2)" class="action-icons"  [hidden]="!checkStatus(product?.active)" src="assets/images/icon-flash.png" />
                     <img class="action-icons" (click)="navigateTo(product, 3)" [hidden]="!checkStatus(product?.active)" src="assets/images/icon-timer.png"/>
                     <!-- <i class="action-icons glyphicon" (click)="navigateTo(product, 4)" [class.glyphicon-time]="checkStatus(product?.active)" ></i> -->
-                    <ui-switch *ngIf="!product?.disableAutorun && product?.active" class="action-icons" (change)="navigateTo(product, 4)" [checked]="product?.scheduled"></ui-switch> 
+                    <ui-switch style="display:none"  *ngIf="!product?.disableAutorun && product?.active" class="action-icons" (change)="navigateTo(product, 4)" [checked]="product?.scheduled"></ui-switch> 
                     <img [hidden]="!product?.disableAutorun" class='disable-loader' src="assets/images/spinner.svg">
-                    <i class="action-icons glyphicon" (click)="navigateTo(product, 5)" [class.glyphicon-trash]="checkStatus(product?.active)"></i>
+                    <i data-toggle="modal" data-target="#showModalCenter" class="action-icons glyphicon" (click)="navigateTo(product, 5)" [class.glyphicon-trash]="checkStatus(product?.active)"></i>
                 </span>
             </td>
         </ng-template>
     </app-job-details>
 
+    <!-- Modal for creating Organic Keyword -->
   <app-upstart-modal *ngIf="createNewKeyword" [modalTitle]="modalTitle">
     <div class="add-modal-body" id="create-modal">
         <form *ngIf="!jobCreated" (ngSubmit)="createOrganicKeyword()" class="create-organic-keyword-section">
@@ -61,7 +62,7 @@
         </div>
     </div>
 </app-upstart-modal>
-
+<!-- Modal for Editing Organic Keyword -->
 <app-upstart-modal *ngIf="bindVendor" [modalTitle]="'Bind Vendor'">
     <div class="add-modal-body" id="create-modal">
         <form *ngIf="!jobCreated" (ngSubmit)="bindVendorToJob()" class="create-organic-keyword-section">
@@ -78,6 +79,18 @@
         </form>
         <div *ngIf="jobCreated">
             <span>Vendor added Successfully</span>
+        </div>
+    </div>
+</app-upstart-modal>
+<!-- Modal for Confrimation of deletion -->
+<app-upstart-modal class="confirmation-modal-content" *ngIf="showConfirmation">
+    <div class="add-modal-body" id="create-modal">
+        <div>
+            <span class="confirmation-text">Are you sure want to delete ?</span>
+        </div>
+        <div class="form-group confirmation-button-group">
+            <button type="submit" class="confirm-button" (click)="deleteJob()" data-dismiss="modal">Yes</button>
+            <button type="submit" class="confirm-button" data-dismiss="modal">No</button>
         </div>
     </div>
 </app-upstart-modal>

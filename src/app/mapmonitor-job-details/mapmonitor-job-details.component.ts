@@ -35,7 +35,8 @@ export class MapmonitorJobDetailsComponent implements OnInit {
   getJobDetails(currentpageIndex) {
     this.jobsService.getMapMontiorJobDetails(this.jobId, currentpageIndex, this.limitPerPage).then((res: any) => {
       this.candidateResponse = res;
-      this.jobResults[0].count = this.candidateResponse.candidateSize;
+      this.jobResults[0].count = this.candidateResponse && this.candidateResponse.candidateSize ? this.candidateResponse.candidateSize : 0;
+      this.jobResults[1].count = this.candidateResponse && this.candidateResponse.totalRuns ? this.candidateResponse.totalRuns : 0;
       this.productDetails = res && res.candidates ? res.candidates : [];
       this.totalItems = this.productDetails ? this.productDetails.length : 0;
       this.productDetails.forEach( product => {

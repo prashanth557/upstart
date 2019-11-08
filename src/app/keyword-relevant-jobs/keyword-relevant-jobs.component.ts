@@ -51,6 +51,7 @@ export class KeywordRelevantJobsComponent implements OnInit {
   confirmClicked: boolean = false;
   cancelClicked: boolean = false;
   showConfirmation: boolean = false;
+  selectedProduct: any;
   constructor(public jobsService: JobsService, public router: Router, private datePipe: DatePipe) { }
 
   ngOnInit() {
@@ -75,6 +76,8 @@ export class KeywordRelevantJobsComponent implements OnInit {
     this.keywordInput = '';
     this.keywordType = 'Direct text input';
     this.defaultChoice = 'Direct text input';
+    this.showConfirmation = false;
+    this.selectedProduct = {};
   }
 
   choose(event) {
@@ -110,14 +113,12 @@ export class KeywordRelevantJobsComponent implements OnInit {
     } else if (index === 2) {
       this.router.navigate(['/keywordjoblist/' + product.id + '/dashboard']);
     } else if (index === 3) {
-      this.deleteJob(product.id);
+      this.deleteConfirmation(product);
     }
   }
 
-  deleteJob(productId) {
-    this.showConfirmation = true;
-    if (this.confirmClicked) {
-      this.jobsService.deleteJob(productId, 'kwdrelvncjobs').then((res: any) => {
+  deleteJob() {
+      this.jobsService.deleteJob(this.selectedProduct.id, 'kwdrelvncjobs').then((res: any) => {
         const message: String = 'Your request for delete record is successfully deleted.';
         this.notification.displayNotification(true, true, message);
         this.getDetails(1);
@@ -131,7 +132,11 @@ export class KeywordRelevantJobsComponent implements OnInit {
           this.notification.displayNotification(false, false, '');
         }, 3000);
       });
-    }
+  }
+
+  deleteConfirmation(product) {
+    this.selectedProduct = product;
+    this.showConfirmation = true;
   }
 
   onPageChange(event) {

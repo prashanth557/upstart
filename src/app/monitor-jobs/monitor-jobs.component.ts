@@ -38,6 +38,8 @@ export class MonitorJobsComponent implements OnInit {
   showError: boolean;
   showErrorMessage: string;
   jobCreationError: string;
+  selectedProduct: any;
+  showConfirmation: boolean;
   constructor(public jobsService: JobsService, public router: Router) { }
 
   ngOnInit() {
@@ -88,7 +90,7 @@ export class MonitorJobsComponent implements OnInit {
     } else if (index === 3) {
       this.router.navigate(['/mapjobslist/' + product.id + '/runhistory']);
     } else if (index === 4) {
-      this.deleteJob(product.id);
+      this.deleteConfirmation(product);
     }
   }
 
@@ -137,13 +139,13 @@ export class MonitorJobsComponent implements OnInit {
     });
   }
 
-  deleteJob(productId) {
-    this.jobsService.deleteJob(productId, 'mapmonitorjobs').then((res: any) => {
+  deleteJob() {
+    this.jobsService.deleteJob(this.selectedProduct.id, 'mapmonitorjobs').then((res: any) => {
       const message: String = 'Your request for delete record is successfully deleted.';
       this.notification.displayNotification(true, true, message);
+      this.getDetails(1);
       setTimeout(() => {
         this.notification.displayNotification(false, true, '');
-        this.getDetails(1);
       }, 5000);
     }, err => {
       const message: String = 'Erorr while deleting the record. Please try after sometime';
@@ -153,6 +155,12 @@ export class MonitorJobsComponent implements OnInit {
       }, 5000);
     });
   }
+
+  deleteConfirmation(product) {
+    this.selectedProduct = product;
+    this.showConfirmation = true;
+  }
+
 
   createdDate(date) {
     const d = new Date(0);

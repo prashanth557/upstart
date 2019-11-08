@@ -29,6 +29,12 @@
         .job-candiate-row{
             background: #dedada;
             cursor: pointer;
+            width: 100%;
+            display: inline-flex;
+            margin-bottom: 15px;
+            .asin-text{
+                width: 30%;
+            }
         }
         .asin-wrapper{
             color: #6c10e8;
@@ -101,4 +107,8 @@
     margin-top:20%;
     font-size: 20px;
     text-align: center;
+}
+
+.sellers-information{
+    width:100% !important;
 }

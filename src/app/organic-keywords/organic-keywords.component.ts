@@ -46,6 +46,7 @@ export class OrganicKeywordsComponent implements OnInit {
   selectedProduct: any;
   selectedVendor: any;
   selectedVendorName: string;
+  showConfirmation: boolean;
   constructor(public router: Router, public jobsService: JobsService, public authService: AuthService) { }
 
   ngOnInit() {
@@ -55,13 +56,15 @@ export class OrganicKeywordsComponent implements OnInit {
   }
 
   addNewKeyword(event) {
+    this.modalTitle = 'Add Organic Keyword';
+    this.createNewKeyword = true;
     if (event) {
       this.resetFields();
     }
   }
 
   resetFields() {
-    this.createNewKeyword = true;
+    this.showConfirmation = false;
     this.organicKeywordTitle = '';
     this.jobCreated = false;
     this.updateProductId = '';
@@ -118,7 +121,7 @@ export class OrganicKeywordsComponent implements OnInit {
       // this.router.navigate(['/keywordset/' + product.id + '/runhistory'])
       this.disableSchedule(product);
     } else if (index === 5 ) {
-      this.deleteJob(product);
+      this.deleteConfirmation(product);
     }
   }
 
@@ -177,8 +180,8 @@ export class OrganicKeywordsComponent implements OnInit {
     }
   }
 
-  deleteJob(product) {
-    this.jobsService.deleteOrganicKeyword(product.id).then( (res: any) => {
+  deleteJob() {
+    this.jobsService.deleteOrganicKeyword(this.selectedProduct.id).then( (res: any) => {
       const message: String = 'Your request for delete record is successfully deleted.';
       this.notification.displayNotification(true, true, message);
       this.getDetails(this.currentpageIndex);
@@ -194,8 +197,16 @@ export class OrganicKeywordsComponent implements OnInit {
     });
   }
 
+  deleteConfirmation(product) {
+    this.createNewKeyword = false;
+    this.bindVendor = false;
+    this.selectedProduct = product;
+    this.showConfirmation = true;
+  }
+
   editJob(product) {
     console.log('Edit Option Clicked', product);
+    this.modalTitle = 'Edit Organic Keyword';
     this.createNewKeyword = true;
     this.organicKeywordTitle = product && product.keyword ? product.keyword : '';
     this.jobCreated = false;
