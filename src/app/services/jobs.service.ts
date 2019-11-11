@@ -199,6 +199,28 @@ export class JobsService {
     });
   }
 
+  getBulkPageList(pagenum, limit) {
+    const url = this.config.bulkCrawlUrl + '?pagenum=' + pagenum + '&pagesize=' + limit;
+    return this.http.authenticatedGet(url)
+    .toPromise()
+    .then(res => {
+      return res;
+    }).catch(err => {
+      return this.handleError(err);
+    });
+  }
+
+  getBulkCrawlJobDetails(jobId, offset, limit) {
+    const url = this.config.bulkCrawlUrl + '/' + jobId ;
+    return this.http.authenticatedGet(url)
+    .toPromise()
+    .then(res => {
+      return res;
+    }).catch(err => {
+      return this.handleError(err);
+    });
+  }
+
   getMapMontiorJobDetails(jobId, pagenum, limit) {
     const url = this.config.mapMontiorJobsUrl + '/' + jobId + '?pagenum=' + pagenum + '&pagesize=' + limit;
     return this.http.authenticatedGet(url)

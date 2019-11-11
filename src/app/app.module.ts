@@ -59,6 +59,7 @@ import { OrganicKeywordsSchedulesComponent } from './organic-keywords/organic-ke
 import { OrganicKeywordRunResultComponent } from './organic-keywords/organic-keyword-run-result/organic-keyword-run-result.component';
 import { MapmonitorRunResultComponent } from './mapmonitor-run-result/mapmonitor-run-result.component';
 import { BulkKeywordUploadComponent } from './bulk-keyword-upload/bulk-keyword-upload.component';
+import { BulkCrawlResultComponent } from './bulk-keyword-upload/bulk-crawl-result/bulk-crawl-result.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import { BulkKeywordUploadComponent } from './bulk-keyword-upload/bulk-keyword-u
     OrganicKeywordsSchedulesComponent,
     OrganicKeywordRunResultComponent,
     MapmonitorRunResultComponent,
-    BulkKeywordUploadComponent
+    BulkKeywordUploadComponent,
+    BulkCrawlResultComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 <div class="keyword-container">
   <app-result-header *ngIf="!isSummarResultsLoading && !showErrorMessage" [jobResults]="jobResults"></app-result-header>
-  <app-job-details *ngIf="productDetails?.length > 0 && !isLoading" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails" [pageCount]="totalItems"
+  <app-job-details *ngIf="!isLoading" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails" [pageCount]="totalItems"
     [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">
     <ng-template #filedsHeader let-product>
       <td>

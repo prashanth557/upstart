@@ -11,8 +11,6 @@ import { TopNotificationComponent } from '../top-notification/top-notification.c
 export class BulkKeywordUploadComponent implements OnInit {
   @ViewChild(TopNotificationComponent) notification: TopNotificationComponent;
   // Banner Results
-  jobResults: any = [{ jobType: 'Jobs Created', count: 0 },
-  { jobType: 'Product being tracked', count: 0 }, { jobType: 'MAP breaches recorded', count: 0 }];
   actionItems = [{icon: 'glyphicon-flash'},
   {icon: 'glyphicon-list-alt'},
   {icon: 'glyphicon-tasks'},
@@ -30,7 +28,6 @@ export class BulkKeywordUploadComponent implements OnInit {
   createNewJob: boolean;
   totalItems: number;
   isLoading: boolean;
-  isMapSummaryLoading: boolean;
   jobTitle: string;
   fileToUpload: File;
   fileName: any;
@@ -44,19 +41,7 @@ export class BulkKeywordUploadComponent implements OnInit {
 
   ngOnInit() {
     this.currentpageIndex = 1;
-    this.isMapSummaryLoading = true;
-    this.getMapSummaryDetails();
-  }
-
-  getMapSummaryDetails() {
-    this.isLoading = true;
-    this.jobsService.getMapMonitorSummary().then( (res: any) => {
-      this.jobResults[0].count = res.totalJobs;
-      this.jobResults[1].count = res.produtsTracked;
-      this.jobResults[2].count = res.mapBreaches;
-      this.isMapSummaryLoading = false;
-      this.getDetails(this.currentpageIndex);
-    });
+    this.getDetails(1);
   }
 
   onPageChange(event) {
@@ -69,7 +54,7 @@ export class BulkKeywordUploadComponent implements OnInit {
 
   getDetails(currentPageIndex) {
     this.isLoading = true;
-    this.jobsService.getAllMapMontiorJobDetails(currentPageIndex, this.limitPerPage).then( (res: any) => {
+    this.jobsService.getBulkPageList(currentPageIndex, this.limitPerPage).then( (res: any) => {
       this.totalItems = res.totalItems;
       this.productDetails = res.items;
       this.isLoading = false;
@@ -82,14 +67,8 @@ export class BulkKeywordUploadComponent implements OnInit {
   navigateTo(product, index) {
     console.log('Index', index);
     if (index === 0 ) {
-      this.runJob(product.id);
+     this.router.navigate(['/bulkcrawljobs/' + product.id]);
     } else if (index === 1) {
-      this.router.navigate(['/mapjobslist/' + product.id]);
-    } else if (index === 2) {
-      this.router.navigate(['/mapjobslist/' + product.id + '/lastrun']);
-    } else if (index === 3) {
-      this.router.navigate(['/mapjobslist/' + product.id + '/runhistory']);
-    } else if (index === 4) {
       this.deleteConfirmation(product);
     }
   }
@@ -121,26 +100,26 @@ export class BulkKeywordUploadComponent implements OnInit {
     return product.status.toLowerCase() === 'ready' ? '#2A2073 ' : '#2fc6d6';
   }
 
-  runJob(productId) {
-    this.jobsService.runJob(productId, 'mapmonitorjobs').then((res: any) => {
-      const message: String = 'Your Job is added to queue for run.';
-      this.notification.displayNotification(true, true, message);
-      setTimeout(() => {
-        this.notification.displayNotification(false, true, '');
-        this.getDetails(1);
-      }, 5000);
-    }).catch(error => {
-      console.log('Error while running the job' + productId + error);
-      const message: String = 'Error while running the job. Please try after sometime.';
-      this.notification.displayNotification(true, false, message);
-      setTimeout(() => {
-        this.notification.displayNotification(false, false, '');
-      }, 5000);
-    });
-  }
+  // runJob(productId) {
+  //   this.jobsService.runJob(productId, 'mapmonitorjobs').then((res: any) => {
+  //     const message: String = 'Your Job is added to queue for run.';
+  //     this.notification.displayNotification(true, true, message);
+  //     setTimeout(() => {
+  //       this.notification.displayNotification(false, true, '');
+  //       this.getDetails(1);
+  //     }, 5000);
+  //   }).catch(error => {
+  //     console.log('Error while running the job' + productId + error);
+  //     const message: String = 'Error while running the job. Please try after sometime.';
+  //     this.notification.displayNotification(true, false, message);
+  //     setTimeout(() => {
+  //       this.notification.displayNotification(false, false, '');
+  //     }, 5000);
+  //   });
+  // }
 
   deleteJob() {
-    this.jobsService.deleteJob(this.selectedProduct.id, 'mapmonitorjobs').then((res: any) => {
+    this.jobsService.deleteJob(this.selectedProduct.id, 'bulkproductcrawls').then((res: any) => {
       const message: String = 'Your request for delete record is successfully deleted.';
       this.notification.displayNotification(true, true, message);
       this.getDetails(1);

@@ -23,6 +23,7 @@ export class JobDetailsComponent implements OnInit, OnChanges {
   @Output() createJob = new EventEmitter;
   @Output() pageChange = new EventEmitter;
   @Input() createButtonText: String = 'Create New Job';
+  @Input() keyword: string = '';
   @ContentChild('lineHeader') lineHeaderTmpl: TemplateRef<any>;
   @ContentChild('filedsHeader') filedsHeader: TemplateRef<any>;
   keys: any = [];

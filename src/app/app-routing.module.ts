@@ -7,6 +7,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ProfileComponent } from './profile/profile.component';
 
 import { BulkKeywordUploadComponent } from './bulk-keyword-upload/bulk-keyword-upload.component';
+import { BulkCrawlResultComponent } from './bulk-keyword-upload/bulk-crawl-result/bulk-crawl-result.component';
+
 // Keyword Relevane Components
 import { KeywordRelevantJobsComponent } from './keyword-relevant-jobs/keyword-relevant-jobs.component';
 import { KeywordRelevanceDashboardComponent } from './keyword-relevant-jobs/keyword-relevance-dashboard/keyword-relevance-dashboard.component';
@@ -59,7 +61,8 @@ export const routes: Routes = [
   // Routes related to settings
   { path: 'users', component: UserSettingsComponent, canActivate: [AuthGuard]},
 
-  { path: 'bulkuploadkeywords', component: BulkKeywordUploadComponent, canActivate: [AuthGuard]}
+  { path: 'bulkcrawljobs', component: BulkKeywordUploadComponent, canActivate: [AuthGuard]},
+  { path: 'bulkcrawljobs/:jobId', component: BulkCrawlResultComponent, canActivate: [AuthGuard]}
   // ]}
 ];
 
