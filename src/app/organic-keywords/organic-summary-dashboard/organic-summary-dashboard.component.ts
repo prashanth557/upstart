@@ -12,7 +12,25 @@ import { JobsService } from '../../services/jobs.service';
 })
 export class OrganicSummaryDashboardComponent implements OnInit {
 
+  jobId: any;
+  keywordInput: String;
+  isLoading: boolean;
+  constructor(private route: ActivatedRoute, public router: Router, public jobsService: JobsService) { }
+
   ngOnInit() {
+    this.isLoading = true;
+    this.jobId = this.route.snapshot.paramMap.get('jobId');
+    this.getKeywordInput();
+  }
+
+  getKeywordInput() {
+    this.jobsService.getSpecificOrganicJobDetails(this.jobId).then( data => {
+      this.isLoading = false;
+      this.keywordInput = data.keyword;
+    }).catch( err => {
+      this.isLoading = false;
+      console.log('Error while fetching job details', err);
+    });
   }
 
 }

@@ -7,6 +7,33 @@
         // display: flex;
         // justify-content: space-between;
         padding: 15px 20px 20px 15px; //top right bottom left
+        display: flex;
+        justify-content: space-between;
+        .date-container{
+            display:flex;
+            .date-inputs{
+                width: 150px !important;
+                border-right:0px !important;
+                border-radius: 0px !important;
+            }
+            .btn-outline-secondary{
+                border: 1px solid #ccc !important;
+                border-radius: 0px !important;
+                top: 0px !important;
+                height: 34px !important;
+            }
+        }
+        .dashboard-header-keyword-text{
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-left: 10px;
+            width:400px;
+            @media (min-width: 768px) and ( max-width: 1023px ){
+                font-size:15px;
+                margin-left: 8px;
+            }
+        }
         .dashboard-header-text {
             font-size: 20px;
             font-weight: bold;
@@ -16,6 +43,13 @@
                 font-size:15px;
                 margin-left: 8px;
             }
+        }
+        .apply-button {
+            color: white;
+            background: #6c10e8;
+            outline: none;
+            height: 34px;
+            padding: 0px 10px 0px 10px;        
         }
     }
     .pie-chart-section {
@@ -58,4 +92,18 @@
            min-height: 600px;
        }
     }
+}
+.date-container /deep/ .dropdown-menu {
+    width:240px !important;
+}
+.date-container /deep/ .dropdown-menu .ngb-dp-months {
+    width: 100%;
+}
+
+.date-container /deep/ .dropdown-menu .ngb-dp-months .ngb-dp-month {
+    width: 100%;
+}
+
+.date-container /deep/ .dropdown-menu .ngb-dp-months .ngb-dp-month .ngb-dp-week {
+    justify-content: space-around;
 }

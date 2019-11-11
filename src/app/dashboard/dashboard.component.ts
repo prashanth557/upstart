@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, ElementRef, OnInit, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as CanvasJS from '../canvasjs.min';
 import { ChartsModule } from 'ng2-charts';
 import { JobsService } from '../services/jobs.service';
+import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateFrParserFormatterService } from '../services/ngb-date-fr-parser-formatter.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,11 +12,15 @@ import { JobsService } from '../services/jobs.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
-
+  @ViewChild('c1') fromDateStatus: ElementRef;
+  @ViewChild('c2') toDateStatus: ElementRef;
+  fromDate: NgbDateStruct;
+  toDate: NgbDateStruct;
   barChartData: any[] = [];
   @Input() headerTitle: any;
   @Input() keyword: any;
+  @Input() analyticsType: String;
+  @Input() showDatePicker: boolean;
   public barChartImageOptions = {
     scaleShowVerticalLines: true,
     responsive: true,
@@ -334,7 +340,14 @@ export class DashboardComponent implements OnInit {
       display: true,
       text: 'Brand Products Presence'
     },
-    plugins: {}
+    plugins: {
+      datalabels: {
+      color: 'white',
+      font: {
+        weight: 'bold'
+      }
+    }
+  }
   };
   pieChartOptions2: any = {
     legend: {
@@ -376,7 +389,6 @@ export class DashboardComponent implements OnInit {
   ];
   public radarChartType = 'radar';
   jobId: any;
-  showDatePicker: boolean;
   isBrandDataAvailable: boolean;
   isBarGraphDataAvailable: boolean;
   // 'brandskeywordpresence'
@@ -385,15 +397,17 @@ export class DashboardComponent implements OnInit {
   'brandsavgtitlelength', 'brandsavguserreviews', 'brandsavgdesclength'];
   selectedCategory: String = 'brand';
 
-  constructor(public route: ActivatedRoute, public router: Router, public jobsService: JobsService) { }
+  constructor(public route: ActivatedRoute, public router: Router, public jobsService: JobsService,
+    public ngbDateFrParserFormatterService: NgbDateFrParserFormatterService) { }
 
   ngOnInit() {
     // this.headerTitle = this.route.snapshot.paramMap.get('headerTitle');
     // this.keyword = this.route.snapshot.paramMap.get('productTitle');
     this.jobId = this.route.snapshot.paramMap.get('jobId');
-    if (this.headerTitle && this.headerTitle.toLowerCase() === 'organic keyword') {
-      this.showDatePicker = true;
-    }
+    // this.fromDate = new Date('2019-11-01');
+    // this.toDate = new Date();
+    // console.log('From Date::', this.fromDate, 'From Date Status:', this.fromDateStatus);
+    // console.log('To Date::', this.toDate, 'To Date Status:', this.toDateStatus);
     this.isBarGraphDataAvailable = false;
     this.isBrandDataAvailable = false;
     this.getAnalytics();
@@ -402,7 +416,9 @@ export class DashboardComponent implements OnInit {
   getAnalytics() {
     const promiseList: any[] = [];
     this.dashboardApiUrls.forEach(url => {
-      const promise = this.jobsService.getAnalyticsDetails(url, this.jobId);
+      const promise = this.jobsService.getAnalyticsDetails(url, this.jobId, this.analyticsType,
+        this.ngbDateFrParserFormatterService.format(this.fromDate),
+        this.ngbDateFrParserFormatterService.format(this.toDate));
       promiseList.push(promise);
     });
     Promise.all(promiseList).then((details) => {
@@ -415,6 +431,12 @@ export class DashboardComponent implements OnInit {
       this.pieChartData.push({ labels: this.pieChartBrandLabels });
       this.pieChartData[0].data = [details[0].brandProducts];
       this.pieChartData[0].data.push(details[0].otherBrandProducts);
+      this.pieChartOptions1.plugins.datalabels =  {
+        formatter: (value, ctx) => {
+          const label = this.pieChartData[ctx.dataIndex].data;
+          return label;
+        },
+      };
       // this.pieChartOptions.plugins = {
       //   data: {
       //     formatter: (value, ctx) => {
@@ -453,34 +475,94 @@ export class DashboardComponent implements OnInit {
       if (details[2] && details[2].stats) {
           labels =  details[2].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
           data = details[2].stats.map(stat => stat.avgimageCount ? stat.avgimageCount : 0);
-          this.barChartData.push({ labels: labels, data: data, options: this.barChartImageOptions});
+          labels = labels.slice(0, 15);
+          data = data.slice(0, 15);
+          let actualData = [];
+          let actualLabels = [];
+          data.forEach( (dataCount, i ) => {
+            if (dataCount > 0) {
+              actualLabels.push(labels[i]);
+              actualData.push(dataCount);
+            }
+          });
+          if (actualData.length > 0 && actualLabels.length > 0) {
+            this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartImageOptions});
+          }
       }
 
       // Bullet points labels and data
       if (details[3] &&  details[3].stats) {
          labels = details[3].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
          data = details[3].stats.map(stat => stat.avgBulletsCount ? stat.avgBulletsCount : 0);
-         this.barChartData.push({ labels: labels, data: data, options: this.barChartBulletOptions});
+         labels = labels.slice(0, 15);
+         data = data.slice(0, 15);
+         let actualData = [];
+         let actualLabels = [];
+         data.forEach( (dataCount, i ) => {
+           if (dataCount > 0) {
+             actualLabels.push(labels[i]);
+             actualData.push(dataCount);
+           }
+         });
+         if (actualData.length > 0 && actualLabels.length > 0) {
+           this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartBulletOptions});
+         }
       }
 
       // Char length labels and data
       if (details[4] && details[4].stats) {
         labels =  details[4].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
         data = details[4].stats.map(stat => stat.avgTitleLength ? stat.avgTitleLength : 0);
-        this.barChartData.push({ labels: labels, data: data, options: this.barChartCharLengthOptions });
+        labels = labels.slice(0, 15);
+        data = data.slice(0, 15);
+        let actualData = [];
+        let actualLabels = [];
+        data.forEach( (dataCount, i ) => {
+          if (dataCount > 0) {
+            actualLabels.push(labels[i]);
+            actualData.push(dataCount);
+          }
+        });
+        if (actualData.length > 0 && actualLabels.length > 0) {
+        this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartCharLengthOptions });
+        }
       }
 
       // UserReviews Labels and data
       if (details[5] &&  details[5].stats) {
         labels = details[5].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
         data =  details[5].stats.map(stat => stat.avgUserReviews ? stat.avgUserReviews : 0);
-        this.barChartData.push({ labels: labels, data: data, options: this.barChartUserReviewOptions  });
+        labels = labels.slice(0, 15);
+        data = data.slice(0, 15);
+        let actualData = [];
+        let actualLabels = [];
+        data.forEach( (dataCount, i ) => {
+          if (dataCount > 0) {
+            actualLabels.push(labels[i]);
+            actualData.push(dataCount);
+          }
+        });
+        if (actualData.length > 0 && actualLabels.length > 0) {
+          this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartUserReviewOptions  });
+        }
       }
       // Avg Characters in description labels and data
       if (details[6] && details[6].stats) {
         labels = details[6].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
         data = details[6].stats.map(stat => stat.avgDescLength ? stat.avgDescLength : 0);
-        this.barChartData.push({ labels: labels, data: data, options: this.barChartAvgDescOptions });
+        labels = labels.slice(0, 15);
+        data = data.slice(0, 15);
+        let actualData = [];
+        let actualLabels = [];
+        data.forEach( (dataCount, i ) => {
+          if (dataCount > 0) {
+            actualLabels.push(labels[i]);
+            actualData.push(dataCount);
+          }
+        });
+        if (actualData.length > 0 && actualLabels.length > 0) {
+          this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartAvgDescOptions });
+        }
       }
 
       // Avg Characters in Title, bullet, Description
@@ -498,7 +580,17 @@ export class DashboardComponent implements OnInit {
           label: 'Description', data: details[7].stats.map(
             stat => stat.productsWithKeyword && stat.productsWithKeyword[0].inDescription ? stat.productsWithKeyword[0].inDescription : 0)
         });
-        this.barChartData.push({labels: labels, data: data, options: this.barChartKeywordPresenceOptions, isStacked: true });
+        let actualData = [];
+        let actualLabels = [];
+        data.forEach( (dataCount, i ) => {
+          if (dataCount > 0) {
+            actualLabels.push(labels[i]);
+            actualData.push(dataCount);
+          }
+        });
+        if (actualData.length > 0 && actualLabels.length > 0) {
+          this.barChartData.push({labels: actualLabels, data: actualData, options: this.barChartKeywordPresenceOptions, isStacked: true });
+        }
       }
       this.isBrandDataAvailable = true;
     }
@@ -541,6 +633,12 @@ export class DashboardComponent implements OnInit {
     });
 
     return sections;
+  }
+
+  getData() {
+    if (this.fromDateStatus && this.toDateStatus) {
+      this.getAnalytics();
+    }
   }
 
 }

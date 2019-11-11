@@ -246,15 +246,18 @@ export class JobsService {
     });
   }
 
-  getAnalyticsDetails(urlPath, jobId ) {
-      // const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/' + urlPath;
-      // let url = '';
-      // if (urlPath === 'brandspresence' || urlPath === 'brandsproductrating') {
-      //    url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/' + urlPath;
-      // } else {
-      //    url = 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs/' +  jobId + '/lastresult/' + urlPath;
-      // }
-      const url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/' + urlPath;
+  getAnalyticsDetails(urlPath, jobId, type, fromDate?: any, toDate?: any ) {
+      let url;
+      if (type && type.toLowerCase() === 'keyword relevance') {
+         url = this.config.keywordRelevanceUrl + '/' + jobId + '/lastresult/' + urlPath;
+      } else {
+        if (fromDate === '') {
+          fromDate = '2019-11-01';
+        } if (toDate === '') {
+          toDate = '2019-11-11';
+        }
+        url = this.config.organicKeywordUrl + '/' + jobId + '/runresults/' + urlPath + '?from=' + fromDate + '&to=' + toDate;
+      }
       return this.http.authenticatedGet(url)
         .toPromise()
         .then((response: any) => {
@@ -272,6 +275,19 @@ export class JobsService {
 
   createMapMonitorJob(jobTitle: string, file: File) {
     const url = 'https://exucfileuploader.azurewebsites.net/mapmonitorjobs';
+    const formdata = new FormData();
+    formdata.append('file', file);
+    formdata.append('jobTitle', jobTitle);
+    formdata.append('token', Cookie.get('_token'));
+    return this.http.authenticatedPost(url, formdata).toPromise().then(data => {
+      return data;
+    }).catch( err => {
+      this.handleError(err);
+    });
+  }
+
+  createBulkJobs(jobTitle: string, file: File) {
+    const url = this.config.bulkCrawlUrl;
     const formdata = new FormData();
     formdata.append('file', file);
     formdata.append('jobTitle', jobTitle);
@@ -382,6 +398,17 @@ export class JobsService {
     });
   }
 
+  getSpecificOrganicJobDetails(jobId) {
+    const url = this.config.organicKeywordUrl + '/' + jobId;
+    return this.http.authenticatedGet(url).toPromise().then( (data: any) => {
+      if (data) {
+       return data;
+      }
+    }).catch( (err) => {
+      this.handleError(err);
+    });
+  }
+
   getUserList(path) {
   const url = this.config.usersUrl + path;
   return this.http.authenticatedGet(url).toPromise().then( (data: any) => {
@@ -392,6 +419,7 @@ export class JobsService {
     this.handleError(err);
   });
   }
+    
 
   createAdmin(path, body) {
     const url = this.config.baseApiUrl + path;
@@ -410,6 +438,15 @@ export class JobsService {
       name: name
     };
     return this.http.authenticatedPost(url, body).toPromise().then( (data: any) => {
+      return Promise.resolve(data);
+    }).catch(err => {
+      return this.handleError(err);
+    });
+  }
+
+  getAlerts(pageNumber, pageLimit) {
+    const url = this.config.alertsUrl + '?pagenum=' +  pageNumber  + '&pagesize=' + pageLimit;
+    return this.http.authenticatedGet(url).toPromise().then( (data: any) => {
       return Promise.resolve(data);
     }).catch(err => {
       return this.handleError(err);

@@ -22,6 +22,12 @@
             <span class="sub_icon glyphicon glyphicon-file"></span>
           </a>
         </li>
+        <li class="nav-tabs" [class.active]="isActive('bulkuploadkeywords')"  (click)="navigateToPage('/bulkuploadkeywords')">
+          <a>
+            <span  *ngIf="!hideNavBar" class="">Bulk Upload</span>
+            <span class="sub_icon glyphicon glyphicon-file"></span>
+          </a>
+        </li>
         <li class="nav-tabs" [class.active]="isActive('mapjobslist')" (click)="navigateToPage('/mapjobslist')">
           <a>
             <span  *ngIf="!hideNavBar" class="">Map Monitor Jobs</span>

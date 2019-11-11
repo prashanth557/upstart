@@ -15,7 +15,9 @@ export class UrlConfig {
           // 'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
           'mapMontiorJobsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/mapmonitorjobs',
           'organicKeywordUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/organickwds',
-          'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/'
+          'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/',
+          'alertsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/alerts',
+          'bulkCrawlUrl': 'https://exucfileuploader.azurewebsites.net/bulkproductcrawls'
         };
       case 'local':
         return {
@@ -30,7 +32,9 @@ export class UrlConfig {
           // 'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
           'mapMontiorJobsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/mapmonitorjobs',
           'organicKeywordUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/organickwds',
-          'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/'
+          'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/',
+          'alertsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/alerts',
+          'bulkCrawlUrl': 'https://exucfileuploader.azurewebsites.net/bulkproductcrawls'
         };
       case 'dev':
         return {
@@ -45,7 +49,9 @@ export class UrlConfig {
           // 'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
           'mapMontiorJobsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/mapmonitorjobs',
           'organicKeywordUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/organickwds',
-          'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/'
+          'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/',
+          'alertsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/alerts',
+          'bulkCrawlUrl': 'https://exucfileuploader.azurewebsites.net/bulkproductcrawls'
         };
       case 'uat':
         return {
@@ -60,7 +66,9 @@ export class UrlConfig {
           // 'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
           'mapMontiorJobsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/mapmonitorjobs',
           'organicKeywordUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/organickwds',
-          'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/'
+          'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/',
+          'alertsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/alerts',
+          'bulkCrawlUrl': 'https://exucfileuploader.azurewebsites.net/bulkproductcrawls'
         };
       case 'prod':
         return {
@@ -75,7 +83,9 @@ export class UrlConfig {
           // 'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
           'mapMontiorJobsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/mapmonitorjobs',
           'organicKeywordUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/organickwds',
-          'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/'
+          'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/',
+          'alertsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/alerts',
+          'bulkCrawlUrl': 'https://exucfileuploader.azurewebsites.net/bulkproductcrawls'
         };
       default:
         return {
@@ -90,7 +100,9 @@ export class UrlConfig {
           // 'keywordRelevanceUrl': 'https://private-15aca8-ucrawl1.apiary-mock.com/kwdrelvncjobs',
           'mapMontiorJobsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/mapmonitorjobs',
           'organicKeywordUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/organickwds',
-          'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/'
+          'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/',
+          'alertsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/alerts',
+          'bulkCrawlUrl': 'https://exucfileuploader.azurewebsites.net/bulkproductcrawls'
         };
     }
   }

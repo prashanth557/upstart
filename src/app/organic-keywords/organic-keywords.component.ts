@@ -114,7 +114,7 @@ export class OrganicKeywordsComponent implements OnInit {
     } else if (index === 1) {
       this.disableJob(product);
     } else if (index === 2) {
-      this.router.navigate(['/keywordset/' + product.id + '/schedules']);
+      this.router.navigate(['/keywordset/' + product.id + '/dashboard']);
     } else if (index === 3) {
       this.router.navigate(['/keywordset/' + product.id + '/runhistory']);
     } else if (index === 4 ) {

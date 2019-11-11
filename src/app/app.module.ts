@@ -11,6 +11,9 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { EllipsisModule } from 'ngx-ellipsis';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+
 // Services
 import { PrivilegeService } from './services/privilege.service';
 import { CookieService } from 'ng2-cookies';
@@ -55,6 +58,7 @@ import { MapmonitorRunHistoryComponent } from './mapmonitor-run-history/mapmonit
 import { OrganicKeywordsSchedulesComponent } from './organic-keywords/organic-keywords-schedules/organic-keywords-schedules.component';
 import { OrganicKeywordRunResultComponent } from './organic-keywords/organic-keyword-run-result/organic-keyword-run-result.component';
 import { MapmonitorRunResultComponent } from './mapmonitor-run-result/mapmonitor-run-result.component';
+import { BulkKeywordUploadComponent } from './bulk-keyword-upload/bulk-keyword-upload.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +93,8 @@ import { MapmonitorRunResultComponent } from './mapmonitor-run-result/mapmonitor
     MapmonitorRunHistoryComponent,
     OrganicKeywordsSchedulesComponent,
     OrganicKeywordRunResultComponent,
-    MapmonitorRunResultComponent
+    MapmonitorRunResultComponent,
+    BulkKeywordUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -103,7 +108,10 @@ import { MapmonitorRunResultComponent } from './mapmonitor-run-result/mapmonitor
     HttpClientModule,
     UiSwitchModule,
     NguiAutoCompleteModule,
-    EllipsisModule
+    EllipsisModule,
+    NgbModule
+    // OwlDateTimeModule,
+    // OwlNativeDateTimeModule
   ],
   providers: [
     PrivilegeService,

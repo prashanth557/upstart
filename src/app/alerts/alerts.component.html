@@ -1,4 +1,24 @@
-<div class="keyword-container">
-  <app-job-details [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails" 
-  [showCreateButton]="false"></app-job-details>
-</div>
+<div class="alerts-container">
+  <app-job-details *ngIf="!isLoading" [headerTitle]="'Alerts'" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
+      [pageCount]="totalItems" [showSearch]="true" [currentpageIndex]='currentpageIndex'
+      [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">
+      <ng-template #filedsHeader let-product>
+          <td>
+              <span>{{product?.title}}</span>
+          </td>
+          <td>
+              <span>{{product?.severity}}</span>
+          </td>
+          <td>
+              <span>{{product?.recordedOn ? createdDate(product?.recordedOn) : ''}}</span>
+          </td>
+          <td>
+              <span>{{product?.description}}</span>
+          </td>
+          <td>
+              <span>{{product?.vendor?.name}}</span>
+          </td>
+      </ng-template>
+  </app-job-details>
+  <app-loader [show]='isLoading'></app-loader>
+  </div>
