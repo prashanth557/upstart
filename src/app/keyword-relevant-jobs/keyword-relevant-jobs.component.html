@@ -1,8 +1,8 @@
 <div class="keyword-container">
-    <app-result-header [jobResults]="jobResults"></app-result-header>
-    <app-job-details *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
+    <!-- <app-result-header [jobResults]="jobResults"></app-result-header> -->
+    <app-job-details *ngIf="!isLoading" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
         [showCreateButton]="true" (createJob)="addNewKeyword($event)" [pageCount]="totalItems" [showSearch]="true" [currentpageIndex]='currentpageIndex'
-        [isLoading]="isLoading" (pageChange)="onPageChange($event)">
+        [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">
         <ng-template #filedsHeader let-product>
             <td>
                 <span>{{product?.title}}</span>
@@ -14,41 +14,59 @@
                 <span class="status-wrapper" [style.background]="getBackgroundColor(product)">{{product?.status}}</span>
             </td>
             <td>
-                <span>{{product?.lastRunAt | date: 'MMM d, y, h:mm:ss a'}}</span>
+                <span>{{product?.lastRunAt ? createdDate(product?.lastRunAt) : ''}}</span>
             </td>
             <td>
-                <span>{{product?.createdAt | date: 'MMM d, y, h:mm:ss a'}}</span>
+                <span>{{product?.createdAt ? createdDate(product?.createdAt) : ''}}</span>
             </td>
             <td>
-                <span *ngFor="let line of actionItems; let i = index;">
-                    <a class="action-icons glyphicon {{line?.icon}}" (click)="navigateTo(product, i)"></a>
-                </span>
+                <span>{{product?.createdBy ? product?.createdBy : ''}}</span>
+            </td>
+            <td>
+                <span>{{product?.vendor?.name ? product.vendor.name : ''}}</span>
+            </td>
+            <td>
+                <!-- <span *ngFor="let line of actionItems; let i = index;"> -->
+                <a class="action-icons glyphicon glyphicon-flash" (click)="navigateTo(product, 0)"></a>
+                <a class="action-icons glyphicon glyphicon-eye-open" (click)="navigateTo(product, 1)"></a>
+                <a *ngIf="product?.lastRunAt" class="action-icons glyphicon glyphicon-th-large" (click)="navigateTo(product, 2)"></a>
+                <a data-toggle="modal" data-target="#showModalCenter" class="action-icons glyphicon glyphicon-trash" (click)="navigateTo(product, 3)"></a>
+                <!-- </span> -->
             </td>
         </ng-template>
     </app-job-details>
     <app-upstart-modal *ngIf="createNewKeyword" [modalTitle]="modalTitle">
-        <div class="add-modal-body">
+        <div class="add-modal-body" id="create-modal">
             <form *ngIf="!jobCreated" (ngSubmit)="addKeywords()">
                 <div class="form-group">
-                    <label for="jobTitle" class="col-form-label">Job Title</label>
+                    <span class="error-input" *ngIf="showErrorMessage">Keyword input already available</span>
+                    <br/>
+                    <label for="jobTitle" class="col-form-label">
+                        <span class="error-input">*&nbsp;</span>Job Title</label>
                     <div>
-                        <textarea name="jobTitle" class="form-control-plaintext" id="jobTitle" [(ngModel)]="jobTitle" required [ngModelOptions]="{standalone: true}"></textarea>
+                        <textarea name="jobTitle" class="form-control-plaintext" id="jobTitle" [(ngModel)]="jobTitle" required [ngModelOptions]="{standalone: true}"
+                            [class.showError]="!jobTitle && showError"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-form-label">Keyword Input Mode</label>
+                    <span class="error-input" *ngIf="!keywordType && showError">* keyword mode is mandatory</span>
+                    <br/>
+                    <label class="col-form-label">
+                        <span class="error-input">*&nbsp;</span>Keyword Input Mode</label>
                     <div>
-                        <input [(ngModel)]="keywordType" type="radio" class="form-check-input" name="keywordType" id="inlineRadio1" value="direct"
-                            checked [ngModelOptions]="{standalone: true}">
-                        <label class="form-check-label" for="inlineRadio1">Direct text input</label>
-                        <input type="radio" class="form-check-input" name="keywordType" id="inlineRadio2" value="select">
-                        <label [(ngModel)]="keywordType" class="form-check-label" for="inlineRadio2" [ngModelOptions]="{standalone: true}">Select from organic keywords</label>
+                        <span *ngFor="let choice of choices">
+                            <input type="radio" id="{{ groupName + choice }}" name="keywordType" [value]="choice" [(ngModel)]="defaultChoice" (ngModelChange)="choose($event)"
+                            />
+                            <label class="form-check-label" for="inlineRadio1">{{choice}}</label>
+                        </span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="keywordName" class="col-form-label">Keyword Input</label>
+                    <label for="keywordName" class="col-form-label">
+                        <span class="error-input">*&nbsp;</span>Keyword Input</label>
                     <div>
-                        <textarea type="textarea" [(ngModel)]="keywordInput" class="form-control-plaintext" id="keywordName" required [ngModelOptions]="{standalone: true}"></textarea>
+                        <textarea type="textarea" [(ngModel)]="keywordInput" class="form-control-plaintext" id="keywordName" required [ngModelOptions]="{standalone: true}"
+                            [class.showError]="!keywordInput && showError"></textarea>
                     </div>
                 </div>
                 <!-- <div class="form-group">
@@ -71,6 +89,20 @@
             </div>
         </div>
     </app-upstart-modal>
-    <app-loader [show]='productDetails?.length === 0'></app-loader>
+    <app-upstart-modal class="confirmation-modal-content" *ngIf="showConfirmation">
+        <div class="add-modal-body" id="create-modal">
+            <div>
+                <span class="confirmation-text">Are you sure want to delete ?</span>
+            </div>
+            <div class="form-group confirmation-button-group">
+                <button type="submit" class="confirm-button" (click)="deleteJob()" data-dismiss="modal">Yes</button>
+                <button type="submit" class="confirm-button" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </app-upstart-modal>
+    <app-loader [show]='isLoading'></app-loader>
+    <div class="no-results-text">
+        <span *ngIf='showErrorMessage && !isLoading'>{{showErrorMessage}}</span>
+    </div>
 </div>
 <app-top-notification></app-top-notification>

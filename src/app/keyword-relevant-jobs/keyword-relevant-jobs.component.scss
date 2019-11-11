@@ -52,10 +52,51 @@ a.action-icons {
     }
     .form-control-plaintext {
         width: 100%;
+        border: 1px solid #848484;
     }
 }
 
-// td {
-//     text-align: left;
-//     padding: 15px;
-// }
+.no-results-text {
+    color:black;
+    font-weight: bold;
+    margin-top:20%;
+    font-size: 20px;
+    text-align: center;
+}
+
+.showError{
+    border: 1px solid red !important;
+}
+
+.error-input{
+    font-size:14px;
+    color:red;
+}
+
+.confirmation-modal-content{
+    .modal-header {
+        display: none !important;
+    }
+    .confirmation-text{
+        display: flex;
+        justify-content: center;
+    }
+    .confirmation-button-group{
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        .confirm-button{
+            background: #6c10e8;
+            color: white;
+            padding: 5px 15px 5px 15px;
+            font-size:12px;
+            width:100px;
+            margin-left:20px;
+            margin-top:20px;
+        }
+    }
+}
+
+.confirmation-modal-content /deep/ .modal-header {
+display: none!important;
+}

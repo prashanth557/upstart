@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, ElementRef, OnInit, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as CanvasJS from '../canvasjs.min';
 import { ChartsModule } from 'ng2-charts';
 import { JobsService } from '../services/jobs.service';
-
+import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateFrParserFormatterService } from '../services/ngb-date-fr-parser-formatter.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,11 +12,15 @@ import { JobsService } from '../services/jobs.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
-
+  @ViewChild('c1') fromDateStatus: ElementRef;
+  @ViewChild('c2') toDateStatus: ElementRef;
+  fromDate: NgbDateStruct;
+  toDate: NgbDateStruct;
   barChartData: any[] = [];
   @Input() headerTitle: any;
   @Input() keyword: any;
+  @Input() analyticsType: String;
+  @Input() showDatePicker: boolean;
   public barChartImageOptions = {
     scaleShowVerticalLines: true,
     responsive: true,
@@ -59,7 +64,8 @@ export class DashboardComponent implements OnInit {
     },
     title: {
       display: true,
-      text: 'Average no. Of Images displayed in product detail page'
+      text: 'Average number of images in product detail page',
+      fontSize: 14,
     }
   };
   public barChartBulletOptions = {
@@ -78,7 +84,7 @@ export class DashboardComponent implements OnInit {
           ticks: {
             fontSize: 10,
             autoSkip: false,
-            display: false // Make it to True if you want to display labels at x axis
+            display: true // Make it to True if you want to display labels at x axis
           },
           scaleInstance: {
             width: 100
@@ -88,7 +94,7 @@ export class DashboardComponent implements OnInit {
         stacked: false,
         ticks: {
           min: 0,
-          stepSize: 2
+          stepSize: 30
         },
         gridLines: {
           display: true,
@@ -105,7 +111,8 @@ export class DashboardComponent implements OnInit {
     },
     title: {
       display: true,
-      text: 'Average no. Of bullet points displayed in product detail page'
+      text: 'Average number of bullet points in product detail page',
+      fontSize: 14,
     }
   };
   public barChartCharLengthOptions = {
@@ -124,7 +131,7 @@ export class DashboardComponent implements OnInit {
           ticks: {
             fontSize: 10,
             autoSkip: false,
-            display: false // Make it to True if you want to display labels at x axis
+            display: true // Make it to True if you want to display labels at x axis
           },
           scaleInstance: {
             width: 100
@@ -151,7 +158,8 @@ export class DashboardComponent implements OnInit {
     },
     title: {
       display: true,
-      text: 'Average no. Of characters in product detail page'
+      text: 'Average number of characters in title ',
+      fontSize: 14,
     }
   };
   public barChartUserReviewOptions = {
@@ -170,7 +178,7 @@ export class DashboardComponent implements OnInit {
           ticks: {
             fontSize: 10,
             autoSkip: false,
-            display: false // Make it to True if you want to display labels at x axis
+            display: true // Make it to True if you want to display labels at x axis
           },
           scaleInstance: {
             width: 100
@@ -180,7 +188,7 @@ export class DashboardComponent implements OnInit {
         stacked: false,
         ticks: {
           min: 0,
-          stepSize: 50
+          stepSize: 300
         },
         gridLines: {
           display: true,
@@ -197,7 +205,8 @@ export class DashboardComponent implements OnInit {
     },
     title: {
       display: true,
-      text: 'Average user reviews'
+      text: 'Average user reviews',
+      fontSize: 14,
     }
   };
   public barChartAvgDescOptions = {
@@ -216,7 +225,7 @@ export class DashboardComponent implements OnInit {
           ticks: {
             fontSize: 10,
             autoSkip: false,
-            display: false // Make it to True if you want to display labels at x axis
+            display: true // Make it to True if you want to display labels at x axis
           },
           scaleInstance: {
             width: 100
@@ -226,7 +235,7 @@ export class DashboardComponent implements OnInit {
         stacked: false,
         ticks: {
           min: 0,
-          stepSize: 100
+          stepSize: 30
         },
         gridLines: {
           display: true,
@@ -243,7 +252,8 @@ export class DashboardComponent implements OnInit {
     },
     title: {
       display: true,
-      text: 'Average no. Of characters in description'
+      text: 'Average number of characters in description',
+      fontSize: 14,
     }
   };
 
@@ -297,12 +307,13 @@ export class DashboardComponent implements OnInit {
     },
     title: {
       display: true,
-      text: 'Product with presence keyword in Title/Desc/Bullets'
+      text: 'Products with presence of keyword in title/description/bullets',
+      fontSize: 14,
     }
   };
   // pie Chart data
   pieChartData: any[] = [];
-  pieChartOptions: any  = {
+  pieChartOptions1: any = {
     legend: {
       display: true,
       position: 'bottom',
@@ -312,18 +323,58 @@ export class DashboardComponent implements OnInit {
         render: 'percentage',
         data: {
           formatter: (value, ctx) => {
-              let sum = 0;
-              const dataArr = this.pieChartData[0].data;
-              dataArr.map(data => {
-                  sum += data;
-              });
-              const percentage = (value * 100 / sum).toFixed(2) + '%';
-              return percentage;
+            let sum = 0;
+            const dataArr = this.pieChartData[0].data;
+            dataArr.map(data => {
+              sum += data;
+            });
+            const percentage = (value * 100 / sum).toFixed(2) + '%';
+            return percentage;
           },
           color: '#fff',
-      },
+        },
         precision: 2
       }
+    },
+    title: {
+      display: true,
+      text: 'Brand Products Presence'
+    },
+    plugins: {
+      datalabels: {
+      color: 'white',
+      font: {
+        weight: 'bold'
+      }
+    }
+  }
+  };
+  pieChartOptions2: any = {
+    legend: {
+      display: true,
+      position: 'bottom',
+      labels: {
+        fontColor: '#333',
+        usePointStyle: true,
+        render: 'percentage',
+        data: {
+          formatter: (value, ctx) => {
+            let sum = 0;
+            const dataArr = this.pieChartData[0].data;
+            dataArr.map(data => {
+              sum += data;
+            });
+            const percentage = (value * 100 / sum).toFixed(2) + '%';
+            return percentage;
+          },
+          color: '#fff',
+        },
+        precision: 2
+      }
+    },
+    title: {
+      display: true,
+      text: 'User Rating for Brand Product'
     },
     plugins: {}
   };
@@ -338,22 +389,25 @@ export class DashboardComponent implements OnInit {
   ];
   public radarChartType = 'radar';
   jobId: any;
-  showDatePicker: boolean;
   isBrandDataAvailable: boolean;
   isBarGraphDataAvailable: boolean;
-  dashboardApiUrls: any = ['brandspresence', 'brandsproductrating', 'brandsavgimages',
-    'brandsavgbullets', 'brandsavgtitlelength', 'brandsavgimages', 'brandsavgdesclength', 'brandskeywordpresence'];
+  // 'brandskeywordpresence'
+  // , 'brandskeywordpresence'
+  dashboardApiUrls: any = ['brandspresence', 'brandsproductrating', 'brandsavgimages', 'brandsavgbullets' ,
+  'brandsavgtitlelength', 'brandsavguserreviews', 'brandsavgdesclength'];
   selectedCategory: String = 'brand';
 
-  constructor(public route: ActivatedRoute, public router: Router, public jobsService: JobsService) { }
+  constructor(public route: ActivatedRoute, public router: Router, public jobsService: JobsService,
+    public ngbDateFrParserFormatterService: NgbDateFrParserFormatterService) { }
 
   ngOnInit() {
     // this.headerTitle = this.route.snapshot.paramMap.get('headerTitle');
     // this.keyword = this.route.snapshot.paramMap.get('productTitle');
     this.jobId = this.route.snapshot.paramMap.get('jobId');
-    if (this.headerTitle && this.headerTitle.toLowerCase() === 'organic keyword') {
-      this.showDatePicker = true;
-    }
+    // this.fromDate = new Date('2019-11-01');
+    // this.toDate = new Date();
+    // console.log('From Date::', this.fromDate, 'From Date Status:', this.fromDateStatus);
+    // console.log('To Date::', this.toDate, 'To Date Status:', this.toDateStatus);
     this.isBarGraphDataAvailable = false;
     this.isBrandDataAvailable = false;
     this.getAnalytics();
@@ -362,12 +416,13 @@ export class DashboardComponent implements OnInit {
   getAnalytics() {
     const promiseList: any[] = [];
     this.dashboardApiUrls.forEach(url => {
-      const promise = this.jobsService.getAnalyticsDetails(url, this.jobId);
+      const promise = this.jobsService.getAnalyticsDetails(url, this.jobId, this.analyticsType,
+        this.ngbDateFrParserFormatterService.format(this.fromDate),
+        this.ngbDateFrParserFormatterService.format(this.toDate));
       promiseList.push(promise);
     });
     Promise.all(promiseList).then((details) => {
       this.splitAnalyticsDetails(details);
-
     });
   }
   splitAnalyticsDetails(details) {
@@ -376,75 +431,167 @@ export class DashboardComponent implements OnInit {
       this.pieChartData.push({ labels: this.pieChartBrandLabels });
       this.pieChartData[0].data = [details[0].brandProducts];
       this.pieChartData[0].data.push(details[0].otherBrandProducts);
-      this.pieChartOptions.plugins = {
-        data: {
-            formatter: (value, ctx) => {
-                let sum = 0;
-                const dataArr = this.pieChartData[0].data;
-                dataArr.map(data => {
-                    sum += data;
-                });
-                const percentage = (value * 100 / sum).toFixed(2) + '%';
-                return percentage;
-            },
-            color: '#fff',
-      }
-    };
-    // console.log('pieChartOptions', this.pieChartOptions);
+      this.pieChartOptions1.plugins.datalabels =  {
+        formatter: (value, ctx) => {
+          const label = this.pieChartData[ctx.dataIndex].data;
+          return label;
+        },
+      };
+      // this.pieChartOptions.plugins = {
+      //   data: {
+      //     formatter: (value, ctx) => {
+      //       let sum = 0;
+      //       const dataArr = this.pieChartData[0].data;
+      //       dataArr.map(data => {
+      //         sum += data;
+      //       });
+      //       const percentage = (value * 100 / sum).toFixed(2) + '%';
+      //       return percentage;
+      //     },
+      //     color: '#fff',
+      //   }
+      // };
+      // console.log('pieChartOptions', this.pieChartOptions);
       const userRating = details[1].userRating;
       this.pieChartData.push({ labels: Object.keys(userRating) });
       this.pieChartData[1].data = Object.values(userRating);
-      this.pieChartOptions.plugins = {
-        data: {
-            formatter: (value, ctx) => {
-                let sum = 0;
-                const dataArr = this.pieChartData[0].data;
-                dataArr.map(data => {
-                    sum += data;
-                });
-                const percentage = (value * 100 / sum).toFixed(2) + '%';
-                return percentage;
-            },
-            color: '#fff',
+      // this.pieChartOptions.plugins = {
+      //   data: {
+      //     formatter: (value, ctx) => {
+      //       let sum = 0;
+      //       const dataArr = this.pieChartData[0].data;
+      //       dataArr.map(data => {
+      //         sum += data;
+      //       });
+      //       const percentage = (value * 100 / sum).toFixed(2) + '%';
+      //       return percentage;
+      //     },
+      //     color: '#fff',
+      //   }
+      // };
+      // Image labels and data
+      let labels;
+      let data;
+      if (details[2] && details[2].stats) {
+          labels =  details[2].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
+          data = details[2].stats.map(stat => stat.avgimageCount ? stat.avgimageCount : 0);
+          labels = labels.slice(0, 15);
+          data = data.slice(0, 15);
+          let actualData = [];
+          let actualLabels = [];
+          data.forEach( (dataCount, i ) => {
+            if (dataCount > 0) {
+              actualLabels.push(labels[i]);
+              actualData.push(dataCount);
+            }
+          });
+          if (actualData.length > 0 && actualLabels.length > 0) {
+            this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartImageOptions});
+          }
       }
-    };
-      // Image Labels and data
-      this.barChartData.push({ labels: details[2].stats.map(stat => stat.vendorname ? this.formatLabel(stat.vendorname, 10) : '') });
-      this.barChartData[0].data = details[2].stats.map(stat => stat.avgimageCount ? stat.avgimageCount : 0);
-      this.barChartData[0].options = this.barChartImageOptions;
+
       // Bullet points labels and data
-      this.barChartData.push({ labels: details[3].stats.map(stat => stat.vendorname ? stat.vendorname : '') });
-      this.barChartData[1].data = details[3].stats.map(stat => stat.avgBulletsCount ? stat.avgBulletsCount : 0);
-      this.barChartData[1].options = this.barChartBulletOptions;
+      if (details[3] &&  details[3].stats) {
+         labels = details[3].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
+         data = details[3].stats.map(stat => stat.avgBulletsCount ? stat.avgBulletsCount : 0);
+         labels = labels.slice(0, 15);
+         data = data.slice(0, 15);
+         let actualData = [];
+         let actualLabels = [];
+         data.forEach( (dataCount, i ) => {
+           if (dataCount > 0) {
+             actualLabels.push(labels[i]);
+             actualData.push(dataCount);
+           }
+         });
+         if (actualData.length > 0 && actualLabels.length > 0) {
+           this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartBulletOptions});
+         }
+      }
+
       // Char length labels and data
-      this.barChartData.push({ labels: details[4].stats.map(stat => stat.vendorname ? stat.vendorname : '') });
-      this.barChartData[2].data = details[4].stats.map(stat => stat.avgTitleLength ? stat.avgTitleLength : 0);
-      this.barChartData[2].options = this.barChartCharLengthOptions;
-      // UserReviews Labels and data ( Need to be corrected once the userReview API is fine)
-      this.barChartData.push({ labels: details[5].stats.map(stat => stat.vendorname ? stat.vendorname : '') });
-      this.barChartData[3].data = details[5].stats.map(stat => stat.avgimageCount ? stat.avgimageCount : 0);
-      this.barChartData[3].options = this.barChartUserReviewOptions;
+      if (details[4] && details[4].stats) {
+        labels =  details[4].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
+        data = details[4].stats.map(stat => stat.avgTitleLength ? stat.avgTitleLength : 0);
+        labels = labels.slice(0, 15);
+        data = data.slice(0, 15);
+        let actualData = [];
+        let actualLabels = [];
+        data.forEach( (dataCount, i ) => {
+          if (dataCount > 0) {
+            actualLabels.push(labels[i]);
+            actualData.push(dataCount);
+          }
+        });
+        if (actualData.length > 0 && actualLabels.length > 0) {
+        this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartCharLengthOptions });
+        }
+      }
+
+      // UserReviews Labels and data
+      if (details[5] &&  details[5].stats) {
+        labels = details[5].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
+        data =  details[5].stats.map(stat => stat.avgUserReviews ? stat.avgUserReviews : 0);
+        labels = labels.slice(0, 15);
+        data = data.slice(0, 15);
+        let actualData = [];
+        let actualLabels = [];
+        data.forEach( (dataCount, i ) => {
+          if (dataCount > 0) {
+            actualLabels.push(labels[i]);
+            actualData.push(dataCount);
+          }
+        });
+        if (actualData.length > 0 && actualLabels.length > 0) {
+          this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartUserReviewOptions  });
+        }
+      }
       // Avg Characters in description labels and data
-      this.barChartData.push({ labels: details[6].stats.map(stat => stat.vendorname ? stat.vendorname : '') });
-      this.barChartData[4].data = details[6].stats.map(stat => stat.avgDescLength ? stat.avgDescLength : 0);
-      this.barChartData[4].options = this.barChartAvgDescOptions;
-      // Brand Word presence in title, bullets, description
-      this.barChartData.push({ labels: details[7].stats.map(stat => stat.vendorname ? stat.vendorname : '') });
-      this.barChartData[5].labels = ['Title', 'Bullets', 'Description'];
-      this.barChartData[5].data = [{
-        label: 'Title', data: details[7].stats.map(
-          stat => stat.productsWithKeyword && stat.productsWithKeyword.inTitle ? stat.productsWithKeyword.inTitle : 0)
-      }];
-      this.barChartData[5].data.push({
-        label: 'Bullets', data: details[7].stats.map(
-          stat => stat.productsWithKeyword && stat.productsWithKeyword.inBullets ? stat.productsWithKeyword.inBullets : 0)
-      });
-      this.barChartData[5].data.push({
-        label: 'Description', data: details[7].stats.map(
-          stat => stat.productsWithKeyword && stat.productsWithKeyword.inDescription ? stat.productsWithKeyword.inDescription : 0)
-      });
-      this.barChartData[5].options = this.barChartKeywordPresenceOptions;
-      this.barChartData[5].isStacked = true;
+      if (details[6] && details[6].stats) {
+        labels = details[6].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
+        data = details[6].stats.map(stat => stat.avgDescLength ? stat.avgDescLength : 0);
+        labels = labels.slice(0, 15);
+        data = data.slice(0, 15);
+        let actualData = [];
+        let actualLabels = [];
+        data.forEach( (dataCount, i ) => {
+          if (dataCount > 0) {
+            actualLabels.push(labels[i]);
+            actualData.push(dataCount);
+          }
+        });
+        if (actualData.length > 0 && actualLabels.length > 0) {
+          this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartAvgDescOptions });
+        }
+      }
+
+      // Avg Characters in Title, bullet, Description
+      if (details[7] && details[7].stats) {
+        labels =  details[7].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
+        data.push({
+          label: 'Title', data: details[7].stats.map(
+            stat => stat.productsWithKeyword[0] && stat.productsWithKeyword[0].inTitle ? stat.productsWithKeyword[0].inTitle : 0)
+        });
+        data.push({
+          label: 'Bullets', data: details[7].stats.map(
+            stat => stat.productsWithKeyword[0] && stat.productsWithKeyword[0].inBullets ? stat.productsWithKeyword[0].inBullets : 0)
+        });
+        data.push({
+          label: 'Description', data: details[7].stats.map(
+            stat => stat.productsWithKeyword && stat.productsWithKeyword[0].inDescription ? stat.productsWithKeyword[0].inDescription : 0)
+        });
+        let actualData = [];
+        let actualLabels = [];
+        data.forEach( (dataCount, i ) => {
+          if (dataCount > 0) {
+            actualLabels.push(labels[i]);
+            actualData.push(dataCount);
+          }
+        });
+        if (actualData.length > 0 && actualLabels.length > 0) {
+          this.barChartData.push({labels: actualLabels, data: actualData, options: this.barChartKeywordPresenceOptions, isStacked: true });
+        }
+      }
       this.isBrandDataAvailable = true;
     }
   }
@@ -454,38 +601,44 @@ export class DashboardComponent implements OnInit {
   }
 
   formatLabel(str, maxwidth) {
-  const sections = [];
-  const words = str.split(' ');
-  let temp = '';
-  words.forEach(function (item, index) {
-    if (temp.length > 0) {
-      const concat = temp + ' ' + item;
-      if (concat.length > maxwidth) {
-        sections.push(temp);
-        temp = '';
-      } else {
-        if (index === (words.length - 1)) {
-          sections.push(concat);
-          return;
+    const sections = [];
+    const words = str.split(' ');
+    let temp = '';
+    words.forEach(function (item, index) {
+      if (temp.length > 0) {
+        const concat = temp + ' ' + item;
+        if (concat.length > maxwidth) {
+          sections.push(temp);
+          temp = '';
         } else {
-          temp = concat;
-          return;
+          if (index === (words.length - 1)) {
+            sections.push(concat);
+            return;
+          } else {
+            temp = concat;
+            return;
+          }
         }
       }
-    }
-    if (index === (words.length - 1)) {
-      sections.push(item);
-      return;
-    }
-    if (item.length < maxwidth) {
-      temp = item;
-    } else {
-      sections.push(item);
-    }
+      if (index === (words.length - 1)) {
+        sections.push(item);
+        return;
+      }
+      if (item.length < maxwidth) {
+        temp = item;
+      } else {
+        sections.push(item);
+      }
 
-  });
+    });
 
-  return sections;
-}
+    return sections;
+  }
+
+  getData() {
+    if (this.fromDateStatus && this.toDateStatus) {
+      this.getAnalytics();
+    }
+  }
 
 }

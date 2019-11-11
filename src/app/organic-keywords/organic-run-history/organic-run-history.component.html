@@ -1,26 +1,21 @@
-<!-- <div class="run-history-container">
-  <div class="job-results">
-    <div class="job-results-header">
-      <span class="result-header-text">Job Run History</span>
+<div class="schedule-container">
+    <app-job-details *ngIf="!isLoading" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
+        [showCreateButton]="false" [pageCount]="totalItems" [showSearch]="true" [currentpageIndex]='currentpageIndex' [isLoading]="isLoading"
+        (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">
+        <ng-template #filedsHeader let-product>
+            <td>
+                <span>{{product?.runAt ? createdDate(product?.runAt) : ''}}</span>
+            </td>
+            <td>
+                <span class="status-wrapper" [style.background]="getBackgroundColor(product)">{{product?.status === 'Successfully Completed' ? 'Success' : 'Failure'}}</span>
+            </td>
+            <td>
+                <a class="action-icons glyphicon glyphicon-tasks" (click)="navigateTo(product)"></a>
+            </td>
+        </ng-template>
+    </app-job-details>
+    <div class="no-results-text" *ngIf="showErrorMessage && !isLoading">
+        <span>{{showErrorMessage}}</span>
     </div>
-    <table class="job-results-table">
-      <th>#</th>
-      <th>Run Executed at</th>
-      <th>Status</th>
-      <th>Result</th>
-      <tr>
-        <td>1</td>
-        <td>Sun, 11 Aug 2019 at 4:38:19 PM</td>
-        <td>Success</td>
-        <td>
-          <a (click)="loadResults()">View Result</a>
-        </td>
-      </tr>
-    </table>
-  </div>
-</div> -->
-<app-job-details [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails">
-  <ng-template #lineHeader let-line>
-    <a class="action-icons" (click)="navigateToTabs(line.route)">{{line?.icon}}</a>
-  </ng-template>
-</app-job-details>
+    <app-loader [show]="isLoading"></app-loader>
+</div>

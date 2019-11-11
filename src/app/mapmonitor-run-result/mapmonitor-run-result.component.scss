@@ -1,0 +1,19 @@
+.run-result-container{
+    padding: 20px 10px 20px 10px;
+    td {
+        //width: 180px;
+        text-align: left;
+        padding: 15px 10px 15px 15px;
+        font-size:13px;
+        @media (min-width: 768px) and (max-width: 1024px) {
+            width: 150px;
+        }
+    }
+    .no-results-text {
+        color:black;
+        font-weight: bold;
+        margin-top:20%;
+        font-size: 20px;
+        text-align: center;
+    }
+}

@@ -14,6 +14,7 @@ export class ForgotPasswordComponent implements OnInit {
   isPasswordSent: boolean;
   passwordResetMsg: string;
   submitted: boolean;
+  showErrorMessage: string;
   constructor(public authService: AuthService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -35,6 +36,8 @@ export class ForgotPasswordComponent implements OnInit {
           this.isPasswordSent = true;
           this.passwordResetMsg = 'Your password has been sent to your email';
         }
+      }).catch(err => {
+        this.showErrorMessage = err.error.message;
       });
     }
   }

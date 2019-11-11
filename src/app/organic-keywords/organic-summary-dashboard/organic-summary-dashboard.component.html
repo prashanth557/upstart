@@ -1,1 +1,1 @@
-<app-dashboard [keyword]="'Real Estate Investment Trusts crawl'" [headerTitle]="'Keyword'"></app-dashboard>
+<app-dashboard  *ngIf="!isLoading" [keyword]="keywordInput" [headerTitle]="'Keyword'" [analyticsType]="'organic keyword'" [showDatePicker]="true"></app-dashboard>

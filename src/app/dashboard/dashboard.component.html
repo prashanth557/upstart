@@ -1,41 +1,30 @@
 <!-- <div id="chartContainer" class="brand-product-presence"></div> -->
 <div class="pie-chart-container">
   <div class="dashboard-header">
-    <span *ngIf="headerTitle && keyword" class="dashboard-header-text">{{headerTitle}} : {{keyword}} </span>
-    <select *ngIf="showDatePicker" class="browser-default custom-select">
-      <option selected>Open this select menu</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
-    <span *ngIf="showDatePicker" class="dashboard-header-text">Over the Period</span>
-    <div *ngIf="showDatePicker" class="input-group date" data-provide="datepicker">
-      <input type="text" class="form-control">
-      <div class="input-group-addon">
-        <span class="glyphicon glyphicon-calendar"></span>
-      </div>
+    <span *ngIf="headerTitle && keyword" class="dashboard-header-keyword-text">{{headerTitle}} : {{keyword}} </span>
+    <div *ngIf="showDatePicker" class="date-container">
+      <span class="dashboard-header-text">From</span>
+      <input class="form-control date-inputs" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="fromDate" ngbDatepicker #d1="ngbDatepicker" #c1="ngModel">
+      <button class="btn btn-outline-secondary glyphicon glyphicon-calendar" (click)="d1.toggle()" type="button"></button>
+      <span class="dashboard-header-text">To</span>
+      <input class="form-control date-inputs" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="toDate" ngbDatepicker #d2="ngbDatepicker" #c2="ngModel" data-date-max-date="now">
+      <button class="btn btn-outline-secondary glyphicon glyphicon-calendar" (click)="d2.toggle()" type="button"></button>
     </div>
-    <span *ngIf="showDatePicker" class="dashboard-header-text">to</span>
-    <div *ngIf="showDatePicker" class="input-group date" data-provide="datepicker">
-      <input type="text" class="form-control">
-      <div class="input-group-addon">
-        <span class="glyphicon glyphicon-calendar"></span>
-      </div>
-    </div>
+    <button *ngIf="showDatePicker" class="apply-button" (click)="getData()">Apply</button>
   </div>
   <div class="pie-chart-section">
-    <app-summary-dashboard *ngIf="isBrandDataAvailable" [pieChartData]="pieChartData" [pieChartOptions]="pieChartOptions"></app-summary-dashboard>
-      <app-loader [show]='!isBrandDataAvailable'></app-loader>
+    <app-summary-dashboard *ngIf="isBrandDataAvailable" [pieChartData]="pieChartData" [pieChartOptions1]="pieChartOptions1" [pieChartOptions2]="pieChartOptions2"></app-summary-dashboard>
+    <app-loader [show]='!isBrandDataAvailable'></app-loader>
   </div>
 </div>
 <div class="bar-chart-container">
   <div class="competetor-analysis-wrapper">
     <div class="competetor-header">
       <div class="competetor-header-text">Competetor Analysis</div>
-      <div>
+      <!-- <div>
         <span (click)="selectCategory('brand')" [class.active]="selectedCategory === 'brand' " class="analytics-category" >Brand wise</span>
         <span (click)="selectCategory('product')" [class.active]="selectedCategory === 'product' " class="analytics-category">Product wise</span>
-      </div>
+      </div> -->
       <!-- <span class="radio">
         <label class="competetor-header-text">
           <input type="radio" name="optradio" checked>Brand Based </label>

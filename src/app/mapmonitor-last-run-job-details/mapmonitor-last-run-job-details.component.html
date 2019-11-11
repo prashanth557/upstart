@@ -1,57 +1,64 @@
 <div class="mapjob-container">
-  <h4 class="map-job-header-text">Map Breach Job Details</h4>
-  <div class="map-job-header-details row">
-    <div class="col-sm-6">
-      <div class="map-job-details col-sm-10">
-        <span>Job Title</span>
-        <span>Created at</span>
-      </div>
-      <div class="map-job-details col-sm-10">
-        <span>
-          <b>Top ASIN Tracker</b>
-        </span>
-        <span>
-          <b>Feb 15, 2019 @11:30 AM</b>
-        </span>
+  <div *ngIf="!isLoading && !showErrorMessage">
+    <h4 class="map-job-header-text">Map Breach Job Details</h4>
+    <div class="map-job-header-details row">
+      <div class="col-sm-6">
+        <div class="map-job-details col-sm-10">
+          <span>Job Title</span>
+          <span>Created at</span>
+        </div>
+        <div class="map-job-details col-sm-10">
+          <span>
+            <b>Top ASIN Tracker</b>
+          </span>
+          <span>
+            <b>Feb 15, 2019 @11:30 AM</b>
+          </span>
+        </div>
       </div>
     </div>
+    <app-result-header [jobResults]="jobResults"></app-result-header>
+    <h3 class="map-job-header-text">ASINs Seller Data</h3>
+    <table *ngIf="!isLoading" class="last-run-job-table">
+      <ng-container *ngFor="let header of jobCandidateDetails; let i = index; ">
+        <tr class="job-candiate-row" (click)="getSellerInfo(i)">
+          <td class="asin-text">
+            <span class="asin-wrapper">{{header?.asin}}</span>
+          </td>
+          <td>
+            <span class="map-wrapper">MAP - {{header?.map}}</span>
+            <span *ngIf="header?.sellers?.length > 0" class="seller-wrapper">{{header?.sellers?.length}} Sellers</span>
+            <span *ngIf="header?.mapBreachesCount > 0" class="map-breach-wrapper">{{header?.mapBreachesCount}} MAP Breach</span>
+          </td>
+        </tr>
+        <table class="sellers-information">
+        <tr *ngIf="displaySellerIndex === i && productDetails?.length > 0 && showSellersInfo">
+          <app-job-details [jobHeaders]="jobHeaders" [productDetails]="productDetails" [isLoading]="isLoading">
+            <ng-template #filedsHeader let-product>
+              <td>
+                <span>{{product?.name}}</span>
+              </td>
+              <td>
+                <span>{{product?.price}}</span>
+              </td>
+              <td>
+                <span>{{product?.itemCondition}}</span>
+              </td>
+              <td>
+                <span>{{product?.shippingInfo}}</span>
+              </td>
+              <td>
+                <span>{{product?.belowMap}}</span>
+              </td>
+            </ng-template>
+          </app-job-details>
+        </tr>
+      </table>
+      </ng-container>
+    </table>
   </div>
-  <app-result-header [jobResults]="jobResults"></app-result-header>
-  <h3 class="map-job-header-text">ASINs Seller Data</h3>
-  <table *ngIf="!isLoading" class="last-run-job-table">
-    <ng-container *ngFor="let header of jobCandidateDetails; let i = index; ">
-      <tr class="job-candiate-row" (click)="getSellerInfo(i)">
-        <td>
-          <span class="asin-wrapper">{{header?.asin}}</span>
-        </td>
-        <td>
-          <span class="map-wrapper">MAP - {{header?.map}}</span>
-          <span class="seller-wrapper">{{header?.map}} Sellers</span>
-          <span class="map-breach-wrapper">{{header?.mapBreachesCount}} MAP Breach</span>
-        </td>
-      </tr>
-      <tr *ngIf="displaySellerIndex === i && productDetails?.length > 0 && showSellersInfo">
-      <app-job-details [jobHeaders]="jobHeaders" [productDetails]="productDetails" [isLoading]="isLoading" [pageCount]="productDetails?.length">
-          <ng-template #filedsHeader let-product>
-            <td>
-              <span>{{product?.name}}</span>
-            </td>
-            <td>
-              <span>{{product?.price}}</span>
-            </td>
-            <td>
-              <span>{{product?.itemsCondition}}</span>
-            </td>
-            <td>
-              <span>{{product?.shippingInfo}}</span>
-            </td>
-            <td>
-              <span>{{product?.belowMap}}</span>
-            </td>
-          </ng-template>
-        </app-job-details>
-      </tr>
-    </ng-container>
-  </table>
   <app-loader [show]='isLoading'></app-loader>
+  <div class="no-results-text">
+    <span *ngIf='showErrorMessage && !isLoading'>{{showErrorMessage}}</span>
+</div>
 </div>

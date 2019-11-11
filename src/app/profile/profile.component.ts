@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
     return this.newPassword === this.confirmPassword ? true : false;
   }
 
-  changePassword(isValid) {
+  changePassword() {
     this.submitted = true;
     if (this.checkPasswords()) {
       this.passwordMistach = false;
@@ -87,6 +87,10 @@ export class ProfileComponent implements OnInit {
     this.currentPassword = '';
     this.newPassword = '';
     this.confirmPassword = '';
+  }
+
+  onFileChanged(event) {
+
   }
 
 }

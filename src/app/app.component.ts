@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
   }
 
   logoutUser() {
-    Cookie.deleteAll('/');
+    Cookie.deleteAll( '/exucrawl' );
     this.router.navigate(['/login']);
   }
 }

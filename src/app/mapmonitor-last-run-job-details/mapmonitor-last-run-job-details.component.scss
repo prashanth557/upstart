@@ -29,6 +29,12 @@
         .job-candiate-row{
             background: #dedada;
             cursor: pointer;
+            width: 100%;
+            display: inline-flex;
+            margin-bottom: 15px;
+            .asin-text{
+                width: 30%;
+            }
         }
         .asin-wrapper{
             color: #6c10e8;
@@ -93,4 +99,16 @@
 :host ::ng-deep .job-results-wrapper {
     padding-top: 0px !important;
     min-height: 100px !important;
+}
+
+.no-results-text {
+    color:black;
+    font-weight: bold;
+    margin-top:20%;
+    font-size: 20px;
+    text-align: center;
+}
+
+.sellers-information{
+    width:100% !important;
 }

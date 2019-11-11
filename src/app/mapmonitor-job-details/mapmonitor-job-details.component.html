@@ -1,14 +1,15 @@
 <div class="mapjob-container">
+  <div *ngIf="!isLoading">
   <h4 class="map-job-header-text">Map Breach Job Details</h4>
-  <div class="map-job-header-details row">
+  <div  class="map-job-header-details row">
     <div class="col-sm-6">
       <div class="map-job-details col-sm-10">
         <span>Job Title</span>
         <span>Status</span>
       </div>
       <div class="map-job-details col-sm-10">
-          <span><b>Top ASIN Tracker</b></span>
-          <span class="status-wrapper" [style.background]="getBackgroundColor('ready')">Ready</span>
+          <span><b>{{candidateResponse?.title}}</b></span>
+          <span class="status-wrapper" [style.background]="getBackgroundColor('ready')">{{candidateResponse?.status}}</span>
           <!-- <span>Ready</span> -->
       </div>
     </div>
@@ -18,14 +19,14 @@
           <span>Last Run at</span>
         </div>
         <div class="map-job-details col-sm-10">
-            <span>Feb 10, 2019 @11:30AM</span>
-            <span>Feb 15, 2019 @11:30AM</span>
+            <span>{{candidateResponse?.createdAt ? createdDate(candidateResponse?.createdAt) : ''}}</span>
+            <span>{{candidateResponse?.lastRunAt ? createdDate(candidateResponse?.lastRunAt) : ''}}</span>
           </div>
     </div>
   </div>
-  <app-result-header [jobResults]="jobResults"></app-result-header>
+  <app-result-header  [jobResults]="jobResults"></app-result-header>
   <app-job-details *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails" [pageCount]="totalItems"
-    [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)">
+    [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">
     <ng-template #filedsHeader let-product>
       <td>
           <span>{{product?.asin}}</span>
@@ -38,5 +39,6 @@
       </td>
   </ng-template>
   </app-job-details>
-  <app-loader [show]='productDetails?.length === 0'></app-loader>
+</div>
+  <app-loader [show]='isLoading'></app-loader>
 </div>

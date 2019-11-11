@@ -6,8 +6,13 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
-import { UiSwitchModule } from 'ngx-ui-switch';
+import { UiSwitchModule } from 'ngx-toggle-switch';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+import { EllipsisModule } from 'ngx-ellipsis';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 // Services
 import { PrivilegeService } from './services/privilege.service';
@@ -19,8 +24,6 @@ import { AuthService} from './services/auth.service';
 import { AuthGuard } from './guards/auth-guard.service';
 import { HttpWrapper } from './services/http-wrapper';
 import { RequestInterceptorService } from './services/http-wrapper/request.interceptor';
-
-
 // Components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -51,6 +54,12 @@ import { MapmonitorLastRunJobDetailsComponent } from './mapmonitor-last-run-job-
 import { ResultHeaderDupComponent } from './result-header-dup/result-header-dup.component';
 import { KeywordRelevanceDashboardComponent } from './keyword-relevant-jobs/keyword-relevance-dashboard/keyword-relevance-dashboard.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { MapmonitorRunHistoryComponent } from './mapmonitor-run-history/mapmonitor-run-history.component';
+import { OrganicKeywordsSchedulesComponent } from './organic-keywords/organic-keywords-schedules/organic-keywords-schedules.component';
+import { OrganicKeywordRunResultComponent } from './organic-keywords/organic-keyword-run-result/organic-keyword-run-result.component';
+import { MapmonitorRunResultComponent } from './mapmonitor-run-result/mapmonitor-run-result.component';
+import { BulkKeywordUploadComponent } from './bulk-keyword-upload/bulk-keyword-upload.component';
+import { BulkCrawlResultComponent } from './bulk-keyword-upload/bulk-crawl-result/bulk-crawl-result.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +91,12 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ResultHeaderDupComponent,
     KeywordRelevanceDashboardComponent,
     DashboardComponent,
+    MapmonitorRunHistoryComponent,
+    OrganicKeywordsSchedulesComponent,
+    OrganicKeywordRunResultComponent,
+    MapmonitorRunResultComponent,
+    BulkKeywordUploadComponent,
+    BulkCrawlResultComponent
   ],
   imports: [
     BrowserModule,
@@ -93,13 +108,19 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ChartsModule,
     NgxPaginationModule,
     HttpClientModule,
-    UiSwitchModule
+    UiSwitchModule,
+    NguiAutoCompleteModule,
+    EllipsisModule,
+    NgbModule
+    // OwlDateTimeModule,
+    // OwlNativeDateTimeModule
   ],
   providers: [
     PrivilegeService,
     CookieService,
     AuthGuard,
     AuthService,
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptorService,

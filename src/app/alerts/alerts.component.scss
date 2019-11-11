@@ -1,0 +1,18 @@
+.alerts-container {
+    padding: 20px 0px 20px 10px;
+    td {
+        //width: 180px;
+        text-align: left;
+        padding: 15px 0px 15px 10px;
+        font-size:13px;
+        @media (min-width: 768px) and (max-width: 1024px) {
+            width: 150px;
+        }
+        .status-wrapper{
+            padding: 5px 15px 5px 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 13px;
+        }
+    }
+}

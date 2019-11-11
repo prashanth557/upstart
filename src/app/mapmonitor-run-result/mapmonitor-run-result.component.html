@@ -1,0 +1,39 @@
+<div class="run-result-container">
+  <app-result-header [jobResults]="jobResults"></app-result-header>
+  <app-job-details *ngIf="!isLoading" [headerTitle]="'Crawl result for job'" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
+      [pageCount]="totalItems" [showSearch]="true" [currentpageIndex]='currentpageIndex'
+      [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">
+      <ng-template #filedsHeader let-product>
+          <td>
+              <span>{{product?.productTitle}}</span>
+          </td>
+          <td>
+              <span>{{product?.description}}</span>
+          </td>
+          <td>
+              <span>{{product?.price}}</span>
+          </td>
+          <td>
+              <span>{{product?.lastRunAt ? createdDate(product?.lastRunAt) : ''}}</span>
+          </td>
+          <td>
+              <span *ngIf="product?.bulletPoints">
+                  <ul *ngFor="let point of product?.bulletPoints">
+                      <li>{{point}}</li>
+                  </ul>
+              </span>
+          </td>
+          <td>
+              <span>{{product?.imagesAndVideosCount}}</span>
+           </td>
+          <td>
+              <span>{{product?.byInfo}}</span>
+          </td>
+      </ng-template>
+  </app-job-details>
+  <app-loader [show]='isLoading'></app-loader>
+  <div class="no-results-text">
+      <span *ngIf='showErrorMessage && !isLoading'>{{showErrorMessage}}</span>
+  </div>
+</div>
+<app-top-notification></app-top-notification>

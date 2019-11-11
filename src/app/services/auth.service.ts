@@ -76,17 +76,42 @@ export class AuthService {
   }
 
   getRole() {
+    if (Cookie.get('role')) {
+      return Cookie.get('role');
+    }
+    const userDetails = this.fetchUserDetails();
+    if (userDetails.extension_isAdmin) {
+      Cookie.set('role', 'Admin');
+    } else {
+      Cookie.set('role', 'Vendor');
+    }
     return Cookie.get('role');
+  }
+
+  getVendorId() {
+    return Cookie.get('vendorId');
   }
 
   refreshToken(): Observable<any> {
     console.log('refresh token called');
-    const url = this.config.homeUrl + '/token';
-    return this.http.authenticatedGet(url);
+    const url = this.config.refreshTokenUrl;
+    if (Cookie.get('refresh_token')) {
+      const body = {
+        'refreshToken' : Cookie.get('refresh_token')
+      };
+      return this.http.authenticatedPost(url, body).map( (response: any) => {
+        Cookie.set('_token', response.id_token);
+        Cookie.set('refresh_token', response.refresh_token);
+      }).catch(err => {
+          return err;
+      });
+    } else {
+      this.logoutUser();
+    }
   }
 
   deleteTokens() {
-    Cookie.deleteAll();
+    Cookie.deleteAll( '/exucrawl' );
   }
 
   resetPassword(username) {
@@ -99,7 +124,7 @@ export class AuthService {
         return res;
       }
     }).catch(err => {
-      return this.handleError(err);
+      return err;
     });
   }
 
@@ -124,5 +149,12 @@ export class AuthService {
     const decodedToken = jwt_decode(token);
     console.log('decoded Token', decodedToken);
     return decodedToken;
+  }
+
+  logoutUser() {
+    Cookie.deleteAll( '/exucrawl' );
+    if (typeof window !== 'undefined') {
+      window.location.reload();
+    }
   }
 }
