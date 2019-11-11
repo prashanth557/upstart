@@ -13,55 +13,55 @@
         <li class="nav-tabs" [class.active]="isActive('home')" (click)="navigateToPage('/home')">
           <a>
             <span *ngIf="!hideNavBar" class="">Dashboard</span>
-            <span class="sub_icon glyphicon glyphicon-home"></span>
+            <img class="sub_icon" src="assets/icons/ico-home.svg"/>
           </a>
         </li>
         <li class="nav-tabs" [class.active]="isActive('keywordjoblist')"  (click)="navigateToPage('/keywordjoblist')">
           <a>
             <span  *ngIf="!hideNavBar" class="">Keyword Relevance Jobs</span>
-            <span class="sub_icon glyphicon glyphicon-file"></span>
+            <img class="sub_icon" src="assets/icons/ico-keywordrelevance.svg"/>
           </a>
         </li>
         <li class="nav-tabs" [class.active]="isActive('bulkcrawljobs')"  (click)="navigateToPage('/bulkcrawljobs')">
           <a>
             <span  *ngIf="!hideNavBar" class="">Bulk Crawl Jobs</span>
-            <span class="sub_icon glyphicon glyphicon-file"></span>
+            <img class="sub_icon" src="assets/icons/ico-bulkproductcrawls.svg"/>
           </a>
         </li>
         <li class="nav-tabs" [class.active]="isActive('mapjobslist')" (click)="navigateToPage('/mapjobslist')">
           <a>
             <span  *ngIf="!hideNavBar" class="">Map Monitor Jobs</span>
-            <span class="sub_icon glyphicon glyphicon-stats"></span>
+            <img class="sub_icon" src="assets/icons/ico-mapbreachmonitor.svg"/>
           </a>
         </li>
         <li class="nav-tabs" [class.active]="isActive('keywordset')" (click)="navigateToPage('/keywordset')">
           <a>
             <span  *ngIf="!hideNavBar" class="">Organic Keywords</span>
-            <span class="sub_icon glyphicon glyphicon-th-list"></span>
+            <img class="sub_icon" src="assets/icons/ico-organickeyword.svg"/>
           </a>
         </li>
         <li class="nav-tabs" [class.active]="isActive('schedulesList')" (click)="navigateToPage('/schedulesList')">
           <a>
             <span  *ngIf="!hideNavBar" class="">Auto-run schedules</span>
-            <span class="sub_icon glyphicon glyphicon-calendar"></span>
+            <img class="sub_icon" src="assets/icons/ico-autorunscheduled.svg"/>
           </a>
         </li>
         <li class="nav-tabs" [class.active]="isActive('alerts')" (click)="navigateToPage('/alerts')">
           <a>
             <span  *ngIf="!hideNavBar" class="">Alerts</span>
-            <span class="sub_icon glyphicon glyphicon-alert"></span>
+            <img class="sub_icon" src="assets/icons/ico-alert.svg"/>
           </a>
         </li>
         <li class="nav-tabs" [class.active]="isActive('myprofile')" (click)="navigateToPage('/myprofile')">
           <a>
             <span  *ngIf="!hideNavBar" class="">My Profile</span>
-            <span class="sub_icon glyphicon glyphicon-user"></span>
+            <img class="sub_icon" src="assets/icons/ico-profile.svg"/>
           </a>
         </li>
         <li *ngIf="isAdmin" class="nav-tabs" [class.active]="isActive('users')" (click)="navigateToPage('/users')">
           <a>
             <span  *ngIf="!hideNavBar" class="">Users</span>
-            <span class="sub_icon glyphicon glyphicon-cog"></span>
+            <img class="sub_icon" src="assets/icons/ico-settings.svg"/>
           </a>
         </li>
       </ul>
