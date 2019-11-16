@@ -26,7 +26,7 @@ export class OrganicKeywordsComponent implements OnInit {
   {icon: 'glyphicon-trash'},
 ];
   // Table Headers
-  jobHeaders = ['Keyword', 'Vendor name', 'Created On', 'Last Updated On', 'Status', 'Quick Actions'];
+  jobHeaders = ['Keyword', 'Created On', 'Last Updated On', 'Status', 'Quick Actions'];
   createNewKeyword: boolean;
   productDetails: any = [];
   // Required for Pagination
@@ -47,11 +47,15 @@ export class OrganicKeywordsComponent implements OnInit {
   selectedVendor: any;
   selectedVendorName: string;
   showConfirmation: boolean;
+  jobCreationLoader: boolean;
   constructor(public router: Router, public jobsService: JobsService, public authService: AuthService) { }
 
   ngOnInit() {
     this.currentpageIndex = 1;
     this.isAdmin = this.authService.getRole() === 'Admin' ? true : false;
+    if(this.isAdmin) {
+      this.jobHeaders = ['Keyword', 'Vendor name', 'Created On', 'Last Updated On', 'Status', 'Quick Actions'];
+    }
     this.getDetails(this.currentpageIndex);
   }
 
@@ -225,6 +229,7 @@ export class OrganicKeywordsComponent implements OnInit {
 
   createOrganicKeyword() {
    if (this.organicKeywordTitle) {
+      this.jobCreationLoader = true;
       if (this.updateProductId) {
         const body = {
           'keyword': this.organicKeywordTitle
@@ -232,9 +237,11 @@ export class OrganicKeywordsComponent implements OnInit {
         this.jobsService.updateOrganicKeyword(this.updateProductId, body).then( res => {
           if (res) {
             this.jobCreated = true;
+            this.jobCreationLoader = false;
             this.getDetails(this.currentpageIndex);
           }
         }).catch((err: any) => {
+          this.jobCreationLoader = false;
           this.showErrorMessage = err.error.message;
           console.log('Error while updating the job', err);
        });
@@ -242,9 +249,11 @@ export class OrganicKeywordsComponent implements OnInit {
       this.jobsService.createOrganicKeyword(this.organicKeywordTitle).then( res => {
         if (res) {
           this.jobCreated = true;
+          this.jobCreationLoader = false;
           this.getDetails(1);
         }
       }).catch( (err: any) => {
+        this.jobCreationLoader = false;
        this.showErrorMessage = err.error.message;
        console.log('Error while Creating the job', err);
       });
@@ -271,10 +280,10 @@ export class OrganicKeywordsComponent implements OnInit {
   }
 
   getVendorList() {
-      this.jobsService.getUserList('vendors').then( res => {
+      this.jobsService.getVendors().then( res => {
         this.vendorDetails = res;
         this.vendorDetails.forEach(vendor => {
-          this.vendorNames.push(vendor.value.name);
+          this.vendorNames.push(vendor.name);
         });
         console.log('Vendor names', this.vendorNames);
       }).catch((err: any) => {

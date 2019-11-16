@@ -46,7 +46,7 @@ export class OrganicJoblistComponent implements OnInit {
       this.getJobDetails(1);
     }).catch( (err) => {
       console.log('Error while fetching LastRun Summary', err);
-      this.showErrorMessage = err.error.message;
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message : 'No Results Available';
       this.isSummarResultsLoading = false;
     });
   }
@@ -58,7 +58,7 @@ export class OrganicJoblistComponent implements OnInit {
       this.isLoading = false;
     }).catch(err => {
       console.log('Error while fetching Job Details', err);
-      this.showErrorMessage = err.error.message;
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message : 'No Results Available';
       this.isLoading = false;
     });
   }

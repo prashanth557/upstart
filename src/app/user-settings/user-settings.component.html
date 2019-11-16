@@ -1,23 +1,23 @@
 <div class="user-container">
   <div>
-    <app-job-details [headerTitle]="'Users'" [jobHeaders]="adminJobHeaders" [productDetails]="adminDetails" [showCreateButton]="true"
+    <app-job-details *ngIf="!adminDetailsLoading" [headerTitle]="'Users'" [jobHeaders]="adminJobHeaders" [productDetails]="adminDetails" [showCreateButton]="true"
       (createJob)="addNewAdmin($event)" [showSearch]="true" [currentpageIndex]='adminCurrentpageIndex' [isLoading]="adminDetailsLoading"
-      (pageChange)="onAdminPageChange($event)" [itemsTobeDisplayedPerPage]="adminLimitPerPage" [createButtonText]="'Create User'">
+      (pageChange)="onAdminPageChange($event)" [itemsTobeDisplayedPerPage]="adminLimitPerPage" [createButtonText]="'Create User'" [pageCount]="totalAdminCount">
       <ng-template #filedsHeader let-product>
         <!-- <td>
           <span>{{getAdminIndex()}}</span>
         </td> -->
         <td>
-          <span>{{product?.value?.emailId}}</span>
+          <span>{{product?.emailId}}</span>
         </td>
         <td>
-          <span>{{product?.value?.isAdmin ? 'Yes' : 'No'}}</span>
+          <span>{{product?.isAdmin ? 'Yes' : 'No'}}</span>
         </td>
         <td>
-            <span>{{product?.value?.isSignedUp ? 'Yes' : 'No'}}</span>
+            <span>{{product?.isSignedUp ? 'Yes' : 'No'}}</span>
           </td>
         <td>
-          <span>{{product?.value?.vendor?.name}}</span>
+          <span>{{product?.vendor?.name}}</span>
         </td>
       </ng-template>
     </app-job-details>
@@ -62,15 +62,15 @@
     </app-upstart-modal>
   </div>
   <div>
-    <app-job-details [headerTitle]="'Vendors'" [jobHeaders]="vendorJobHeaders" [productDetails]="vendorDetails" [showCreateButton]="true"
+    <app-job-details *ngIf="!vendorDetailsLoading" [headerTitle]="'Vendors'" [jobHeaders]="vendorJobHeaders" [productDetails]="vendorDetails" [showCreateButton]="true"
       (createJob)="addNewVendor($event)" [showSearch]="true" [currentpageIndex]='vendorCurrentpageIndex' [isLoading]="vendorDetailsLoading"
-      (pageChange)="onVendorPageChange($event)" [itemsTobeDisplayedPerPage]="adminLimitPerPage" [createButtonText]="'Create Vendor'">
+      (pageChange)="onVendorPageChange($event)" [itemsTobeDisplayedPerPage]="vendorLimitPerPage" [createButtonText]="'Create Vendor'"  [pageCount]="totalVendorCount">
       <ng-template #filedsHeader let-product>
         <!-- <td>
             <span>{{getVendorIndex()}}</span>
         </td> -->
         <td>
-          <span>{{product?.value?.name}}</span>
+          <span>{{product?.name}}</span>
         </td>
       </ng-template>
     </app-job-details>
@@ -96,4 +96,5 @@
       </div>
     </app-upstart-modal>
   </div>
+  <app-loader [show]="adminDetailsLoading"></app-loader>
 </div>

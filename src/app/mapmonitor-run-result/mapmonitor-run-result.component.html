@@ -1,5 +1,5 @@
 <div class="run-result-container">
-  <app-result-header [jobResults]="jobResults"></app-result-header>
+  <app-result-header [isLoading]="summaryLoading" [jobResults]="jobResults"></app-result-header>
   <app-job-details *ngIf="!isLoading" [headerTitle]="'Crawl result for job'" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
       [pageCount]="totalItems" [showSearch]="true" [currentpageIndex]='currentpageIndex'
       [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">

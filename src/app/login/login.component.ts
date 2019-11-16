@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   isRemberMeChecked: boolean;
   showLoginPage: boolean;
   requestInProgress: boolean;
+  showErrorMessage: string;
   constructor(public _authService: AuthService, private route: ActivatedRoute, public router: Router, public location: Location) { }
 
   ngOnInit() {
@@ -54,12 +55,16 @@ export class LoginComponent implements OnInit {
     if (this.userName && this.password) {
       this._authService.validateUserDetails(this.userName, this.password, this.isRemberMeChecked).then(res => {
        if (res) {
+         this.showErrorMessage = '';
          res && res.user && res.user.isAdmin ? Cookie.set('role', 'Admin') : Cookie.set('role', 'Vendor');
          res && res.user && res.user.vendorId ? Cookie.set('vendorId', res.user.vendorId) : Cookie.set('vendorId', '');
          this.requestInProgress = false;
          this.router.navigate(['/home']);
        }
-      }).catch(err => {
+      }).catch( (err: any) => {
+        if(err.status === 403) {
+          this.showErrorMessage = 'Invalid Username or Password';
+        }
         this.requestInProgress = false;
       });
     }

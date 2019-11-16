@@ -1,1 +1,2 @@
 <app-dashboard  *ngIf="!isLoading" [keyword]="keywordInput" [headerTitle]="'Keyword'" [analyticsType]="'organic keyword'" [showDatePicker]="true"></app-dashboard>
+<app-loader [show]="isLoading"></app-loader>

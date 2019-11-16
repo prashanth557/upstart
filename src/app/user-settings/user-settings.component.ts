@@ -15,6 +15,7 @@ export class UserSettingsComponent implements OnInit {
   vendorJobHeaders = ['Name'];
   adminDetails: any = [];
   vendorDetails: any = [];
+  allVendorDetails: any = [];
   adminDetailsLoading: boolean;
   vendorDetailsLoading: boolean;
   adminIndex: number = 0;
@@ -37,41 +38,63 @@ export class UserSettingsComponent implements OnInit {
   vendorNames: any = [];
   selectedVendor: any;
   selectedVendorName: string;
+  totalAdminCount: number =0;
+  totalVendorCount: number = 0;
   constructor(public jobsService: JobsService) { }
 
   ngOnInit() {
     this.vendorId = Cookie.get('vendorId');
     this.adminDetailsLoading = true;
     this.vendorDetailsLoading = true;
-    this.getAdminDetails(0);
-    this.adminIndex = 0;
+    this.vendorList();
+    this.getAdminDetails(1);
+    this.getVendorDetails(1);
+    this.adminIndex = 1;
+    this.vendorIndex = 1;
   }
 
   getAdminDetails(index) {
     this.adminDetailsLoading = true;
-    this.adminIndex = 0;
-    this.jobsService.getUserList(this.urls[0]).then( res => {
+    this.adminIndex = 1;
+    this.jobsService.getUserList(this.urls[0], index, this.adminLimitPerPage).then( res => {
       console.log('admin detials', res);
-      this.adminDetails = res;
+      if(res) {
+        this.totalAdminCount = res.totalItems;
+        this.adminDetails = res.items;
+      }
       this.adminDetailsLoading = false;
-      this.getVendorDetails(0);
     }).catch((err: any) => {
       this.showErrorMessage = err.error.message;
+      this.adminDetailsLoading = false;
     });
   }
 
   getVendorDetails(index) {
     this.vendorDetailsLoading = true;
-    this.vendorIndex = 0;
-    this.jobsService.getUserList(this.urls[1]).then( res => {
-      this.vendorDetails = res;
-      this.vendorDetails.forEach(vendor => {
-        this.vendorNames.push(vendor.value.name);
-      });
-      console.log('Vendor names', this.vendorNames);
+    this.vendorIndex = 1;
+    this.jobsService.getUserList(this.urls[1], index, this.vendorLimitPerPage).then( res => {
+      if(res) {
+        this.totalVendorCount = res.totalItems;
+        this.vendorDetails = res.items;
+      }
       this.vendorDetailsLoading = false;
     }).catch((err: any) => {
       this.showErrorMessage = err.error.message;
+      this.vendorDetailsLoading = false;
+    });
+  }
+
+  vendorList() {
+    this.jobsService.getVendors().then( res => {
+      if(res) {
+        this.allVendorDetails = res;
+        this.vendorDetails.forEach(vendor => {
+          this.vendorNames.push(vendor.name);
+        });
+        console.log('Vendor names', this.vendorNames);
+      }
+    }).catch((err: any) => {
+      console.log('Error while fetching vendor list', err);
     });
   }
 
@@ -131,7 +154,7 @@ export class UserSettingsComponent implements OnInit {
         if (err.status === 409 ) {
           this.showErrorMessage = err.error;
         } else {
-         this.showErrorMessage = err.error.message;
+          this.showErrorMessage = err.error.message;
         }
       });
     } else {
@@ -166,11 +189,8 @@ export class UserSettingsComponent implements OnInit {
   }
 
   valueChanged(newVendorName) {
-    this.selectedVendor = this.vendorDetails.find(vendor => vendor.value.name === newVendorName);
-    // this.code = this.selectedVendor.id;
+    this.selectedVendor = this.allVendorDetails.find(vendor => vendor.value.name === newVendorName);
     this.selectedVendorName = this.selectedVendor.value.name;
-    console.log('selected Vendor', this.selectedVendor);
-    console.log('selected Vendor Name', this.selectedVendorName);
   }
 
   resetErrors() {

@@ -7,6 +7,7 @@ import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 })
 export class ResultHeaderDupComponent implements OnInit {
   @Input() jobResults: any;
+  @Input() isLoading: boolean;
   @Output() redirectEmit = new EventEmitter;
   constructor() { }
 

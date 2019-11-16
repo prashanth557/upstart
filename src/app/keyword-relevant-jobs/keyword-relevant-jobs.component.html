@@ -61,27 +61,26 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div *ngIf="!showOrganicKeywords" class="form-group">
                     <label for="keywordName" class="col-form-label">
                         <span class="error-input">*&nbsp;</span>Keyword Input</label>
                     <div>
-                        <textarea type="textarea" [(ngModel)]="keywordInput" class="form-control-plaintext" id="keywordName" required [ngModelOptions]="{standalone: true}"
-                            [class.showError]="!keywordInput && showError"></textarea>
+                        <input type="text" [(ngModel)]="keywordInput" class="form-control-plaintext" id="keywordName" required [ngModelOptions]="{standalone: true}"
+                        [class.showError]="!keywordInput && showError">
                     </div>
                 </div>
-                <!-- <div class="form-group">
-                    <label for="keywordName" class="col-form-label">Targeted Vendor</label>
-                    <div>
-                        <select class="browser-default custom-select">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
+                <div *ngIf="showOrganicKeywords" #defaultTrialCollection>
+                        <div class="collection-values" ngui-auto-complete [source]="allOrganicKeywords" (valueChanged)="valueChanged($event)">
+                          <label class="no-overlap" for="collection-Name" style="font-weight:normal"><span class="error-input">*&nbsp;</span>Select Organic Keyword</label><br/>
+                          <input [class.showError]="(!selectedOrganicKeywordName && showError ) || (allOrganicKeywords.indexOf(selectedOrganicKeywordName) === -1 && showError ) " id="collection-Name" type="text" [ngClass]="{'submitted': submitted,'ng-invalid': (selectedOrganicKeywordName?.length == 0 || allOrganicKeywords.indexOf(selectedOrganicKeywordName) === -1 )}"
+                            placeholder="Select Organic Keyword" [(ngModel)]="selectedOrganicKeywordName" [ngModelOptions]="{standalone: true}"/>
+                        </div>
                     </div>
-                </div> -->
                 <div class="form-group">
-                    <button type="submit" class="add-keyword-button">Create Job</button>
+                    <button type="submit" class="add-keyword-button">
+                        <span *ngIf="!jobCreationLoader">Create Job</span>
+                        <img *ngIf="jobCreationLoader"class='loader' src="assets/images/spinner.svg">
+                    </button>
                 </div>
             </form>
             <div *ngIf="jobCreated">

@@ -1,0 +1,31 @@
+.bulk-runhistory-container{
+    padding: 20px 10px 20px 10px;
+    td {
+        //width: 180px;
+        text-align: left;
+        padding: 15px 10px 15px 15px;
+        font-size:13px;
+        @media (min-width: 768px) and (max-width: 1024px) {
+            width: 150px;
+        }
+        .status-wrapper{
+            padding: 5px 15px 5px 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 13px;
+        }
+    }
+    a.action-icons {
+    padding-right: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    color: rgb(47, 198, 214);
+    }
+    .no-results-text {
+        color:black;
+        font-weight: bold;
+        margin-top:20%;
+        font-size: 20px;
+        text-align: center;
+    }
+}

@@ -125,9 +125,9 @@ export class MonitorJobsComponent implements OnInit {
     this.jobsService.runJob(productId, 'mapmonitorjobs').then((res: any) => {
       const message: String = 'Your Job is added to queue for run.';
       this.notification.displayNotification(true, true, message);
+      this.getDetails(1);
       setTimeout(() => {
         this.notification.displayNotification(false, true, '');
-        this.getDetails(1);
       }, 5000);
     }).catch(error => {
       console.log('Error while running the job' + productId + error);
@@ -158,6 +158,7 @@ export class MonitorJobsComponent implements OnInit {
 
   deleteConfirmation(product) {
     this.selectedProduct = product;
+    this.createNewJob = false;
     this.showConfirmation = true;
   }
 

@@ -9,8 +9,8 @@ import { JobsService } from '../services/jobs.service';
 })
 export class MapmonitorRunResultComponent implements OnInit {
 
-  jobResults = [{ jobType: 'Crawl Jobs Created', count: 22 },
-  { jobType: 'Product Data Extracted', count: 1239 }, { jobType: 'Scheduled Crawl Jobs', count: '07' }];
+  jobResults = [{ jobType: 'Crawl Jobs Created', count: 0 },
+  { jobType: 'Product Data Extracted', count: 0 }, { jobType: 'Scheduled Crawl Jobs', count: 0 }];
   jobHeaders = ['Product Title', 'Description', 'Price', 'User Rating', 'Bullet Points', 'No. of images', 'By Info'];
   jobId: any;
   runId: any;
@@ -20,12 +20,28 @@ export class MapmonitorRunResultComponent implements OnInit {
   showErrorMessage: String;
   productDetails: any = [];
   isLoading: boolean;
+  summaryLoading: boolean;
   constructor( public jobsService: JobsService, public route: ActivatedRoute) { }
 
   ngOnInit() {
     this.jobId = this.route.snapshot.params['jobId'];
     this.runId = this.route.snapshot.params['runId'];
+    this.getResultSummaryDetails();
     this.getDetails(1);
+  }
+
+  getResultSummaryDetails() {
+    this.jobsService.getMapResultSummaryDetails(this.jobId, this.runId).then( (data: any) => {
+      if(data ) {
+        this.jobResults[0].count = data.matchingProducts;
+        this.jobResults[1].count = data.extractedProducts;
+        this.jobResults[2].count = data.brandProducts;
+        this.jobResults[3].count = data.totalRuns;
+      }
+      this.summaryLoading = false;
+    }).catch( (err: any) => {
+      this.summaryLoading = false;
+    }); 
   }
 
   getDetails(currentPageIndex) {

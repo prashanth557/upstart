@@ -22,6 +22,9 @@
                 top: 0px !important;
                 height: 34px !important;
             }
+            .error-date{
+                border: 1px solid red;
+            }
         }
         .dashboard-header-keyword-text{
             font-size: 20px;
@@ -49,7 +52,13 @@
             background: #6c10e8;
             outline: none;
             height: 34px;
-            padding: 0px 10px 0px 10px;        
+            width: 100px;
+            padding: 0px 10px 0px 10px;  
+            border-radius: 20px;
+            .loader {
+                width:20px;
+                height: 20px;
+            }      
         }
     }
     .pie-chart-section {
@@ -94,7 +103,7 @@
     }
 }
 .date-container /deep/ .dropdown-menu {
-    width:240px !important;
+    width:190px !important;
 }
 .date-container /deep/ .dropdown-menu .ngb-dp-months {
     width: 100%;
@@ -107,3 +116,7 @@
 .date-container /deep/ .dropdown-menu .ngb-dp-months .ngb-dp-month .ngb-dp-week {
     justify-content: space-around;
 }
+
+.date-container /deep/ .dropdown-menu .ngb-dp-months .ngb-dp-month .ngb-dp-week .ngb-dp-day .bg-primary {
+    background: #337ab7 !important;
+}       

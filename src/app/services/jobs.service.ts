@@ -199,28 +199,6 @@ export class JobsService {
     });
   }
 
-  getBulkPageList(pagenum, limit) {
-    const url = this.config.bulkCrawlUrl + '?pagenum=' + pagenum + '&pagesize=' + limit;
-    return this.http.authenticatedGet(url)
-    .toPromise()
-    .then(res => {
-      return res;
-    }).catch(err => {
-      return this.handleError(err);
-    });
-  }
-
-  getBulkCrawlJobDetails(jobId, offset, limit) {
-    const url = this.config.bulkCrawlUrl + '/' + jobId ;
-    return this.http.authenticatedGet(url)
-    .toPromise()
-    .then(res => {
-      return res;
-    }).catch(err => {
-      return this.handleError(err);
-    });
-  }
-
   getMapMontiorJobDetails(jobId, pagenum, limit) {
     const url = this.config.mapMontiorJobsUrl + '/' + jobId + '?pagenum=' + pagenum + '&pagesize=' + limit;
     return this.http.authenticatedGet(url)
@@ -245,6 +223,17 @@ export class JobsService {
   getRunHistoryDetails(jobId, runId, pageNum, pageLimit) {
     const url = this.config.mapMontiorJobsUrl + '/' + jobId + '/runhistory/' + runId + '/result' +
     '?pagenum=' +  pageNum  + '&pagesize=' + pageLimit;
+    return this.http.authenticatedGet(url)
+    .toPromise()
+    .then(res => {
+      return res;
+    }).catch(err => {
+      return this.handleError(err);
+    });
+  }
+
+  getMapResultSummaryDetails(jobId, runId) {
+    const url = this.config.mapMontiorJobsUrl + '/' + jobId + 'runHistory' + runId + 'resultsummary';
     return this.http.authenticatedGet(url)
     .toPromise()
     .then(res => {
@@ -308,21 +297,18 @@ export class JobsService {
     });
   }
 
-  createBulkJobs(jobTitle: string, file: File) {
-    const url = this.config.bulkCrawlUrl;
-    const formdata = new FormData();
-    formdata.append('file', file);
-    formdata.append('jobTitle', jobTitle);
-    formdata.append('token', Cookie.get('_token'));
-    return this.http.authenticatedPost(url, formdata).toPromise().then(data => {
-      return data;
+
+  getMapMonitorRunHistoryDetails(jobId: any, offset, limit) {
+    const url = this.config.mapMontiorJobsUrl + '/' + jobId + '/runhistory?pagenum=' + ( offset + 1 ) + '&pagesize=' + limit ;
+    return this.http.authenticatedGet(url).toPromise().then( res => {
+      return res;
     }).catch( err => {
       this.handleError(err);
     });
   }
 
-  getMapMonitorRunHistoryDetails(jobId: any, offset, limit) {
-    const url = this.config.mapMontiorJobsUrl + '/' + jobId + '/runhistory?pagenum=' + ( offset + 1 ) + '&pagesize=' + limit ;
+  getOrganicKeywordsList(){
+    const url = this.config.organicKeywordUrl + '?all=true';
     return this.http.authenticatedGet(url).toPromise().then( res => {
       return res;
     }).catch( err => {
@@ -431,8 +417,8 @@ export class JobsService {
     });
   }
 
-  getUserList(path) {
-  const url = this.config.usersUrl + path;
+  getUserList(path, pageNumber, pageLimit) {
+  const url = this.config.usersUrl + path + '?pagenum=' +  pageNumber  + '&pagesize=' + pageLimit;
   return this.http.authenticatedGet(url).toPromise().then( (data: any) => {
     if (data) {
      return data;
@@ -441,6 +427,17 @@ export class JobsService {
     this.handleError(err);
   });
   }
+
+  getVendors() {
+    const url = this.config.usersUrl + 'vendors';
+    return this.http.authenticatedGet(url).toPromise().then( (data: any) => {
+      if (data) {
+       return data;
+      }
+    }).catch( (err) => {
+      this.handleError(err);
+    });
+    }
     
 
   createAdmin(path, body) {
@@ -474,6 +471,36 @@ export class JobsService {
       return this.handleError(err);
     });
   }
+
+  getCountDetails(path) {
+      const url = this.config.baseApiUrl + path;
+      return this.http.authenticatedGet(url)
+        .toPromise()
+        .then((response: any) => {
+          if (response) {
+            return response;
+          } else {
+            return {};
+          }
+        }).catch( err => {
+          this.handleError(err);
+        });
+   }
+
+   getRecentMapBreaches(pageNum, pageLimit) {
+    const url = this.config.baseApiUrl + 'mapbreachesrecent?limit=10';
+    return this.http.authenticatedGet(url)
+      .toPromise()
+      .then((response: any) => {
+        if (response) {
+          return response;
+        } else {
+          return {};
+        }
+      }).catch( err => {
+        this.handleError(err);
+      });
+   }
 
   public handleError(error: any): Promise<any> {
     console.error('An error in api execution occurred', error);

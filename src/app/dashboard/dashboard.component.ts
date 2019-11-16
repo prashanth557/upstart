@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as CanvasJS from '../canvasjs.min';
 import { ChartsModule } from 'ng2-charts';
 import { JobsService } from '../services/jobs.service';
-import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbDateStruct, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateFrParserFormatterService } from '../services/ngb-date-fr-parser-formatter.service';
 
 @Component({
@@ -14,13 +14,18 @@ import { NgbDateFrParserFormatterService } from '../services/ngb-date-fr-parser-
 export class DashboardComponent implements OnInit {
   @ViewChild('c1') fromDateStatus: ElementRef;
   @ViewChild('c2') toDateStatus: ElementRef;
-  fromDate: NgbDateStruct;
-  toDate: NgbDateStruct;
-  barChartData: any[] = [];
+  today = new Date();
+  barChartData: any[]= [];
+  earlierDate = new Date(new Date().setDate(new Date().getDate()-3))
+  fromDate: NgbDateStruct = { year: this.earlierDate.getFullYear(), day: this.earlierDate.getDate(), month: this.earlierDate.getMonth() + 1 };
+  toDate: NgbDateStruct = { year: this.today.getFullYear(), day: this.today.getDate(), month: this.today.getMonth() + 1 };
+  // To disable any specific days
+  // isDisabled = (date: NgbDate, current: {month: number}) =>  date.day > this.today.getDate() && ( date.month >= this.today.getMonth() + 1  && date.year >= this.today.getFullYear() );
   @Input() headerTitle: any;
   @Input() keyword: any;
   @Input() analyticsType: String;
   @Input() showDatePicker: boolean;
+  showDateError: boolean;
   public barChartImageOptions = {
     scaleShowVerticalLines: true,
     responsive: true,
@@ -390,7 +395,6 @@ export class DashboardComponent implements OnInit {
   public radarChartType = 'radar';
   jobId: any;
   isBrandDataAvailable: boolean;
-  isBarGraphDataAvailable: boolean;
   // 'brandskeywordpresence'
   // , 'brandskeywordpresence'
   dashboardApiUrls: any = ['brandspresence', 'brandsproductrating', 'brandsavgimages', 'brandsavgbullets' ,
@@ -401,21 +405,16 @@ export class DashboardComponent implements OnInit {
     public ngbDateFrParserFormatterService: NgbDateFrParserFormatterService) { }
 
   ngOnInit() {
-    // this.headerTitle = this.route.snapshot.paramMap.get('headerTitle');
-    // this.keyword = this.route.snapshot.paramMap.get('productTitle');
     this.jobId = this.route.snapshot.paramMap.get('jobId');
-    // this.fromDate = new Date('2019-11-01');
-    // this.toDate = new Date();
-    // console.log('From Date::', this.fromDate, 'From Date Status:', this.fromDateStatus);
-    // console.log('To Date::', this.toDate, 'To Date Status:', this.toDateStatus);
-    this.isBarGraphDataAvailable = false;
-    this.isBrandDataAvailable = false;
     this.getAnalytics();
   }
 
   getAnalytics() {
+    this.isBrandDataAvailable = false;
     const promiseList: any[] = [];
     this.dashboardApiUrls.forEach(url => {
+      this.pieChartData = [];
+      this.barChartData = [];
       const promise = this.jobsService.getAnalyticsDetails(url, this.jobId, this.analyticsType,
         this.ngbDateFrParserFormatterService.format(this.fromDate),
         this.ngbDateFrParserFormatterService.format(this.toDate));
@@ -429,14 +428,16 @@ export class DashboardComponent implements OnInit {
     console.log('Analytics Data', details);
     if (details) {
       this.pieChartData.push({ labels: this.pieChartBrandLabels });
-      this.pieChartData[0].data = [details[0].brandProducts];
-      this.pieChartData[0].data.push(details[0].otherBrandProducts);
+      if(details[0]) {
+      this.pieChartData[0].data = details[0].brandProducts ? [details[0].brandProducts] : [];
+      this.pieChartData[0].data.push(details[0].otherBrandProducts ? details[0].otherBrandProducts : []);
       this.pieChartOptions1.plugins.datalabels =  {
         formatter: (value, ctx) => {
           const label = this.pieChartData[ctx.dataIndex].data;
           return label;
         },
       };
+    }
       // this.pieChartOptions.plugins = {
       //   data: {
       //     formatter: (value, ctx) => {
@@ -452,9 +453,13 @@ export class DashboardComponent implements OnInit {
       //   }
       // };
       // console.log('pieChartOptions', this.pieChartOptions);
-      const userRating = details[1].userRating;
-      this.pieChartData.push({ labels: Object.keys(userRating) });
-      this.pieChartData[1].data = Object.values(userRating);
+      if(details[1] && details[1].userRating) {
+        const userRating = details[1].userRating;
+        this.pieChartData.push({ labels: Object.keys(userRating) });
+        this.pieChartData[1].data = Object.values(userRating);
+      } else {
+        this.pieChartData.push({labels: [], data: []}); 
+      }
       // this.pieChartOptions.plugins = {
       //   data: {
       //     formatter: (value, ctx) => {
@@ -475,6 +480,7 @@ export class DashboardComponent implements OnInit {
       if (details[2] && details[2].stats) {
           labels =  details[2].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
           data = details[2].stats.map(stat => stat.avgimageCount ? stat.avgimageCount : 0);
+          // this.barChartData.push({ labels: labels, data: data, options: this.barChartImageOptions}s);
           labels = labels.slice(0, 15);
           data = data.slice(0, 15);
           let actualData = [];
@@ -635,9 +641,17 @@ export class DashboardComponent implements OnInit {
     return sections;
   }
 
+  manualValidation(d1) {
+    if (d1._elRef.nativeElement.status === 'VALID') {
+      this.showDateError = true;
+    }
+  }
+
   getData() {
     if (this.fromDateStatus && this.toDateStatus) {
       this.getAnalytics();
+    } else {
+      this.showDateError = true;
     }
   }
 

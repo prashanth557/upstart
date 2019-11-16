@@ -6,8 +6,19 @@ import { HomeComponent } from './home/home.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ProfileComponent } from './profile/profile.component';
 
+// Bulk Keyword Upload
 import { BulkKeywordUploadComponent } from './bulk-keyword-upload/bulk-keyword-upload.component';
 import { BulkCrawlResultComponent } from './bulk-keyword-upload/bulk-crawl-result/bulk-crawl-result.component';
+import { BulkKeywordLastRunComponent } from './bulk-keyword-upload/bulk-crawl-lastrun/bulk-crawl-lastrun.component';
+import { BulkKeywordRunHistoryComponent } from './bulk-keyword-upload/bulk-crawl-runhistory/bulk-crawl-runhistory.component';
+import { BulkCrawlRunResultComponent } from './bulk-keyword-upload/bulk-crawl-run-result/bulk-crawl-run-result.component';
+
+// Seller Crawl Jobs
+import { SellerCrawlComponent} from './seller-crawl/seller-crawl.component';
+import { SellerCrawlResultComponent } from './seller-crawl/seller-crawl-result/seller-crawl-result.component';
+import { SellerCrawlLastrunComponent } from './seller-crawl/seller-crawl-lastrun/seller-crawl-lastrun.component';
+import { SellerCrawlRunResultComponent } from './seller-crawl/seller-crawl-run-result/seller-crawl-run-result.component';
+import { SellerCrawlRunhistoryComponent } from './seller-crawl/seller-crawl-runhistory/seller-crawl-runhistory.component';
 
 // Keyword Relevane Components
 import { KeywordRelevantJobsComponent } from './keyword-relevant-jobs/keyword-relevant-jobs.component';
@@ -33,7 +44,7 @@ import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { AuthGuard } from './guards/auth-guard.service';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent, canActivate: []},
+  { path: 'login', component: LoginComponent},
   { path: 'reset-password', component: ForgotPasswordComponent},
   // { path: '', canActivate: [AuthGuard], children: [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
@@ -60,9 +71,18 @@ export const routes: Routes = [
   { path: 'alerts', component: AlertsComponent, canActivate: [AuthGuard]},
   // Routes related to settings
   { path: 'users', component: UserSettingsComponent, canActivate: [AuthGuard]},
-
+  // Route related to BulkCrawl Upoload
   { path: 'bulkcrawljobs', component: BulkKeywordUploadComponent, canActivate: [AuthGuard]},
-  { path: 'bulkcrawljobs/:jobId', component: BulkCrawlResultComponent, canActivate: [AuthGuard]}
+  { path: 'bulkcrawljobs/:jobId', component: BulkCrawlResultComponent, canActivate: [AuthGuard]},
+  { path: 'bulkcrawljobs/:jobId/lastrun', component: BulkKeywordLastRunComponent, canActivate: [AuthGuard]},
+  { path: 'bulkcrawljobs/:jobId/runhistory', component: BulkKeywordRunHistoryComponent, canActivate: [AuthGuard]},
+  { path: 'bulkcrawljobs/:jobId/runhistory/:runId', component: BulkCrawlRunResultComponent, canActivate: [AuthGuard]},
+  // Route related to Seller Crawl Jobs
+  { path: 'sellercrawljobs', component:SellerCrawlComponent, canActivate:[AuthGuard]},
+  { path: 'sellercrawljobs/:jobId', component:SellerCrawlResultComponent, canActivate:[AuthGuard]},
+  { path: 'sellercrawljobs/:jobId/lastrun', component:SellerCrawlLastrunComponent, canActivate:[AuthGuard]},
+  { path: 'sellercrawljobs/:jobId/runhistory', component:SellerCrawlRunhistoryComponent, canActivate:[AuthGuard]},
+  { path: 'sellercrawljobs/:jobId/runhistory/:runId', component:SellerCrawlRunResultComponent, canActivate:[AuthGuard]}
   // ]}
 ];
 

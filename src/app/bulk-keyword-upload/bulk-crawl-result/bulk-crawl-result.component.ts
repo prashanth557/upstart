@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
-import { JobsService } from '../../services/jobs.service';
+import { BulkCrawlService } from '../../services/bulkcrawl.service';
 @Component({
   selector: 'app-bulk-crawl-result',
   templateUrl: './bulk-crawl-result.component.html',
@@ -21,7 +21,7 @@ export class BulkCrawlResultComponent implements OnInit {
   offsetPage: number = 0;
   showErrorMessage: String;
   keyword: string;
-  constructor(public jobsService: JobsService, public route: ActivatedRoute, public router: Router) { }
+  constructor(public service: BulkCrawlService, public route: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
     this.currentpageIndex = 1;
@@ -34,9 +34,8 @@ export class BulkCrawlResultComponent implements OnInit {
     });
   }
 
-
   getCrawlDetails(currentpageIndex) {
-    this.jobsService.getBulkCrawlJobDetails(this.jobId, currentpageIndex, this.limitPerPage).then((res: any) => {
+    this.service.getBulkCrawlJobDetails(this.jobId, currentpageIndex, this.limitPerPage).then((res: any) => {
       this.totalItems = res.totalItems;
       this.productDetails = res.candidates;
       this.keyword = res.title;

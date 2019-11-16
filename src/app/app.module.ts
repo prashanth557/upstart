@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { ChartsModule } from 'ng2-charts';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
@@ -22,8 +22,11 @@ import { AppStorage } from './services/for-storage/universal.inject';
 import { CookieStorage } from './services/for-storage/browser.storage';
 import { AuthService} from './services/auth.service';
 import { AuthGuard } from './guards/auth-guard.service';
+import { BulkCrawlService } from './services/bulkcrawl.service';
 import { HttpWrapper } from './services/http-wrapper';
 import { RequestInterceptorService } from './services/http-wrapper/request.interceptor';
+import { SellerCrawlService } from './services/sellercrawl.service';
+
 // Components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -60,6 +63,14 @@ import { OrganicKeywordRunResultComponent } from './organic-keywords/organic-key
 import { MapmonitorRunResultComponent } from './mapmonitor-run-result/mapmonitor-run-result.component';
 import { BulkKeywordUploadComponent } from './bulk-keyword-upload/bulk-keyword-upload.component';
 import { BulkCrawlResultComponent } from './bulk-keyword-upload/bulk-crawl-result/bulk-crawl-result.component';
+import { BulkKeywordLastRunComponent } from './bulk-keyword-upload/bulk-crawl-lastrun/bulk-crawl-lastrun.component';
+import { BulkKeywordRunHistoryComponent } from './bulk-keyword-upload/bulk-crawl-runhistory/bulk-crawl-runhistory.component';
+import { BulkCrawlRunResultComponent } from './bulk-keyword-upload/bulk-crawl-run-result/bulk-crawl-run-result.component';
+import { SellerCrawlComponent } from './seller-crawl/seller-crawl.component';
+import { SellerCrawlLastrunComponent } from './seller-crawl/seller-crawl-lastrun/seller-crawl-lastrun.component';
+import { SellerCrawlRunResultComponent } from './seller-crawl/seller-crawl-run-result/seller-crawl-run-result.component';
+import { SellerCrawlRunhistoryComponent } from './seller-crawl/seller-crawl-runhistory/seller-crawl-runhistory.component';
+import { SellerCrawlResultComponent } from './seller-crawl/seller-crawl-result/seller-crawl-result.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +107,15 @@ import { BulkCrawlResultComponent } from './bulk-keyword-upload/bulk-crawl-resul
     OrganicKeywordRunResultComponent,
     MapmonitorRunResultComponent,
     BulkKeywordUploadComponent,
-    BulkCrawlResultComponent
+    BulkCrawlResultComponent,
+    BulkKeywordLastRunComponent,
+    BulkKeywordRunHistoryComponent,
+    BulkCrawlRunResultComponent,
+    SellerCrawlComponent,
+    SellerCrawlLastrunComponent,
+    SellerCrawlRunResultComponent,
+    SellerCrawlRunhistoryComponent,
+    SellerCrawlResultComponent
   ],
   imports: [
     BrowserModule,
@@ -120,6 +139,8 @@ import { BulkCrawlResultComponent } from './bulk-keyword-upload/bulk-crawl-resul
     CookieService,
     AuthGuard,
     AuthService,
+    BulkCrawlService,
+    SellerCrawlService,
     DatePipe,
     {
       provide: HTTP_INTERCEPTORS,

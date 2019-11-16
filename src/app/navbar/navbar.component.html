@@ -28,6 +28,12 @@
             <img class="sub_icon" src="assets/icons/ico-bulkproductcrawls.svg"/>
           </a>
         </li>
+        <li class="nav-tabs" [class.active]="isActive('sellercrawljobs')"  (click)="navigateToPage('/sellercrawljobs')">
+          <a>
+            <span  *ngIf="!hideNavBar" class="">Seller Crawl Jobs</span>
+            <img class="sub_icon" src="assets/icons/ico-bulkproductcrawls.svg"/>
+          </a>
+        </li>
         <li class="nav-tabs" [class.active]="isActive('mapjobslist')" (click)="navigateToPage('/mapjobslist')">
           <a>
             <span  *ngIf="!hideNavBar" class="">Map Monitor Jobs</span>
@@ -40,12 +46,12 @@
             <img class="sub_icon" src="assets/icons/ico-organickeyword.svg"/>
           </a>
         </li>
-        <li class="nav-tabs" [class.active]="isActive('schedulesList')" (click)="navigateToPage('/schedulesList')">
+        <!-- <li class="nav-tabs" [class.active]="isActive('schedulesList')" (click)="navigateToPage('/schedulesList')">
           <a>
             <span  *ngIf="!hideNavBar" class="">Auto-run schedules</span>
             <img class="sub_icon" src="assets/icons/ico-autorunscheduled.svg"/>
           </a>
-        </li>
+        </li> -->
         <li class="nav-tabs" [class.active]="isActive('alerts')" (click)="navigateToPage('/alerts')">
           <a>
             <span  *ngIf="!hideNavBar" class="">Alerts</span>

@@ -9,8 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  jobResults1: any = [];
-  jobResults2: any = [];
+  jobResults1: any = [{jobType: 'Keyword relevance Jobs', count: 0}, {jobType: 'Organic Keywords', count: 0},
+  {jobType: 'Map Monitor Jobs', count: 0}, {jobType: 'Map Breaches in this Week', count: 0}];
+  jobResults2: any = [{jobType: 'Bulk Product Crawl Jobs', count: 0}, {jobType: 'Users Registered', count: 0},
+  {jobType: 'Vendors Registered', count: 0}, {jobType: 'Seller Jobs', count: 0}];
   currentpageIndex: number;
   jobHeaders = ['ASIN', 'MAP', 'sellerName', 'Selling price', '% of price variation'];
   // Table Header title
@@ -18,33 +20,7 @@ export class HomeComponent implements OnInit {
   productDetails: any;
   limitPerPage: number = 10;
   offsetPage: number = 0;
-
-  allProductDetails: any = [{
-    asin: 'B005ZH862', map: '$394.30',
-    seller: 'Schimmel-Greenholt', sellingPrice: '$348.56',
-    variation: '88.40%'
-  },
-  {
-    asin: 'B005ZH862', map: '$394.30',
-    seller: 'Schimmel-Greenholt', sellingPrice: '$348.56',
-    variation: '88.40%'
-  },
-  {
-    asin: 'B005ZH862', map: '$394.30',
-    seller: 'Schimmel-Greenholt', sellingPrice: '$348.56',
-    variation: '88.40%'
-  },
-  {
-    asin: 'B005ZH862', map: '$394.30',
-    seller: 'Schimmel-Greenholt', sellingPrice: '$348.56',
-    variation: '88.40%'
-  },
-  {
-    asin: 'B005ZH862', map: '$394.30',
-    seller: 'Schimmel-Greenholt', sellingPrice: '$348.56',
-    variation: '88.40%'
-  }];
-
+  countUrls = ['kwdrelvncjobscount', 'organickwdscount', 'mapmonitorjobscount', 'bulkproductcrawlscount', 'mapbreachesinweek', 'registereduserscount', 'registeredvendorscount', 'sellercrawlscount'];
   public barChartOptions = {
     scaleShowVerticalLines: true,
     responsive: true,
@@ -104,7 +80,7 @@ export class HomeComponent implements OnInit {
       backgroundColor: '#c068e4'
     }
   ];
-
+  isMapBreachesLoading: boolean;
   role: String;
 
   constructor(public jobsService: JobsService, public router: Router, public authService: AuthService) { }
@@ -112,31 +88,44 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.currentpageIndex = 0;
     this.role = this.authService.getRole();
-    this.getDetails(this.currentpageIndex);
+    this.getMapBreaches(this.currentpageIndex);
+    this.getDetails();
+}
+
+  getMapBreaches(currentIndex) {
+    this.isMapBreachesLoading = true;
+    this.jobsService.getRecentMapBreaches(currentIndex, this.limitPerPage).then( (res:any) => {
+      if(res) {
+        // this.totalItems = res.totalItems;
+        this.productDetails = res;
+      }
+      this.isMapBreachesLoading = false;
+    }).catch( (err: any) => {
+      this.isMapBreachesLoading = false;
+    });
   }
-  getDetails(currentPageIndex) {
+  getDetails() {
     this.isLoading = true;
-    this.totalItems = this.allProductDetails.length;
-    this.productDetails = this.allProductDetails.slice(currentPageIndex, currentPageIndex + 5);
+    const promiseList = [];
+    this.countUrls.forEach(path => {
+      const promise = this.jobsService.getCountDetails(path);
+      promiseList.push(promise);
+    });
+    Promise.all(promiseList).then((details) => {
+      this.splitCountDetails(details);
+    });
+  }
+
+  splitCountDetails(data) {
+    this.jobResults1[0].count = data[0] ? data[0] : 0;
+    this.jobResults1[1].count = data[1] ? data[1] : 0;
+    this.jobResults1[2].count = data[2] ? data[2] : 0;
+    this.jobResults1[3].count = data[3] ? data[3] : 0;
+    this.jobResults2[0].count = data[4] ? data[4] : 0;
+    this.jobResults2[1].count = data[5] ? data[5] : 0;
+    this.jobResults2[2].count = data[6] ? data[6] : 0;
+    this.jobResults2[3].count = !data[7] ? data[7] : 0;
     this.isLoading = false;
-    if (this.role && this.role.toLowerCase() === 'vendor') {
-      this.jobResults1 = [{ jobType: 'Keyword relevance Jobs', count: 27 },
-      { jobType: 'Organic Keywords', count: 12 }, { jobType: 'Bulk Product Crawl Jobs', count: '06' }];
-      this.jobResults2 = [{ jobType: 'Seller Crawl Jobs', count: '02', color: '#0B5EA8' },
-      { jobType: 'Map Monitor Crawls', count: 1239, color: '#2A2073' }, { jobType: 'Scheduled Crawl Jobs', count: '07', color: '#6c10e8' }];
-    } else if (this.role && this.role.toLowerCase() === 'admin') {
-      this.jobResults1 = [{ jobType: 'Vendors Registred', count: 19 },
-      { jobType: 'Organic Keywords', count: '54' }, { jobType: 'Map Breaches in this Week', count: '372' }];
-      this.jobResults2 = [];
-    }
-    // this.jobsService.getAllKeywordRelevanceJobDetails(this.offsetPage).then((res: any) => {
-    //   this.totalItems = res.totalItems;
-    //   this.productDetails = res.items;
-    //   this.isLoading = false;
-    // }).catch(err => {
-    //   console.log('Error while fetching Keyword Relevance Job Details', err);
-    //   this.isLoading = false;
-    // });
   }
 
   onPageChange(offset) {
@@ -157,8 +146,16 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/keywordjoblist']);
     } else if (event.type && event.type.toLowerCase() === 'organic keywords') {
       this.router.navigate(['/keywordset']);
-    } else if (event.type && event.type.toLowerCase() === 'map monitor crawls') {
+    } else if (event.type && event.type.toLowerCase() === 'map monitor jobs') {
       this.router.navigate(['/mapjobslist']);
+    } else if (event.type && event.type.toLowerCase() === 'map breaches in this week') {
+      this.router.navigate(['/mapjobslist']);
+    } else if (event.type && event.type.toLowerCase() === 'bulk product crawl jobs') {
+      this.router.navigate(['/bulkcrawljobs']);
+    } else if (event.type && event.type.toLowerCase() === 'users registered') {
+      this.router.navigate(['/users']);
+    } else if (event.type && event.type.toLowerCase() === 'vendors registered') {
+      this.router.navigate(['/users']);
     }
   }
 

@@ -52,10 +52,17 @@ export class KeywordRelevantJobsComponent implements OnInit {
   cancelClicked: boolean = false;
   showConfirmation: boolean = false;
   selectedProduct: any;
+  organicKeywordsList: any;
+  allOrganicKeywords: any = [];
+  showOrganicKeywords: boolean;
+  selectedOrganicKeyword: any;
+  selectedOrganicKeywordName: any;
+  jobCreationLoader: boolean;
   constructor(public jobsService: JobsService, public router: Router, private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.currentpageIndex = 1;
+    this.getOrganicKeywordsList();
     this.getDetails(this.currentpageIndex);
   }
 
@@ -77,25 +84,34 @@ export class KeywordRelevantJobsComponent implements OnInit {
     this.keywordType = 'Direct text input';
     this.defaultChoice = 'Direct text input';
     this.showConfirmation = false;
+    this.showOrganicKeywords = false;
     this.selectedProduct = {};
   }
 
   choose(event) {
     this.keywordType = event;
+    if(this.keywordType === 'Select from organic keywords') {
+      this.showOrganicKeywords = true;
+    } else { 
+      this.showOrganicKeywords = false;
+    }
   }
 
   addKeywords() {
     if (this.jobTitle && this.keywordInput && this.keywordType) {
+      this.jobCreationLoader = true;
       this.jobsService.createKeywordJob(this.keywordInput, this.jobTitle).then((res: any) => {
         if (res) {
           this.jobCreated = true;
+          this.jobCreationLoader = false;
           // this.createNewKeyword = false;
           this.getDetails(1);
-          setTimeout(function() {
-            $('#create-modal1').modal('hide');
-        }, 3000);
+        //   setTimeout(function() {
+        //     $('#create-modal1').modal('hide');
+        // }, 3000);
         }
       }).catch( (err: any) => {
+        this.jobCreationLoader = false;
         this.showErrorMessage = err.error.message;
         this.jobCreated = false;
       });
@@ -136,6 +152,7 @@ export class KeywordRelevantJobsComponent implements OnInit {
 
   deleteConfirmation(product) {
     this.selectedProduct = product;
+    this.createNewKeyword = false;
     this.showConfirmation = true;
   }
 
@@ -157,6 +174,15 @@ export class KeywordRelevantJobsComponent implements OnInit {
       console.log('Error while fetching Keyword Relevance Job Details', err);
       this.showErrorMessage = err.error.message;
       this.isLoading = false;
+    });
+  }
+
+  getOrganicKeywordsList() {
+    this.jobsService.getOrganicKeywordsList().then((res: any) => {
+      this.organicKeywordsList = res;
+      console.log('OrganicKeywords List', this.organicKeywordsList);
+      this.allOrganicKeywords = this.organicKeywordsList.map( organicKeyword => organicKeyword.keyword);
+      console.log('Organic Keywords', this.allOrganicKeywords);
     });
   }
 
@@ -189,6 +215,15 @@ export class KeywordRelevantJobsComponent implements OnInit {
     d.toLocaleTimeString();
     const stringifedDate = d.toString();
     return stringifedDate.substr(3, stringifedDate.indexOf('+') - 3);
+  }
+
+  valueChanged(newOrganicKeyword) {
+    this.selectedOrganicKeyword = this.organicKeywordsList.find(organicKeyword => organicKeyword.keyword === newOrganicKeyword);
+    // this.code = this.selectedOrganicKeyword.id;
+    this.selectedOrganicKeywordName = this.selectedOrganicKeyword && this.selectedOrganicKeyword.keyword ?this.selectedOrganicKeyword.keyword : '';
+    this.keywordInput = this.selectedOrganicKeywordName;
+    console.log('selected Organic', this.selectedOrganicKeyword);
+    console.log('selected Organic Name', this.selectedOrganicKeywordName);
   }
 
 }

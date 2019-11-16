@@ -17,7 +17,8 @@ export class UrlConfig {
           'organicKeywordUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/organickwds',
           'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/',
           'alertsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/alerts',
-          'bulkCrawlUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/bulkproductcrawls'
+          'bulkCrawlUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/bulkproductcrawls',
+          'sellerCrawlsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/sellercrawls'
         };
       case 'local':
         return {
@@ -34,7 +35,8 @@ export class UrlConfig {
           'organicKeywordUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/organickwds',
           'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/',
           'alertsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/alerts',
-          'bulkCrawlUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/bulkproductcrawls'
+          'bulkCrawlUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/bulkproductcrawls',
+          'sellerCrawlsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/sellercrawls'
         };
       case 'dev':
         return {
@@ -51,7 +53,8 @@ export class UrlConfig {
           'organicKeywordUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/organickwds',
           'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/',
           'alertsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/alerts',
-          'bulkCrawlUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/bulkproductcrawls'
+          'bulkCrawlUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/bulkproductcrawls',
+          'sellerCrawlsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/sellercrawls'
         };
       case 'uat':
         return {
@@ -68,7 +71,8 @@ export class UrlConfig {
           'organicKeywordUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/organickwds',
           'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/',
           'alertsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/alerts',
-          'bulkCrawlUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/bulkproductcrawls'
+          'bulkCrawlUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/bulkproductcrawls',
+          'sellerCrawlsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/sellercrawls'
         };
       case 'prod':
         return {
@@ -85,7 +89,8 @@ export class UrlConfig {
           'organicKeywordUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/organickwds',
           'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/',
           'alertsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/alerts',
-          'bulkCrawlUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/bulkproductcrawls'
+          'bulkCrawlUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/bulkproductcrawls',
+          'sellerCrawlsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/sellercrawls'
         };
       default:
         return {
@@ -102,7 +107,8 @@ export class UrlConfig {
           'organicKeywordUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/organickwds',
           'usersUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/getAll/',
           'alertsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/alerts',
-          'bulkCrawlUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/bulkproductcrawls'
+          'bulkCrawlUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/bulkproductcrawls',
+          'sellerCrawlsUrl': 'https://exucrawlapis.azurewebsites.net/api/v1/sellercrawls'
         };
     }
   }

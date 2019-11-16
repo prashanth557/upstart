@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { JobsService } from '../services/jobs.service';
+import { BulkCrawlService } from '../services/bulkcrawl.service';
 import { Router } from '@angular/router';
 import { TopNotificationComponent } from '../top-notification/top-notification.component';
 
@@ -37,7 +37,7 @@ export class BulkKeywordUploadComponent implements OnInit {
   jobCreationError: string;
   selectedProduct: any;
   showConfirmation: boolean;
-  constructor(public jobsService: JobsService, public router: Router) { }
+  constructor(public service: BulkCrawlService, public router: Router) { }
 
   ngOnInit() {
     this.currentpageIndex = 1;
@@ -54,12 +54,12 @@ export class BulkKeywordUploadComponent implements OnInit {
 
   getDetails(currentPageIndex) {
     this.isLoading = true;
-    this.jobsService.getBulkPageList(currentPageIndex, this.limitPerPage).then( (res: any) => {
+    this.service.getBulkPageList(currentPageIndex, this.limitPerPage).then( (res: any) => {
       this.totalItems = res.totalItems;
       this.productDetails = res.items;
       this.isLoading = false;
     }).catch((err: any) => {
-      this.showErrorMessage = err.error.message;
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message : 'No Results Available';
       this.isLoading = false;
     });
   }
@@ -67,8 +67,14 @@ export class BulkKeywordUploadComponent implements OnInit {
   navigateTo(product, index) {
     console.log('Index', index);
     if (index === 0 ) {
-     this.router.navigate(['/bulkcrawljobs/' + product.id]);
-    } else if (index === 1) {
+      this.runJob(product.id);
+    } else if ( index === 1) {
+       this.router.navigate(['/bulkcrawljobs/' + product.id]);
+    } else if (index === 2) {
+      this.router.navigate(['/bulkcrawljobs/' + product.id + '/lastrun']);
+    } else if (index === 3) {
+      this.router.navigate(['/bulkcrawljobs/' + product.id + '/runhistory']);
+    } else if (index === 4) {
       this.deleteConfirmation(product);
     }
   }
@@ -76,7 +82,7 @@ export class BulkKeywordUploadComponent implements OnInit {
   createNewMapJob() {
     // this.createNewJob = true;
     if (this.jobTitle && this.fileName) {
-      this.jobsService.createBulkJobs(this.jobTitle, this.fileToUpload).then((res: any) => {
+      this.service.createBulkJobs(this.jobTitle, this.fileToUpload).then((res: any) => {
         if (res) {
           console.log('response', res);
           this.jobCreated = true;
@@ -100,26 +106,26 @@ export class BulkKeywordUploadComponent implements OnInit {
     return product.status.toLowerCase() === 'ready' ? '#2A2073 ' : '#2fc6d6';
   }
 
-  // runJob(productId) {
-  //   this.jobsService.runJob(productId, 'mapmonitorjobs').then((res: any) => {
-  //     const message: String = 'Your Job is added to queue for run.';
-  //     this.notification.displayNotification(true, true, message);
-  //     setTimeout(() => {
-  //       this.notification.displayNotification(false, true, '');
-  //       this.getDetails(1);
-  //     }, 5000);
-  //   }).catch(error => {
-  //     console.log('Error while running the job' + productId + error);
-  //     const message: String = 'Error while running the job. Please try after sometime.';
-  //     this.notification.displayNotification(true, false, message);
-  //     setTimeout(() => {
-  //       this.notification.displayNotification(false, false, '');
-  //     }, 5000);
-  //   });
-  // }
+  runJob(productId) {
+    this.service.runJob(productId, 'bulkproductcrawls').then((res: any) => {
+      const message: String = 'Your Job is added to queue for run.';
+      this.notification.displayNotification(true, true, message);
+      this.getDetails(1);
+      setTimeout(() => {
+        this.notification.displayNotification(false, true, '');
+      }, 5000);
+    }).catch(error => {
+      console.log('Error while running the job' + productId + error);
+      const message: String = 'Error while running the job. Please try after sometime.';
+      this.notification.displayNotification(true, false, message);
+      setTimeout(() => {
+        this.notification.displayNotification(false, false, '');
+      }, 5000);
+    });
+  }
 
   deleteJob() {
-    this.jobsService.deleteJob(this.selectedProduct.id, 'bulkproductcrawls').then((res: any) => {
+    this.service.deleteJob(this.selectedProduct.id, 'bulkproductcrawls').then((res: any) => {
       const message: String = 'Your request for delete record is successfully deleted.';
       this.notification.displayNotification(true, true, message);
       this.getDetails(1);
@@ -137,6 +143,7 @@ export class BulkKeywordUploadComponent implements OnInit {
 
   deleteConfirmation(product) {
     this.selectedProduct = product;
+    this.createNewJob = false;
     this.showConfirmation = true;
   }
 

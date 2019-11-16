@@ -4,7 +4,8 @@
       <div class="keyword-data" (click)="redirectToTabs(result?.jobType)">
         <div class="keyword-box-data">
           <span class="jobs-type">{{result?.jobType}}</span>
-          <span class="jobs-count">{{result?.count}}</span>
+          <span *ngIf="!isLoading"class="jobs-count">{{result?.count}}</span>
+          <img *ngIf="isLoading" class="count-loader" src="assets/images/spinner.svg">
         </div>
       </div>
     </div>
