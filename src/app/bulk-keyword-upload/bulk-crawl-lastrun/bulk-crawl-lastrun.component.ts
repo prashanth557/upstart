@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { BulkCrawlService } from '../../services/bulkcrawl.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-bulk-crawl-lastrun',
@@ -9,56 +9,89 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class BulkKeywordLastRunComponent implements OnInit {
 
-    jobId: string;
-    isLoading: boolean;
-    productDetails: any = [];
-    items: any = [];
-    totalItems: number;
-    jobCandidateDetails: any = [];
-    showErrorMessage: string;
-    jobResults: any = [{jobType: 'Matching products', count: 0},
-    {jobType: 'Product data extracted', count: 0}, {jobType: 'Brand Products', count: 0}];
-   isSummarResultsLoading: boolean;
+  jobDetailResponse: any;
+  isLoading: boolean;
+  jobId: any;
+  totalItems: number;
+  productDetails: any = [];
+  jobCandidateDetails: any = [];
+  items: any = [];
+  jobResults: any = [{jobType: 'Matching Products', count: 0}, {jobType: 'Branded Products', count: 0}, {jobType: 'Extracted Products', count: 0}, {jobType: 'Total Runs', count: 0}];
+  lastRunSummaryDetails: any;
+  headerTitle: String = 'ASINs Seller Data';
+  jobHeaders = ['Product Title', 'Description', 'Price', 'User rating', 'Bullet points', 'Number of images', 'By Info'];
+  showSellersInfo: boolean;
+  displaySellerIndex: number;
+  showErrorMessage: string;
+  currentpageIndex: number = 1;
+  limitPerPage: number = 5;
+  isSummarResultsLoading: boolean;
+  constructor(public route: ActivatedRoute, public service: BulkCrawlService) { }
 
-    constructor(public route: ActivatedRoute, public service: BulkCrawlService) { }
-    ngOnInit() {
-        this.isLoading = true;
-        this.route.params
-        .subscribe((params: any) => {
-        this.jobId = params['jobId'];
-        this.getLastRunSummaryDetails();
-        this.getLastRunJobDetails(this.jobId);
-        });
-    }
+  ngOnInit() {
+    this.isLoading = true;
+    this.route.params
+    .subscribe((params: any) => {
+      this.jobId = params['jobId'];
+      this.getLastRunSummmaryDetails();
+      this.getLastRunJobDetails(this.jobId);
+    });
+  }
 
-    getLastRunSummaryDetails() {
-      this.service.getBulkCrawlLastRunSummarDetails(this.jobId).then( (res: any) => {
-        if(res) {
-          this.jobResults[0].count = res.matchingProducts;
-          this.jobResults[1].count = res.extractedProducts;
-          this.jobResults[2].count = res.brandProducts;
-          this.isSummarResultsLoading = false;
-        }
-      }).catch( (err:any) => {
-         this.showErrorMessage = err && err.error && err.error.message ? err.error.message : 'No Results Found';
-         this.isSummarResultsLoading = false;
-         console.log('Error while fetching Summary Details', err);
-      });
-    }
+  getLastRunSummmaryDetails() {
+    this.service.getBulkCrawlLastRunSummarDetails(this.jobId).then( (res: any) => {
+      this.lastRunSummaryDetails = res;
+      this.jobResults[0].count = this.lastRunSummaryDetails && this.lastRunSummaryDetails.matchingProducts ? this.lastRunSummaryDetails.matchingProducts : 0;
+      this.jobResults[1].count = this.lastRunSummaryDetails && this.lastRunSummaryDetails.brandProducts ?
+      this.lastRunSummaryDetails.brandProducts : 0;
+      this.jobResults[2].count = this.lastRunSummaryDetails && this.lastRunSummaryDetails.extractedProducts ?
+      this.lastRunSummaryDetails.extractedProducts : 0;
+      this.jobResults[3].count = this.lastRunSummaryDetails && this.lastRunSummaryDetails.totalRuns ?
+      this.lastRunSummaryDetails.totalRuns : 0;
+      this.isSummarResultsLoading = false;
+    });
+  }
 
-    getLastRunJobDetails(jobId) {
-        this.service.getBulkCrawlLastRunJobDetails(jobId).then((res: any) => {
-          if ( res ) {
-            this.productDetails = res;
-            this.items = res && res.items ? res.items : [];
-            this.totalItems = this.items.length;
-            this.jobCandidateDetails = this.items;
-          }
-          this.isLoading = false;
-        }).catch(err => {
-          this.showErrorMessage = err.error.message;
-          this.isLoading = false;
-          console.log('Error while fetching Job Details', err);
-        });
+  getLastRunJobDetails(jobId) {
+    this.service.getBulkCrawlLastRunJobDetails(jobId).then((res: any) => {
+      if ( res ) {
+        this.jobDetailResponse = res && res.items ? res.items : [];
+        this.totalItems = res.totalItems;
+        this.jobCandidateDetails = this.items;
       }
+      this.isLoading = false;
+    }).catch(err => {
+      this.showErrorMessage = err.error.message;
+      this.isLoading = false;
+      console.log('Error while fetching Job Details', err);
+      // this.isLoading = false;
+    });
+  }
+
+  getSellerInfo(index) {
+    this.showSellersInfo = !this.showSellersInfo;
+    this.displaySellerIndex = index;
+    this.productDetails = this.jobCandidateDetails[index].sellers;
+  }
+
+  createdDate(date) {
+    const d = new Date(0);
+    d.setUTCSeconds(date);
+    d.toLocaleTimeString();
+    // console.log('Date:::', d, 'typeOf', d.toLocaleTimeString(date));
+    const stringifedDate = d.toString();
+    return stringifedDate.substr(3, stringifedDate.indexOf('+') - 3 );
+  }
+
+  onPageChange(event) {
+    window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+    this.currentpageIndex = event.offset;
+    this.limitPerPage = event.limitPerPage;
+    console.log('CurrentPageIndex', this.currentpageIndex);
+    this.getLastRunJobDetails(this.currentpageIndex);
+  }
+
+  getBackgroundColor(status) {
+    return status && status.toLowerCase() === 'ready' ? '#2A2073 ' : '#2fc6d6';
+  }
 }

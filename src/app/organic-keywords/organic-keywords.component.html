@@ -31,22 +31,22 @@
                 <span>
                     <i (click)="navigateTo(product, 0)" class="action-icons glyphicon"
                         [class.glyphicon-pencil]="checkStatus(product?.active)" data-toggle="modal"
-                        data-target="#showModalCenter"></i>
+                        data-target="#showModalCenter" title="Edit Job"></i>
                     <ui-switch *ngIf="!product?.disableJob" class="action-icons" (change)="navigateTo(product, 1)"
-                        [checked]="product?.active"></ui-switch>
+                        [checked]="product?.active" title="Disable Job"></ui-switch>
                     <!-- <img *ngIf="product?.disableJob" class="loader-animation" src="assets/icons/loading.svg" /> -->
                     <img [hidden]="!product?.disableJob" class='disable-loader' src="assets/images/spinner.svg">
                     <img (click)="navigateTo(product, 2)" class="action-icons" [hidden]="!checkStatus(product?.active)"
-                        src="assets/images/icon-flash.png" />
+                        src="assets/images/icon-flash.png" title="View Job Details"/>
                     <img class="action-icons" (click)="navigateTo(product, 3)" [hidden]="!checkStatus(product?.active)"
-                        src="assets/images/icon-timer.png" />
+                        src="assets/images/icon-timer.png" title="View run history"/>
                     <!-- <i class="action-icons glyphicon" (click)="navigateTo(product, 4)" [class.glyphicon-time]="checkStatus(product?.active)" ></i> -->
                     <ui-switch style="display:none" *ngIf="!product?.disableAutorun && product?.active"
-                        class="action-icons" (change)="navigateTo(product, 4)" [checked]="product?.scheduled">
+                        class="action-icons" (change)="navigateTo(product, 4)" [checked]="product?.scheduled" title="Enable Schedule">
                     </ui-switch>
                     <img [hidden]="!product?.disableAutorun" class='disable-loader' src="assets/images/spinner.svg">
                     <i data-toggle="modal" data-target="#showModalCenter" class="action-icons glyphicon"
-                        (click)="navigateTo(product, 5)" [class.glyphicon-trash]="checkStatus(product?.active)"></i>
+                        (click)="navigateTo(product, 5)" [class.glyphicon-trash]="checkStatus(product?.active)" title="Delete Job"></i>
                 </span>
             </td>
         </ng-template>

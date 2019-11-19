@@ -428,7 +428,7 @@ export class DashboardComponent implements OnInit {
     console.log('Analytics Data', details);
     if (details) {
       this.pieChartData.push({ labels: this.pieChartBrandLabels });
-      if(details[0]) {
+      if(details[0] && details[0].brandProducts) {
       this.pieChartData[0].data = details[0].brandProducts ? [details[0].brandProducts] : [];
       this.pieChartData[0].data.push(details[0].otherBrandProducts ? details[0].otherBrandProducts : []);
       this.pieChartOptions1.plugins.datalabels =  {
@@ -437,6 +437,8 @@ export class DashboardComponent implements OnInit {
           return label;
         },
       };
+    } else {
+      this.pieChartData[0] = ({labels: [], data: []}); 
     }
       // this.pieChartOptions.plugins = {
       //   data: {
@@ -494,6 +496,8 @@ export class DashboardComponent implements OnInit {
           if (actualData.length > 0 && actualLabels.length > 0) {
             this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartImageOptions});
           }
+      } else {
+        this.barChartData[0] = ({labels:'', data: []});
       }
 
       // Bullet points labels and data
@@ -513,6 +517,8 @@ export class DashboardComponent implements OnInit {
          if (actualData.length > 0 && actualLabels.length > 0) {
            this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartBulletOptions});
          }
+      } else {
+        this.barChartData[1] = {labels:'', data: []};
       }
 
       // Char length labels and data
@@ -532,6 +538,8 @@ export class DashboardComponent implements OnInit {
         if (actualData.length > 0 && actualLabels.length > 0) {
         this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartCharLengthOptions });
         }
+      } else {
+        this.barChartData[2] = {labels:'', data: []};
       }
 
       // UserReviews Labels and data
@@ -551,6 +559,8 @@ export class DashboardComponent implements OnInit {
         if (actualData.length > 0 && actualLabels.length > 0) {
           this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartUserReviewOptions  });
         }
+      } else {
+        this.barChartData[3] = {labels:'', data: []};
       }
       // Avg Characters in description labels and data
       if (details[6] && details[6].stats) {
@@ -569,6 +579,8 @@ export class DashboardComponent implements OnInit {
         if (actualData.length > 0 && actualLabels.length > 0) {
           this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartAvgDescOptions });
         }
+      } else {
+        this.barChartData[4] = {labels:'', data: []};
       }
 
       // Avg Characters in Title, bullet, Description
@@ -597,6 +609,8 @@ export class DashboardComponent implements OnInit {
         if (actualData.length > 0 && actualLabels.length > 0) {
           this.barChartData.push({labels: actualLabels, data: actualData, options: this.barChartKeywordPresenceOptions, isStacked: true });
         }
+      } else {
+        this.barChartData[5] = {labels:'', data: []};
       }
       this.isBrandDataAvailable = true;
     }

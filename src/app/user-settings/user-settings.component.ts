@@ -40,6 +40,7 @@ export class UserSettingsComponent implements OnInit {
   selectedVendorName: string;
   totalAdminCount: number =0;
   totalVendorCount: number = 0;
+  showButtonText: boolean = true;
   constructor(public jobsService: JobsService) { }
 
   ngOnInit() {
@@ -88,7 +89,7 @@ export class UserSettingsComponent implements OnInit {
     this.jobsService.getVendors().then( res => {
       if(res) {
         this.allVendorDetails = res;
-        this.vendorDetails.forEach(vendor => {
+        this.allVendorDetails.forEach(vendor => {
           this.vendorNames.push(vendor.name);
         });
         console.log('Vendor names', this.vendorNames);
@@ -142,41 +143,51 @@ export class UserSettingsComponent implements OnInit {
       const body = {
         emailId: this.emailId,
         isAdmin: this.userType.toLowerCase() === 'yes' ? true : false ,
-        vendorId: this.selectedVendor.value.id
+        vendorId: this.selectedVendor.id
       };
+      this.showErrorMessage = '';
+      this.showButtonText = false;
       this.jobsService.createAdmin('users', body).then((data: any) => {
         if (data) {
           this.created = true;
+          this.showButtonText = true;
           this.getAdminDetails(1);
         }
       }).catch((err: any) => {
         console.log('Error', err);
         if (err.status === 409 ) {
-          this.showErrorMessage = err.error;
+          this.showErrorMessage = err.error.message;
         } else {
           this.showErrorMessage = err.error.message;
         }
+        this.showButtonText = true;
       });
     } else {
       this.showError = true;
+      this.showButtonText = true;
     }
   }
 
   createVendorUser() {
     if (this.vendorName) {
+      this.showButtonText = false;
+      this.showErrorMessage = '';
       this.jobsService.createVendor('vendor', this.vendorName).then((data: any) => {
         this.created = true;
+        this.showButtonText = true;
         this.getVendorDetails(1);
       }).catch((err: any) => {
         console.log('Error', err);
         if (err.status === 409 ) {
-          this.showErrorMessage = err.error;
+          this.showErrorMessage = err.error.message;
         } else {
          this.showErrorMessage = err.error.message;
         }
+        this.showButtonText = true;
       });
     } else {
       this.showError = true;
+      this.showButtonText = true;
     }
   }
 
@@ -189,8 +200,8 @@ export class UserSettingsComponent implements OnInit {
   }
 
   valueChanged(newVendorName) {
-    this.selectedVendor = this.allVendorDetails.find(vendor => vendor.value.name === newVendorName);
-    this.selectedVendorName = this.selectedVendor.value.name;
+    this.selectedVendor = this.allVendorDetails.find(vendor => vendor.name === newVendorName);
+    this.selectedVendorName = this.selectedVendor.name;
   }
 
   resetErrors() {

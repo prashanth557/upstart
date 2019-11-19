@@ -16,8 +16,8 @@ export class MapmonitorLastRunJobDetailsComponent implements OnInit {
   productDetails: any = [];
   jobCandidateDetails: any = [];
   items: any = [];
-  jobResults: any = [{jobType: 'ASINs Tracked', count: 2},
-  {jobType: 'MAP Breach Recorded', count: 3}, {jobType: 'Sellers Extracted', count: 53}];
+  jobResults: any = [{jobType: 'ASINs Tracked', count: 0},
+  {jobType: 'MAP Breach Recorded', count: 0}, {jobType: 'Sellers Extracted', count: 0}];
   headerTitle: String = 'ASINs Seller Data';
   jobHeaders: any = ['seller', 'price', ' Items condition', 'shipping info', 'Below Map?'];
   showSellersInfo: boolean;

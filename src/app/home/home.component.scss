@@ -23,6 +23,12 @@
             font-weight: normal;
             text-align: center;
         }
+        .loader {
+            margin:auto;
+            display:block;
+            height:50px;
+            width:40px;
+        }
     }
     .organic-cloud-section {
         background: white;
@@ -61,6 +67,7 @@
         padding-right: 5px;
         font-size: 14px;
         font-weight: bold;
+        cursor: pointer;
     }
 }
 
@@ -69,4 +76,14 @@
     width: 40px;
     height: 40px;
     margin:auto;
+}
+
+.no-results-text {
+    color:black;
+    font-weight: bold;
+    margin-top:10%;
+    margin-bottom:10%;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
 }

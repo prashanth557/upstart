@@ -52,7 +52,10 @@
               </div>
           </div>
           <div class="form-group">
-            <button type="submit" class="save-button">Create User</button>
+            <button type="submit" class="save-button">
+              <span *ngIf="showButtonText">Create User</span>
+              <img *ngIf="!showButtonText" class='loader' src="assets/images/spinner.svg">
+           </button>
           </div>
         </form>
         <div *ngIf="created">
@@ -87,7 +90,10 @@
             </div>
           </div>
           <div class="form-group">
-            <button type="submit" class="save-button">Create Vendor</button>
+            <button type="submit" class="save-button">
+                <span *ngIf="showButtonText">Create Vendor</span>
+                <img *ngIf="!showButtonText" class='loader' src="assets/images/spinner.svg">
+            </button>
           </div>
         </form>
         <div *ngIf="created">

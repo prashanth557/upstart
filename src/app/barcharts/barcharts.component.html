@@ -1,8 +1,17 @@
 <div class="competetor-bar-charts">
-  <div class="product-bar-chart chart col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngFor="let chartData of barChartData">
-      <canvas *ngIf="!chartData?.isStacked" baseChart [data]="chartData?.data" [labels]="chartData?.labels" [options]="chartData?.options" [legend]="false" [chartType]="barChartType" [colors]="colors">
-      </canvas>
-      <canvas baseChart *ngIf="chartData?.isStacked" [datasets]="chartData?.data" [labels]="chartData?.labels" [options]="chartData?.options" [chartType]="barChartType" [colors]="stackedChartColors" style="height: 300px">
+  <div class="product-bar-chart chart col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngFor="let chartData of barChartData; let i = index">
+    <canvas *ngIf="!chartData?.isStacked && chartData?.data?.length > 0" baseChart [data]="chartData?.data"
+      [labels]="chartData?.labels" [options]="chartData?.options" [legend]="false" [chartType]="barChartType"
+      [colors]="colors">
     </canvas>
+    <canvas baseChart *ngIf="chartData?.isStacked && chartData?.data?.length > 0" [datasets]="chartData?.data"
+      [labels]="chartData?.labels" [options]="chartData?.options" [chartType]="barChartType"
+      [colors]="stackedChartColors" style="height: 300px">
+    </canvas>
+    <span class="no-results-text" *ngIf="( chartData?.data?.length === 0  && i==1)">Avg Image Data not available</span>
+    <span class="no-results-text" *ngIf="( chartData?.data?.length === 0  && i==2)">Avg Bullet Points Data not available</span>
+    <span class="no-results-text" *ngIf="( chartData?.data?.length === 0  && i==3)">Avg Title Length Data not available</span>
+    <span class="no-results-text" *ngIf="( chartData?.data?.length === 0  && i==1)">Avg User Reviews Data not available</span>
+    <span class="no-results-text" *ngIf="( chartData?.data?.length === 0  && i==1)">Avg Description Length Data not available</span>
   </div>
 </div>

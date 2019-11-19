@@ -1,5 +1,71 @@
-.run-result-container{
+.mapjob-container {
     padding: 20px 10px 20px 10px;
+    .map-job-header-text {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+    .map-job-header-details{
+        padding-right: 15px;
+        padding-left: 15px;
+        padding-top: 20px;
+        .map-job-details{    
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .status-wrapper{
+            padding: 3px 15px 3px 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 12px;
+        }
+    }
+    .last-run-job-table{
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 15px;
+        padding-right: 15px;
+        padding-left: 15px;
+        .job-candiate-row{
+            background: #dedada;
+            cursor: pointer;
+            width: 100%;
+            display: inline-flex;
+            margin-bottom: 15px;
+            .asin-text{
+                width: 30%;
+            }
+        }
+        .asin-wrapper{
+            color: #6c10e8;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .map-wrapper {
+            padding: 5px 15px 5px 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 16px;
+            background: #6c10e8;
+            margin-right: 10px;
+        }
+        .seller-wrapper {
+            padding: 5px 15px 5px 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 16px;
+            background: #2fc6d6;
+            margin-right: 10px;
+        }
+        .map-breach-wrapper {
+            padding: 5px 15px 5px 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 16px;
+            background: #2A2073;
+            margin-right: 10px;
+        }
+    }
     td {
         //width: 180px;
         text-align: left;
@@ -8,23 +74,41 @@
         @media (min-width: 768px) and (max-width: 1024px) {
             width: 150px;
         }
-        .product-title,
-        .product-description{
-                overflow: hidden;
-                position: relative;
-                text-decoration:none;
-                line-height: 1.2;
-                padding-right: 1em;
-                height: 50px;
-                display: block;
-                // text-align: justify;
-        }
     }
-    .no-results-text {
-        color:black;
-        font-weight: bold;
-        margin-top:20%;
-        font-size: 20px;
-        text-align: center;
+
+    // .seller-info-header{
+    //     border-top: 1px solid #dcdcd7;
+    //     text-align: left;
+    //     padding: 15px;
+    //     // max-width: 300px;
+    // }
+
+    .seller-info-table {
+        table-layout: fixed ;
+        width: 100% ;
     }
+
+    .seller-info-table tbody tr:nth-child(odd) {
+        background-color: #f7f4f46b;
+    }
+}
+:host ::ng-deep .job-results{
+    margin-top:0px !important;
+}
+
+:host ::ng-deep .job-results-wrapper {
+    padding-top: 0px !important;
+    min-height: 100px !important;
+}
+
+.no-results-text {
+    color:black;
+    font-weight: bold;
+    margin-top:20%;
+    font-size: 20px;
+    text-align: center;
+}
+
+.sellers-information{
+    width:100% !important;
 }

@@ -69,7 +69,7 @@ export class BulkKeywordUploadComponent implements OnInit {
     if (index === 0 ) {
       this.runJob(product.id);
     } else if ( index === 1) {
-       this.router.navigate(['/bulkcrawljobs/' + product.id]);
+      this.router.navigate(['/bulkcrawljobs/' + product.id]);
     } else if (index === 2) {
       this.router.navigate(['/bulkcrawljobs/' + product.id + '/lastrun']);
     } else if (index === 3) {

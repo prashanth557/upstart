@@ -27,10 +27,10 @@
             </td>
             <td>
                 <!-- <span *ngFor="let line of actionItems; let i = index;"> -->
-                <a class="action-icons glyphicon glyphicon-flash" (click)="navigateTo(product, 0)"></a>
-                <a class="action-icons glyphicon glyphicon-eye-open" (click)="navigateTo(product, 1)"></a>
-                <a *ngIf="product?.lastRunAt" class="action-icons glyphicon glyphicon-th-large" (click)="navigateTo(product, 2)"></a>
-                <a data-toggle="modal" data-target="#showModalCenter" class="action-icons glyphicon glyphicon-trash" (click)="navigateTo(product, 3)"></a>
+                <a class="action-icons glyphicon glyphicon-flash" (click)="navigateTo(product, 0)" title="Run Job"></a>
+                <a class="action-icons glyphicon glyphicon-eye-open" (click)="navigateTo(product, 1)" title="View last run details"></a>
+                <a *ngIf="product?.lastRunAt" class="action-icons glyphicon glyphicon-th-large" (click)="navigateTo(product, 2)" title="View Job details"></a>
+                <a data-toggle="modal" data-target="#showModalCenter" class="action-icons glyphicon glyphicon-trash" (click)="navigateTo(product, 3)" title="Delete Job"></a>
                 <!-- </span> -->
             </td>
         </ng-template>

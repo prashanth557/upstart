@@ -33,7 +33,7 @@
           <li>
             <p class="label-values">{{userDetails?.emails[0]}}</p>
           </li>
-          <li>
+          <li *ngIf="userDetails?.extension_Vendor">
             <p class="label-details">Vendor</p>
           </li>
           <li>

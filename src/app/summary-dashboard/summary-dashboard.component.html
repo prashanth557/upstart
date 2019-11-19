@@ -1,7 +1,7 @@
 <div class="brand-product-presence">
   <div class="product-chart chart col-xs-12 col-sm-6 col-md-6 col-lg-6" *ngFor="let chartData of pieChartData; let i = index;">
     <div style="display: block">
-        <span class="no-results-text" *ngIf="( chartData?.data?.length === 0 ) && i === 0 ">No Results for Brands</span>
+        <span class="no-results-text" *ngIf="( chartData?.data?.length === 0 ) && i === 0 ">Results not found for Brands</span>
         <span class="no-results-text" *ngIf="( chartData?.data?.length === 0 ) && i === 1 ">User Ratings are not available for this product</span>
       <canvas baseChart *ngIf="chartData?.data?.length > 0" [data]="chartData?.data" [labels]="chartData?.labels" [chartType]="pieChartType" [colors]="pieChartColors" [options]="i === 0 ? pieChartOptions1 : pieChartOptions2"></canvas>
     </div>

@@ -26,6 +26,7 @@ import { BulkCrawlService } from './services/bulkcrawl.service';
 import { HttpWrapper } from './services/http-wrapper';
 import { RequestInterceptorService } from './services/http-wrapper/request.interceptor';
 import { SellerCrawlService } from './services/sellercrawl.service';
+import { ActivateOnAccessToken } from './guards/acess-token.guard';
 
 // Components
 import { AppComponent } from './app.component';
@@ -142,6 +143,7 @@ import { SellerCrawlResultComponent } from './seller-crawl/seller-crawl-result/s
     BulkCrawlService,
     SellerCrawlService,
     DatePipe,
+    ActivateOnAccessToken,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptorService,

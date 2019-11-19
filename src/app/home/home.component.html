@@ -1,7 +1,7 @@
 <div class="home-container">
     <div class="results-count-section">
-        <app-result-header [isLoading]="isLoading" [jobResults]="jobResults1"
-            (redirectEmit)="redirectToPages($event)"></app-result-header>
+        <app-result-header [isLoading]="isLoading" [jobResults]="jobResults1" (redirectEmit)="redirectToPages($event)">
+        </app-result-header>
     </div>
     <div class="results-count-section">
         <app-result-header-dup [isLoading]="isLoading" [jobResults]="jobResults2"
@@ -9,11 +9,10 @@
     </div>
     <div *ngIf="!isMapBreachesLoading" class="home-recent-records">
         <div class="map-breach-section">
-            <app-job-details class="col-sm-12 col-md-12 col-lg-7" 
-                [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
-                [showCreateButton]="false" [showSearch]="false" (createJob)="addNewKeyword($event)"
-                [pageCount]="totalItems" [currentpageIndex]='currentpageIndex' [isLoading]="isLoading"
-                (pageChange)="onPageChange($event)" [showDownloadButton]="true"
+            <app-job-details class="col-sm-12 col-md-12 col-lg-7" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders"
+                [productDetails]="productDetails" [showCreateButton]="false" [showSearch]="false"
+                (createJob)="addNewKeyword($event)" [pageCount]="totalItems" [currentpageIndex]='currentpageIndex'
+                [isLoading]="isLoading" (pageChange)="onPageChange($event)" [showDownloadButton]="false"
                 [itemsTobeDisplayedPerPage]="limitPerPage">
                 <ng-template #filedsHeader let-product>
                     <td>
@@ -40,46 +39,35 @@
             </app-job-details>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-5 graph-section-wrapper">
-            <div *ngIf="role ==='Vendor' " class="graph-section">
+            <div *ngIf="role ==='Vendor'" class="graph-section">
                 <h3 class="product-label">Product with specific labels</h3>
                 <h5 class="graph-header">Data from recent 5 Keyword relevance crawls</h5>
-                <div class="canavas-section" style="display: block">
-                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+                <div *ngIf="isBarChartDataAvailable" class="canavas-section" style="display: block">
+                    <canvas *ngIf="barChartData?.length > 0" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
                         [legend]="barChartLegend" [chartType]="barChartType" [colors]="colors">
                     </canvas>
+                    <span class="no-results-text" *ngIf="showErrorMessage">{{showErrorMessage}}</span>
                 </div>
+                <img *ngIf="!isBarChartDataAvailable" class='loader' src="assets/images/spinner.svg">
             </div>
             <div class="organic-cloud-section hidden-xs hidden-sm hidden-md">
                 <h3 class="product-label">Organic Keyword Cloud</h3>
-                <div class="home-section-labels">
-                    <a class="organic-cloud-labels">adipiscing (1)</a>
-                    <a class="organic-cloud-labels">bibh (1)</a>
-                    <a class="organic-cloud-labels">commade (1)</a>
-                    <a class="organic-cloud-labels">dolor (1)</a>
-                    <a class="organic-cloud-labels">els (1)</a>
-                    <a class="organic-cloud-labels">eu (1)</a><br>
-                    <img class="magna-text" src="assets/images/magna-text.png" />(2)
-                    <span class="organic-cloud-labels">massa (1)</span>
-                    <span class="organic-cloud-labels">maximus (1)</span>
-                    <span class="organic-cloud-labels">product (1)</span>
+                <div *ngIf="organicCloudKeywords?.length> 0"  class="home-section-labels">
+                    <span class="organic-cloud-keywords" *ngFor="let cloudKeyword of organicCloudKeywords">
+                        <a class="organic-cloud-labels" (click)="navigateToDashBoard(cloudKeyword)">{{cloudKeyword?.keyword}}({{cloudKeyword.totalProducts}})</a>
+                    </span>
                 </div>
+                <span class="no-results-text">No Results Available</span>
             </div>
         </div>
         <div class="organic-cloud-section hidden-lg col-xs-12 col-sm-12 col-md-12">
             <h3 class="product-label">Organic Keyword Cloud</h3>
-            <div class="home-section-labels">
-                <a class="organic-cloud-labels">adipiscing (1)</a>
-                <a class="organic-cloud-labels">bibh (1)</a>
-                <a class="organic-cloud-labels">commade (1)</a>
-                <a class="organic-cloud-labels">dolor (1)</a>
-                <a class="organic-cloud-labels">els (1)</a>
-                <a class="organic-cloud-labels">eu (1)</a>
-                <br>
-                <img class="magna-text" src="assets/images/magna-text.png" />(2)
-                <span class="organic-cloud-labels">massa (1)</span>
-                <span class="organic-cloud-labels">maximus (1)</span>
-                <span class="organic-cloud-labels">product (1)</span>
+            <div *ngIf="organicCloudKeywords?.length> 0" class="home-section-labels">
+                <span class="organic-cloud-keywords" *ngFor="let cloudKeyword of organicCloudKeywords">
+                    <a class="organic-cloud-labels">{{cloudKeyword?.keyword}}({{cloudKeyword.totalProducts}})</a>
+                </span>
             </div>
+            <span class="no-results-text">No Results Available</span>
         </div>
     </div>
     <img *ngIf="isMapBreachesLoading" class="mapbreaches-loader" src="assets/images/spinner.svg">

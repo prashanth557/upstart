@@ -1,5 +1,25 @@
-.bulk-keyword-container {
-    padding: 20px 10px 20px 10px;
+.bulk-crawl-job-container {
+    padding: 20px 0px 20px 10px;
+    .map-job-header-text {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+    .map-job-header-details{
+        padding-right: 15px;
+        padding-left: 15px;
+        padding-top: 20px;
+        .map-job-details{    
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .status-wrapper{
+            padding: 3px 15px 3px 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 12px;
+        }
+    }
     td {
         //width: 180px;
         text-align: left;
@@ -8,23 +28,5 @@
         @media (min-width: 768px) and (max-width: 1024px) {
             width: 150px;
         }
-        .status-wrapper{
-            padding: 5px 15px 5px 15px;
-            border-radius: 15px;
-            color: white;
-            font-size: 13px;
-        }
-    }
-    .no-results-text {
-        color:black;
-        font-weight: bold;
-        margin-top:20%;
-        font-size: 20px;
-        text-align: center;
-    }
-    .product-url{
-        color:#0ac;
-        cursor: pointer;
-        text-decoration: underline;
     }
 }

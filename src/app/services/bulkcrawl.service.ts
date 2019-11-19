@@ -36,7 +36,7 @@ export class BulkCrawlService {
     }
 
     createBulkJobs(jobTitle: string, file: File) {
-        const url = this.config.bulkCrawlUrl;
+        const url = 'https://exucfileuploader.azurewebsites.net/bulkproductcrawls';
         const formdata = new FormData();
         formdata.append('file', file);
         formdata.append('jobTitle', jobTitle);

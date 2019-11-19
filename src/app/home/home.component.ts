@@ -9,10 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  jobResults1: any = [{jobType: 'Keyword relevance Jobs', count: 0}, {jobType: 'Organic Keywords', count: 0},
-  {jobType: 'Map Monitor Jobs', count: 0}, {jobType: 'Map Breaches in this Week', count: 0}];
-  jobResults2: any = [{jobType: 'Bulk Product Crawl Jobs', count: 0}, {jobType: 'Users Registered', count: 0},
-  {jobType: 'Vendors Registered', count: 0}, {jobType: 'Seller Jobs', count: 0}];
+  jobResults1: any = [];
+  jobResults2: any = [];
   currentpageIndex: number;
   jobHeaders = ['ASIN', 'MAP', 'sellerName', 'Selling price', '% of price variation'];
   // Table Header title
@@ -20,7 +18,11 @@ export class HomeComponent implements OnInit {
   productDetails: any;
   limitPerPage: number = 10;
   offsetPage: number = 0;
-  countUrls = ['kwdrelvncjobscount', 'organickwdscount', 'mapmonitorjobscount', 'bulkproductcrawlscount', 'mapbreachesinweek', 'registereduserscount', 'registeredvendorscount', 'sellercrawlscount'];
+  organicCloudKeywords : any;
+  countUrls = [];
+  isBarChartDataAvailable: boolean = false;
+  showErrorMessage: string;
+  showOrganicErrorMessage: string;
   public barChartOptions = {
     scaleShowVerticalLines: true,
     responsive: true,
@@ -63,13 +65,11 @@ export class HomeComponent implements OnInit {
       }]
     }
   };
-  public barChartLabels = ['Sponsored', 'Best seller', 'Amazon Prime', 'Amazons choice'];
+  public barChartLabels = [];
   public barChartType = 'bar';
   public barChartLegend = true;
-  public barChartData = [
-    {  label: 'Branded Products', data: [18, 30, 55, 5]},
-    {  label: 'Total Products',  data: [60, 40, 60, 10]}
-  ];
+  public barChartData : any = [{label: 'Branded Products', data: []},
+  { labels: 'All Products', data: []}];
   isLoading: boolean;
   totalItems: number;
   colors = [
@@ -88,9 +88,32 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.currentpageIndex = 0;
     this.role = this.authService.getRole();
+    this.showErrorMessage = '';
+    if(this.role && this.role.toLowerCase() === 'admin') {
+      this.countUrls = ['kwdrelvncjobscount', 'organickwdscount', 'mapmonitorjobscount', 'bulkproductcrawlscount', 'mapbreachesinweek', 'registereduserscount', 'registeredvendorscount', 'sellercrawlscount'];
+      this.jobResults1 = [{jobType: 'Keyword relevance Jobs', count: 0}, {jobType: 'Organic Keywords', count: 0},
+      {jobType: 'Map Monitor Jobs', count: 0}, {jobType: 'Map Breaches in this Week', count: 0}];
+      this.jobResults2 = [{jobType: 'Bulk Product Crawl Jobs', count: 0}, {jobType: 'Users Registered', count: 0},
+      {jobType: 'Vendors Registered', count: 0}, {jobType: 'Seller Jobs', count: 0}];
+    } else {
+      this.countUrls =  ['kwdrelvncjobscount', 'organickwdscount', 'mapmonitorjobscount', 'bulkproductcrawlscount', 'mapbreachesinweek',    'sellercrawlscount'];
+      this.jobResults1 = [{jobType: 'Keyword relevance Jobs', count: 0}, {jobType: 'Organic Keywords', count: 0},
+      {jobType: 'Map Monitor Jobs', count: 0}];
+      this.jobResults2 = [{jobType: 'Map Breaches in this Week', count: 0}, {jobType: 'Bulk Product Crawl Jobs', count: 0}, {jobType: 'Seller Jobs', count: 0}];
+    }
     this.getMapBreaches(this.currentpageIndex);
     this.getDetails();
+    this.getOrganicSpecialLabels();
+    this.getOrganincCloudKeywords();
 }
+
+  getOrganincCloudKeywords() {
+    this.jobsService.getOrganincCloudKeywords().then( (res: any) => {
+      this.organicCloudKeywords = res;
+    }).catch( (err: any) => {
+      this.showOrganicErrorMessage = err && err.error && err.error.message ? err.error.message : '';
+    });
+  }
 
   getMapBreaches(currentIndex) {
     this.isMapBreachesLoading = true;
@@ -116,15 +139,47 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  getOrganicSpecialLabels() {
+    this.showErrorMessage = '';
+    this.jobsService.getRecentSpecialLabels().then( (data: any) => {
+      if(data) {
+        this.barChartLabels = data.map(stat => stat.label ? stat.label : '');
+        this.barChartData[0].label = 'Branded products';
+        this.barChartData[0].data =  data.map( stat => stat.brandProducts ?  stat.brandProducts : 0);
+        this.barChartData[1].label = 'All products';
+        this.barChartData[1].data =  data.map( stat => stat.allProducts ?  stat.allProducts : 0);
+        this.isBarChartDataAvailable = true;
+        console.log('barChartData', this.barChartData);
+      } else {
+        this.barChartLabels = [];
+        this.barChartData = [];
+        this.isBarChartDataAvailable = true;
+        this.showErrorMessage = 'No Results Available';
+      }
+    }).catch( (err: any) => {
+        this.showErrorMessage = err && err.error && err.error.message ? err.error.message : 'No Results Found';
+        this.isBarChartDataAvailable = true
+    });
+  }
+
   splitCountDetails(data) {
-    this.jobResults1[0].count = data[0] ? data[0] : 0;
-    this.jobResults1[1].count = data[1] ? data[1] : 0;
-    this.jobResults1[2].count = data[2] ? data[2] : 0;
-    this.jobResults1[3].count = data[3] ? data[3] : 0;
-    this.jobResults2[0].count = data[4] ? data[4] : 0;
-    this.jobResults2[1].count = data[5] ? data[5] : 0;
-    this.jobResults2[2].count = data[6] ? data[6] : 0;
-    this.jobResults2[3].count = !data[7] ? data[7] : 0;
+    if(data.length === 8) {
+      this.jobResults1[0].count = data[0] ? data[0] : 0;
+      this.jobResults1[1].count = data[1] ? data[1] : 0;
+      this.jobResults1[2].count = data[2] ? data[2] : 0;
+      this.jobResults1[3].count = data[3] ? data[3] : 0;
+      this.jobResults2[0].count = data[4] ? data[4] : 0;
+      this.jobResults2[1].count = data[5] ? data[5] : 0;
+      this.jobResults2[2].count = data[6] ? data[6] : 0;
+      this.jobResults2[3].count = data[7] ? data[7] : 0;
+    } else {
+      this.jobResults1[0].count = data[0] ? data[0] : 0;
+      this.jobResults1[1].count = data[1] ? data[1] : 0;
+      this.jobResults1[2].count = data[2] ? data[2] : 0;
+      this.jobResults2[0].count = data[3] ? data[3] : 0;
+      this.jobResults2[1].count = data[4] ? data[4] : 0;
+      this.jobResults2[2].count = data[5] ? data[5] : 0;
+    }
     this.isLoading = false;
   }
 
@@ -157,6 +212,10 @@ export class HomeComponent implements OnInit {
     } else if (event.type && event.type.toLowerCase() === 'vendors registered') {
       this.router.navigate(['/users']);
     }
+  }
+
+  navigateToDashBoard(organicKeyword) {
+    this.router.navigate(['/keywordset/' + organicKeyword.id + '/dashboard']);
   }
 
 }

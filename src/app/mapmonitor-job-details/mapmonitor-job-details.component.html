@@ -9,7 +9,7 @@
       </div>
       <div class="map-job-details col-sm-10">
           <span><b>{{candidateResponse?.title}}</b></span>
-          <span class="status-wrapper" [style.background]="getBackgroundColor('ready')">{{candidateResponse?.status}}</span>
+          <span class="status-wrapper" [style.background]="getBackgroundColor(candidateResponse?.status)">{{candidateResponse?.status}}</span>
           <!-- <span>Ready</span> -->
       </div>
     </div>

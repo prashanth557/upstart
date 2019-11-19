@@ -7,8 +7,8 @@ import { JobsService } from '../../services/jobs.service';
   styleUrls: ['./organic-keyword-run-result.component.scss']
 })
 export class OrganicKeywordRunResultComponent implements OnInit {
-  jobResults = [{ jobType: 'Crawl Jobs Created', count: 22 },
-  { jobType: 'Product Data Extracted', count: 1239 }, { jobType: 'Scheduled Crawl Jobs', count: '07' }];
+  jobResults = [
+  { jobType: 'Matching Products', count: 0 }, { jobType: 'Extracted Products', count: 0 }, { jobType: 'Branded Prodcuts', count: 0 }  ];
   jobHeaders = ['Product Title', 'Description', 'Price', 'User Rating', 'Bullet Points', 'No. of images', 'By Info'];
   jobId: any;
   runId: any;
@@ -18,12 +18,28 @@ export class OrganicKeywordRunResultComponent implements OnInit {
   showErrorMessage: String;
   productDetails: any = [];
   isLoading: boolean;
+  summaryLoading: boolean;
   constructor( public jobsService: JobsService, public route: ActivatedRoute) { }
 
   ngOnInit() {
     this.jobId = this.route.snapshot.params['jobId'];
     this.runId = this.route.snapshot.params['runId'];
+    this.getOrganicKeywordSummary();
     this.getDetails(1);
+  }
+
+  getOrganicKeywordSummary() {
+    this.summaryLoading = true;
+    this.jobsService.getOrganicKeywordSummary(this.jobId, this.runId).then( (data: any) => {
+      if(data) {
+        this.jobResults[0].count = data && data.matchingProducts ? data.matchingProducts : 0;
+        this.jobResults[1].count = data && data.extractedProducts ? data.extractedProducts : 0;
+        this.jobResults[2].count = data && data.brandProducts ? data.brandProducts : 0;
+        this.summaryLoading = false;
+      }
+    }).catch( (err: any) => {
+        this.summaryLoading = false;
+    });
   }
 
   getDetails(currentPageIndex) {
