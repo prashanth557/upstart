@@ -61,7 +61,8 @@ export class SellerCrawlComponent implements OnInit {
       }
       this.isLoading = false;
     }).catch((err: any) => {
-      this.showErrorMessage = err && err.error && err.error.message ? err.error.message: 'Something went wrong please try after some time';
+      this.showErrorMessage =  err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'Something went wrong Please try again.' );
       this.isLoading = false;
     });
   }
@@ -93,7 +94,8 @@ export class SellerCrawlComponent implements OnInit {
           this.jobCreationError = 'Failed to parse some entries in the input file. Please try again.';
         }
       }).catch((err: any) => {
-        this.jobCreationError = err.error.message;
+        this.jobCreationError = err && err.error && err.error.message ? err.error.message:  
+        ( err.statusText ? err.statusText : 'Failed to parse some entries in the input file. Please try again.' );
       });
     } else {
      this.showError = true;

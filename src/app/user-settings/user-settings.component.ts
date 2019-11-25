@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { JobsService } from '../services/jobs.service';
 import { Cookie} from 'ng2-cookies';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+import { TopNotificationComponent } from '../top-notification/top-notification.component';
 
 @Component({
   selector: 'app-user-settings',
@@ -10,8 +11,9 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 })
 export class UserSettingsComponent implements OnInit {
 
+  @ViewChild(TopNotificationComponent) notification: TopNotificationComponent;
   urls = ['users', 'vendors'];
-  adminJobHeaders = ['Email', 'Is Admin', 'Is Signed Up',  'Vendor Name'];
+  adminJobHeaders = ['Email', 'Is Admin', 'Is Signed Up',  'Vendor Name', 'Actions'];
   vendorJobHeaders = ['Name'];
   adminDetails: any = [];
   vendorDetails: any = [];
@@ -41,6 +43,8 @@ export class UserSettingsComponent implements OnInit {
   totalAdminCount: number =0;
   totalVendorCount: number = 0;
   showButtonText: boolean = true;
+  showConfirmation: boolean = false;
+  selectedUser: any;
   constructor(public jobsService: JobsService) { }
 
   ngOnInit() {
@@ -57,7 +61,7 @@ export class UserSettingsComponent implements OnInit {
   getAdminDetails(index) {
     this.adminDetailsLoading = true;
     this.adminIndex = 1;
-    this.jobsService.getUserList(this.urls[0], index, this.adminLimitPerPage).then( res => {
+    this.jobsService.getUserList(index, this.adminLimitPerPage).then( (res: any) => {
       console.log('admin detials', res);
       if(res) {
         this.totalAdminCount = res.totalItems;
@@ -65,7 +69,8 @@ export class UserSettingsComponent implements OnInit {
       }
       this.adminDetailsLoading = false;
     }).catch((err: any) => {
-      this.showErrorMessage = err.error.message;
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'Please try after some time' );
       this.adminDetailsLoading = false;
     });
   }
@@ -73,14 +78,15 @@ export class UserSettingsComponent implements OnInit {
   getVendorDetails(index) {
     this.vendorDetailsLoading = true;
     this.vendorIndex = 1;
-    this.jobsService.getUserList(this.urls[1], index, this.vendorLimitPerPage).then( res => {
+    this.jobsService.getVendorList(index, this.vendorLimitPerPage).then( res => {
       if(res) {
         this.totalVendorCount = res.totalItems;
         this.vendorDetails = res.items;
       }
       this.vendorDetailsLoading = false;
     }).catch((err: any) => {
-      this.showErrorMessage = err.error.message;
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'Please try after some time' );
       this.vendorDetailsLoading = false;
     });
   }
@@ -120,22 +126,48 @@ export class UserSettingsComponent implements OnInit {
   addNewAdmin(event) {
     console.log('New Admin Keyword clicked');
     this.createVendor = false;
+    this.showConfirmation = false;
     this.createAdmin = true;
+    this.selectedUser = {};
     this.resetFields();
   }
 
   addNewVendor(event) {
     console.log('New Vendor Keyword Clicked');
     this.createAdmin = false;
+    this.showConfirmation = false;
     this.createVendor = true;
+    this.selectedUser = {};
     this.resetFields();
   }
+  
+  deleteUser(user) {
+    console.log('Delete user Clicked');
+    this.createAdmin = false;
+    this.createVendor = false;
+    this.showConfirmation = true;
+    this.selectedUser = user;
+    this.resetFields();
+  }
+
   resetFields() {
     this.showError = false;
     this.created = false;
     this.emailId = '';
     this.vendorName = '';
     this.showErrorMessage = '';
+  }
+
+  editUserDetails(user) {
+    this.createVendor = false;
+    this.showConfirmation = false;
+    this.selectedUser = user;
+    this.resetFields();
+    this.emailId = this.selectedUser && this.selectedUser.emailId ? this.selectedUser.emailId : '';
+    this.defaultChoice = this.selectedUser.isAdmin ? 'Yes' : 'No';
+    this.selectedVendorName = this.selectedUser && this.selectedUser.vendor  && this.selectedUser.vendor.name
+    ? this.selectedUser.vendor.name : '';
+    this.createAdmin = true;
   }
 
   createAdminUser() {
@@ -156,9 +188,11 @@ export class UserSettingsComponent implements OnInit {
       }).catch((err: any) => {
         console.log('Error', err);
         if (err.status === 409 ) {
-          this.showErrorMessage = err.error.message;
+          this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+          ( err.statusText ? err.statusText : 'Please try after some time' );
         } else {
-          this.showErrorMessage = err.error.message;
+          this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+          ( err.statusText ? err.statusText : 'Please try after some time' );
         }
         this.showButtonText = true;
       });
@@ -179,9 +213,11 @@ export class UserSettingsComponent implements OnInit {
       }).catch((err: any) => {
         console.log('Error', err);
         if (err.status === 409 ) {
-          this.showErrorMessage = err.error.message;
+          this.showErrorMessage =  err && err.error && err.error.message ? err.error.message:  
+          ( err.statusText ? err.statusText : 'Please try after some time' );
         } else {
-         this.showErrorMessage = err.error.message;
+         this.showErrorMessage =  err && err.error && err.error.message ? err.error.message:  
+         ( err.statusText ? err.statusText : 'Please try after some time' );
         }
         this.showButtonText = true;
       });
@@ -208,6 +244,23 @@ export class UserSettingsComponent implements OnInit {
    if ( this.showErrorMessage ) {
      this.showErrorMessage = '';
    }
+  }
+
+  deleteUserDetails() {
+    this.jobsService.deleteUser(this.selectedUser.emailId).then((res: any) => {
+      const message: String = 'User deleted successfully.';
+      this.notification.displayNotification(true, true, message);
+      this.getAdminDetails(1);
+      setTimeout(() => {
+        this.notification.displayNotification(false, true, '');
+      }, 3000);
+    }, err => {
+      const message: String = 'Erorr while deleting the record. Please try after sometime';
+      this.notification.displayNotification(true, false, message);
+      setTimeout(() => {
+        this.notification.displayNotification(false, false, '');
+      }, 3000);
+    });
   }
 
 }

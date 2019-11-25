@@ -21,7 +21,7 @@ export class KeywordRelevanceDashboardComponent implements OnInit {
   }
 
   getKeywordInput() {
-    this.jobsService.getSpecificJobDetails(this.jobId).then( data => {
+    this.jobsService.getSpecificJobDetails(this.jobId).then( (data:any) => {
       this.isLoading = false;
       this.keywordInput = data.keywordInput;
     }).catch( err => {

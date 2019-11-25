@@ -34,11 +34,12 @@ export class MapmonitorRunHistoryComponent implements OnInit {
         this.runHistory = res;
         this.productDetails = res && res.items ? res.items : [];
         this.totalItems = this.runHistory.totalItems;
-        this.isLoading = false;
       }
+      this.isLoading = false;
     }).catch( err => {
       console.log('Error while run history details', err);
-      this.showErrorMessage = 'No run entries available for this job ';
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'Please try after some time' );
       this.isLoading = true;
     });
   }

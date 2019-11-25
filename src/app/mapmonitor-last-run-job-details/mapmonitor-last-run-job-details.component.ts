@@ -47,7 +47,8 @@ export class MapmonitorLastRunJobDetailsComponent implements OnInit {
       }
       this.isLoading = false;
     }).catch(err => {
-      this.showErrorMessage = err.error.message;
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'Please try after some time' );
       this.isLoading = false;
       console.log('Error while fetching Job Details', err);
       // this.isLoading = false;

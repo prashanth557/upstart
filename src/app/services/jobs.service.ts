@@ -440,13 +440,25 @@ export class JobsService {
     });
   }
 
-  getUserList(path, pageNumber, pageLimit) {
-    const url = this.config.usersUrl + path + '?pagenum=' + pageNumber + '&pagesize=' + pageLimit;
+  getUserList(pageNumber, pageLimit) {
+    const url = this.config.usersUrl + 'users' + '?pagenum=' + pageNumber + '&pagesize=' + pageLimit;
     return this.http.authenticatedGet(url).toPromise().then((data: any) => {
       if (data) {
         return data;
       }
-    }).catch((err) => {
+    }).catch(error => {
+      console.error('An error in api execution occurred', error);
+      return Promise.reject(error);
+    });
+  }
+
+  getVendorList(pageNumber, pageLimit) {
+    const url = this.config.usersUrl + 'vendors' + '?pagenum=' + pageNumber + '&pagesize=' + pageLimit;
+    return this.http.authenticatedGet(url).toPromise().then((data: any) => {
+      if (data) {
+        return data;
+      }
+    }).catch(err => {
       this.handleError(err);
     });
   }
@@ -480,6 +492,23 @@ export class JobsService {
       name: name
     };
     return this.http.authenticatedPost(url, body).toPromise().then((data: any) => {
+      return Promise.resolve(data);
+    }).catch(err => {
+      return this.handleError(err);
+    });
+  }
+
+  deleteUser(emailId) {
+    var body = {
+      'emailId': emailId
+    }
+    const options: IRequestOptions = {
+      body: {
+        "emailId": emailId
+      }
+    };
+    const url = this.config.baseApiUrl + 'disableuser'
+    return this.http.authenticatedDelete(url, options).toPromise().then((data: any) => {
       return Promise.resolve(data);
     }).catch(err => {
       return this.handleError(err);
@@ -522,7 +551,7 @@ export class JobsService {
   }
 
   getRecentSpecialLabels() {
-    const url = this.config.baseApiUrl + '/organickwdsperformance/brandwide/recentrunspeciallabels';
+    const url = this.config.baseApiUrl + 'organickwdsperformance/brandwide/recentrunspeciallabels';
     return this.http.authenticatedGet(url)
       .toPromise()
       .then((response: any) => {
@@ -531,6 +560,19 @@ export class JobsService {
         this.handleError(err);
       });
   }
+
+  resetPassword(username) {
+    const url = this.config.forgotPasswordUrl;
+    const body = {
+      emailId: username
+    };
+    return this.http.authenticatedPost(url, body).toPromise().then((data: any) => {
+      return Promise.resolve(data);
+    }).catch(err => {
+      return this.handleError(err);
+    });
+  }
+
 
   public handleError(error: any): Promise<any> {
     console.error('An error in api execution occurred', error);

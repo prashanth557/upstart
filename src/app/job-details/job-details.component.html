@@ -1,9 +1,10 @@
 <div class="job-results">
-  <div *ngIf="showDownloadButton" class="download-report-section">
-    <button class="download-report-button">Download</button>
+  <div class="download-report-section">
+      <h3 *ngIf="headerTitle" class="job-results-header">{{headerTitle}}
+          <span *ngIf="keyword" class="job-results-header">- {{keyword}}</span>
+      </h3>
+    <button *ngIf="showDownloadButton" class="download-report-button" (click)="downloadClick()">Download</button>
   </div>
-  <h3 *ngIf="headerTitle" class="job-results-header">{{headerTitle}}
-  <span *ngIf="keyword" class="job-results-header">- {{keyword}}</span></h3>
   <div class="search-wrapper" *ngIf="showSearch || showCreateButton">
     <button class="create-job" *ngIf="showCreateButton" (click)="createNewJob()" data-toggle="modal" data-target="#showModalCenter">{{createButtonText}}</button>
     <!-- <span class="search-input-text" *ngIf="showSearch">Search:&nbsp;
@@ -36,7 +37,7 @@
       </tbody>
     </table>
     <div class="no-jobs-text">
-        <span *ngIf='productDetails?.length === 0 && !isLoading'>No Results available</span>
+        <span *ngIf='productDetails?.length === 0 && !isLoading'>{{showErrorMessage}}</span>
     </div>
     <div *ngIf="!isLoading && pageCount && productDetails?.length > 0" class="pagination-wrapper">
       <span class="result-text">Showing {{ fromCount }} to {{ toCount }} of {{pageCount}} entries</span>

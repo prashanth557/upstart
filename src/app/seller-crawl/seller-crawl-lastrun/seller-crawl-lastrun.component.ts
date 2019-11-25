@@ -43,6 +43,8 @@ export class SellerCrawlLastrunComponent implements OnInit {
       this.jobResults[0].count = res.trackedAsins;
       this.jobResults[1].count = res.sellersExtracted;
       this.isSummarResultsLoading = false;
+    }).catch((err: any) => {
+      this.isSummarResultsLoading = false;
     });
   }
 

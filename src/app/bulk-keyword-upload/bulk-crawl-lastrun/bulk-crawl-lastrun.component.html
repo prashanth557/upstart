@@ -51,7 +51,7 @@
         </table>
         </ng-container>
       </table> -->
-      <app-job-details *ngIf="!isLoading" [headerTitle]="'ASINs Seller Data'" [jobHeaders]="jobHeaders" [productDetails]="jobCandidateDetails" [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">
+      <app-job-details *ngIf="!isLoading" [headerTitle]="'ASINs Seller Data'" [jobHeaders]="jobHeaders" [productDetails]="jobCandidateDetails" [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage" [showErrorMessage]="showErrorMessage">
       <ng-template #filedsHeader let-product>
         <td>
             <span>{{product?.productTitle}}</span>

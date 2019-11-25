@@ -104,15 +104,12 @@ export class KeywordRelevantJobsComponent implements OnInit {
         if (res) {
           this.jobCreated = true;
           this.jobCreationLoader = false;
-          // this.createNewKeyword = false;
           this.getDetails(1);
-        //   setTimeout(function() {
-        //     $('#create-modal1').modal('hide');
-        // }, 3000);
         }
       }).catch( (err: any) => {
         this.jobCreationLoader = false;
-        this.showErrorMessage = err.error.message;
+        this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'Please try after some time' );
         this.jobCreated = false;
       });
     } else {
@@ -172,7 +169,8 @@ export class KeywordRelevantJobsComponent implements OnInit {
       this.isLoading = false;
     }).catch(err => {
       console.log('Error while fetching Keyword Relevance Job Details', err);
-      this.showErrorMessage = err.error.message;
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'Please try after some time' );
       this.isLoading = false;
     });
   }

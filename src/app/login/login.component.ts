@@ -55,9 +55,11 @@ export class LoginComponent implements OnInit {
     if (this.userName && this.password) {
       this._authService.validateUserDetails(this.userName, this.password, this.isRemberMeChecked).then(res => {
        if (res) {
+         console.log('Response', res);
          this.showErrorMessage = '';
          res && res.user && res.user.isAdmin ? Cookie.set('role', 'Admin') : Cookie.set('role', 'Vendor');
          res && res.user && res.user.vendorId ? Cookie.set('vendorId', res.user.vendorId) : Cookie.set('vendorId', '');
+         res && res.user && res.user.vendor && res.user.vendor.name ? Cookie.set('vendorName', res.user.vendor.name) : Cookie.set('vendorName', '');
          this.requestInProgress = false;
          this.router.navigate(['/home']);
        }

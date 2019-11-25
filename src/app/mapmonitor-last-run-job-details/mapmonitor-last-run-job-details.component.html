@@ -28,37 +28,38 @@
           <td>
             <span class="map-wrapper">MAP - {{header?.map}}</span>
             <span *ngIf="header?.sellers?.length > 0" class="seller-wrapper">{{header?.sellers?.length}} Sellers</span>
-            <span *ngIf="header?.mapBreachesCount > 0" class="map-breach-wrapper">{{header?.mapBreachesCount}} MAP Breach</span>
+            <span *ngIf="header?.mapBreachesCount > 0" class="map-breach-wrapper">{{header?.mapBreachesCount}} MAP
+              Breach</span>
           </td>
         </tr>
         <table class="sellers-information">
-        <tr *ngIf="displaySellerIndex === i && productDetails?.length > 0 && showSellersInfo">
-          <app-job-details [jobHeaders]="jobHeaders" [productDetails]="productDetails" [isLoading]="isLoading">
-            <ng-template #filedsHeader let-product>
-              <td>
-                <span>{{product?.name}}</span>
-              </td>
-              <td>
-                <span>{{product?.price}}</span>
-              </td>
-              <td>
-                <span>{{product?.itemCondition}}</span>
-              </td>
-              <td>
-                <span>{{product?.shippingInfo}}</span>
-              </td>
-              <td>
-                <span>{{product?.belowMap}}</span>
-              </td>
-            </ng-template>
-          </app-job-details>
-        </tr>
-      </table>
+          <tr *ngIf="displaySellerIndex === i && productDetails?.length > 0 && showSellersInfo">
+            <app-job-details [jobHeaders]="jobHeaders" [productDetails]="productDetails" [isLoading]="isLoading" [showErrorMessage]="showErrorMessage">
+              <ng-template #filedsHeader let-product>
+                <td>
+                  <span>{{product?.name}}</span>
+                </td>
+                <td>
+                  <span>{{product?.price}}</span>
+                </td>
+                <td>
+                  <span>{{product?.itemCondition}}</span>
+                </td>
+                <td>
+                  <span>{{product?.shippingInfo}}</span>
+                </td>
+                <td>
+                  <span>{{product?.belowMap}}</span>
+                </td>
+              </ng-template>
+            </app-job-details>
+          </tr>
+        </table>
       </ng-container>
     </table>
   </div>
   <app-loader [show]='isLoading'></app-loader>
   <div class="no-results-text">
     <span *ngIf='showErrorMessage && !isLoading'>{{showErrorMessage}}</span>
-</div>
+  </div>
 </div>

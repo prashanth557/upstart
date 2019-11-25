@@ -12,6 +12,7 @@ export class SellerCrawlRunResultComponent implements OnInit {
   jobDetailResponse: any;
   isLoading: boolean;
   jobId: any;
+  runId: any;
   totalItems: number;
   productDetails: any = [];
   jobCandidateDetails: any = [];
@@ -26,6 +27,7 @@ export class SellerCrawlRunResultComponent implements OnInit {
   currentpageIndex: number = 1;
   limitPerPage: number = 5;
   isSummarResultsLoading: boolean;
+  isExportLoading: boolean = false;
   constructor(public route: ActivatedRoute, public service: SellerCrawlService) { }
 
   ngOnInit() {
@@ -33,13 +35,14 @@ export class SellerCrawlRunResultComponent implements OnInit {
     this.route.params
     .subscribe((params: any) => {
       this.jobId = params['jobId'];
+      this.runId = params['runId'];
       this.getLastRunSummmaryDetails();
       this.getLastRunJobDetails(this.jobId);
     });
   }
 
   getLastRunSummmaryDetails() {
-    this.service.getSellerCrawlLastRunSummarDetails(this.jobId).then( (res: any) => {
+    this.service.getSellerRunResultSummary(this.jobId, this.runId).then( (res: any) => {
       this.lastRunSummaryDetails = res;
       this.jobResults[0].count = res.trackedAsins;
       this.jobResults[1].count = res.sellersExtracted;
@@ -48,7 +51,7 @@ export class SellerCrawlRunResultComponent implements OnInit {
   }
 
   getLastRunJobDetails(jobId) {
-    this.service.getSellerCrawlLastRunJobDetails(jobId).then((res: any) => {
+    this.service.getSellerCrawlRunResults(jobId, this.runId, this.currentpageIndex, this.limitPerPage).then((res: any) => {
       if ( res ) {
         this.jobDetailResponse = res;
         this.items = res && res.items ? res.items : [];
@@ -85,6 +88,18 @@ export class SellerCrawlRunResultComponent implements OnInit {
     this.limitPerPage = event.limitPerPage;
     console.log('CurrentPageIndex', this.currentpageIndex);
     this.getLastRunJobDetails(this.currentpageIndex);
+  }
+
+  exportCSV() {
+    this.isExportLoading = true;
+    this.service.exportRunHistory(this.jobId, this.runId).then( (res: any) => {
+      console.log('Exported CSV Response ', res);
+      this.isExportLoading = false;
+      window.open(res.fileUrl);
+    }).catch((err: any) => {
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message : '';
+      this.isExportLoading = false;
+    });
   }
 
 }

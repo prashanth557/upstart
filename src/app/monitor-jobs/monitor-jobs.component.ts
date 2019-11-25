@@ -74,7 +74,8 @@ export class MonitorJobsComponent implements OnInit {
       this.productDetails = res.items;
       this.isLoading = false;
     }).catch((err: any) => {
-      this.showErrorMessage = err.error.message;
+      this.showErrorMessage =  err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'Something went wrong Please try again.' );
       this.isLoading = false;
     });
   }

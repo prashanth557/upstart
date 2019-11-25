@@ -31,7 +31,8 @@ export class AlertsComponent implements OnInit {
        }
        this.isLoading = false;
     }).catch( (err: any) => {
-      this.showErrorMessage = err.error.message;
+      this.showErrorMessage = this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+          ( err.statusText ? err.statusText : 'Please try after some time' );
       this.isLoading = false;
     });
   }

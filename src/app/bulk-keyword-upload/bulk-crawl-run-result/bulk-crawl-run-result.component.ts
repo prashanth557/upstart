@@ -19,6 +19,7 @@ export class BulkCrawlRunResultComponent implements OnInit {
   productDetails: any = [];
   isLoading: boolean;
   summaryLoading: boolean;
+  isExportLoading: boolean;
   constructor( public service: BulkCrawlService, public route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -50,7 +51,8 @@ export class BulkCrawlRunResultComponent implements OnInit {
      }
      this.isLoading = false;
     }).catch((err: any) => {
-      this.showErrorMessage = err && err.error && err.error.message  ?  err.error.message : 'No seller results available for job.';
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'No Sellers available for this' );
       this.isLoading = false;
     });
   }
@@ -61,6 +63,19 @@ export class BulkCrawlRunResultComponent implements OnInit {
     this.limitPerPage = event.limitPerPage;
     console.log('CurrentPageIndex', this.currentpageIndex);
     this.getDetails(this.currentpageIndex);
+  }
+
+  exportCSV() {
+    this.isExportLoading = true;
+    this.service.exportRunHistory(this.jobId, this.runId).then( (res: any) => {
+      console.log('Exported CSV Response ', res);
+      this.isExportLoading = false;
+      window.open(res.fileUrl);
+    }).catch((err: any) => {
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'Please try after some time' );
+      this.isExportLoading = false;
+    });
   }
 
 }

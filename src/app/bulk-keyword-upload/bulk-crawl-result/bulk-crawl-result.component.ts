@@ -44,14 +44,16 @@ export class BulkCrawlResultComponent implements OnInit {
       this.isLoading = false;
     }).catch( (err: any) => {
       console.log('Error while fetching map monitor job detais', err);
-      if (err.status === 400) {
+      if (err && err.status === 400) {
         this.showErrorMessage = 'Monitor Job Id ' + this.jobId + ' not found';
-      } else if (err.status === 412) {
+      } else if (err && err.status === 412) {
         this.showErrorMessage = 'No run entries available for this job ' + this.jobId;
-      } else if (err.status === 500) {
+      } else if (err && err.status === 500) {
         this.showErrorMessage = 'Oops something went wront. Please try after a while';
+      } else { 
+        this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+        ( err.statusText ? err.statusText : 'Please try after some time' );
       }
-      this.showErrorMessage = err.error.message;
       this.isLoading = false;
     });
   }

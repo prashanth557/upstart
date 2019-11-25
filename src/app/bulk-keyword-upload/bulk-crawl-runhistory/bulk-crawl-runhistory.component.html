@@ -1,7 +1,7 @@
 <div class="bulk-runhistory-container">
         <app-job-details *ngIf="!isLoading" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails"
             [showCreateButton]="false" [pageCount]="totalItems" [showSearch]="true" [currentpageIndex]='currentpageIndex' [isLoading]="isLoading"
-            (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">
+            (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage" [showErrorMessage]="showErrorMessage">
             <ng-template #filedsHeader let-product>
                 <td>
                     <span>{{product?.runAt ? createdDate(product?.runAt) : ''}}</span>

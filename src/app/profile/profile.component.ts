@@ -40,6 +40,7 @@ export class ProfileComponent implements OnInit {
 
   fetchUserDetails() {
     this.userDetails = this.authService.fetchUserDetails();
+    this.userDetails.vendorName = this.authService.getVendorName();
     if (this.userDetails.extension_isAdmin) {
       this.userDetails.role = 'Admin';
     } else {

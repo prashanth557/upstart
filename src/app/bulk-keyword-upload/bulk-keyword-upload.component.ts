@@ -59,7 +59,8 @@ export class BulkKeywordUploadComponent implements OnInit {
       this.productDetails = res.items;
       this.isLoading = false;
     }).catch((err: any) => {
-      this.showErrorMessage = err && err.error && err.error.message ? err.error.message : 'No Results Available';
+      this.showErrorMessage =  err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'Please try after some time' );
       this.isLoading = false;
     });
   }
@@ -91,7 +92,8 @@ export class BulkKeywordUploadComponent implements OnInit {
           this.jobCreationError = 'Failed to parse some entries in the input file. Please try again.';
         }
       }).catch((err: any) => {
-        this.jobCreationError = err.error.message;
+        this.jobCreationError = err && err.error && err.error.message ? err.error.message:  
+        ( err.statusText ? err.statusText : 'Please try after some time' );
       });
     } else {
      this.showError = true;

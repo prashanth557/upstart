@@ -26,7 +26,7 @@
   </div>
   <app-result-header  [jobResults]="jobResults"></app-result-header>
   <app-job-details *ngIf="productDetails?.length > 0" [headerTitle]="headerTitle" [jobHeaders]="jobHeaders" [productDetails]="productDetails" [pageCount]="totalItems"
-    [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage">
+    [currentpageIndex]='currentpageIndex' [isLoading]="isLoading" (pageChange)="onPageChange($event)" [itemsTobeDisplayedPerPage]="limitPerPage" [showErrorMessage]="showErrorMessage">
     <ng-template #filedsHeader let-product>
       <td>
           <span>{{product?.asin}}</span>

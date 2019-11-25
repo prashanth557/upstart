@@ -4,11 +4,19 @@
     margin: 30px 15px 15px 15px;
     background: white;
     .download-report-section{
-        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        // padding: 10px;
         .download-report-button {
-            float:right;
+            height: 35px;
+            min-width: 105px;
+            margin-top: auto;
+            margin-bottom: auto;
             background: #6c10e8;
-            color:white;
+            color: white;
+            padding: 5px 15px 5px 15px;
+            border-radius: 20px;
+            outline: none;
         }
     }
     .job-results-header {

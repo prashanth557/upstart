@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
   jobResults1: any = [];
   jobResults2: any = [];
   currentpageIndex: number;
-  jobHeaders = ['ASIN', 'MAP', 'sellerName', 'Selling price', '% of price variation'];
+  jobHeaders = ['ASIN', 'MAP', 'Seller Name', 'Selling Price', '% of Price Variation'];
   // Table Header title
   headerTitle: String = 'Recent Map Breaches Recorded';
   productDetails: any;
@@ -90,20 +90,20 @@ export class HomeComponent implements OnInit {
     this.role = this.authService.getRole();
     this.showErrorMessage = '';
     if(this.role && this.role.toLowerCase() === 'admin') {
-      this.countUrls = ['kwdrelvncjobscount', 'organickwdscount', 'mapmonitorjobscount', 'bulkproductcrawlscount', 'mapbreachesinweek', 'registereduserscount', 'registeredvendorscount', 'sellercrawlscount'];
+      this.countUrls = ['kwdrelvncjobscount', 'organickwdscount', 'mapmonitorjobscount', 'mapbreachesinweek','bulkproductcrawlscount', 'registereduserscount', 'registeredvendorscount', 'sellercrawlscount'];
       this.jobResults1 = [{jobType: 'Keyword relevance Jobs', count: 0}, {jobType: 'Organic Keywords', count: 0},
       {jobType: 'Map Monitor Jobs', count: 0}, {jobType: 'Map Breaches in this Week', count: 0}];
       this.jobResults2 = [{jobType: 'Bulk Product Crawl Jobs', count: 0}, {jobType: 'Users Registered', count: 0},
       {jobType: 'Vendors Registered', count: 0}, {jobType: 'Seller Jobs', count: 0}];
     } else {
-      this.countUrls =  ['kwdrelvncjobscount', 'organickwdscount', 'mapmonitorjobscount', 'bulkproductcrawlscount', 'mapbreachesinweek',    'sellercrawlscount'];
+      this.countUrls =  ['kwdrelvncjobscount', 'organickwdscount', 'mapmonitorjobscount', 'mapbreachesinweek',  'bulkproductcrawlscount', 'sellercrawlscount'];
       this.jobResults1 = [{jobType: 'Keyword relevance Jobs', count: 0}, {jobType: 'Organic Keywords', count: 0},
       {jobType: 'Map Monitor Jobs', count: 0}];
       this.jobResults2 = [{jobType: 'Map Breaches in this Week', count: 0}, {jobType: 'Bulk Product Crawl Jobs', count: 0}, {jobType: 'Seller Jobs', count: 0}];
+      this.getOrganicSpecialLabels();
     }
     this.getMapBreaches(this.currentpageIndex);
     this.getDetails();
-    this.getOrganicSpecialLabels();
     this.getOrganincCloudKeywords();
 }
 
@@ -154,10 +154,10 @@ export class HomeComponent implements OnInit {
         this.barChartLabels = [];
         this.barChartData = [];
         this.isBarChartDataAvailable = true;
-        this.showErrorMessage = 'No Results Available';
+        this.showErrorMessage = 'Labels not found';
       }
     }).catch( (err: any) => {
-        this.showErrorMessage = err && err.error && err.error.message ? err.error.message : 'No Results Found';
+        this.showErrorMessage = err && err.error && err.error.message ? err.error.message : 'Labels not found';
         this.isBarChartDataAvailable = true
     });
   }

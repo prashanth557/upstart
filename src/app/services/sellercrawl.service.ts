@@ -37,7 +37,7 @@ export class SellerCrawlService {
 
   // Delete a job using jobId
   deleteJob(jobId) {
-    const url = this.config.baseApiUrl + 'sellercrawls/' + jobId;
+    const url = this.config.sellerCrawlsUrl + '/' + jobId;
     return this.http.authenticatedDelete(url)
       .toPromise()
       .then(res => {
@@ -49,7 +49,7 @@ export class SellerCrawlService {
 
   // Run a particular job
   runJob(productId) {
-    const url = this.config.sellerCrawlsUrl + productId + '/run';
+    const url = this.config.sellerCrawlsUrl + '/' + productId + '/run';
     return this.http.authenticatedPost(url, {})
       .toPromise()
       .then(res => {
@@ -147,6 +147,17 @@ export class SellerCrawlService {
       });
   }
 
+  // Export details to CSV
+  exportRunHistory(jobId, runId) {
+    const url = this.config.sellerCrawlsUrl + '/' + jobId + '/runhistory/'  + runId + '/export';
+    return this.http.authenticatedGet(url)
+      .toPromise()
+      .then(res => {
+        return res;
+      }).catch(err => {
+        return this.handleError(err);
+    });
+  }
 
   public handleError(error: any): Promise<any> {
     console.error('An error in api execution occurred', error);

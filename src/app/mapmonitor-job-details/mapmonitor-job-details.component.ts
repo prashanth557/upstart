@@ -45,14 +45,8 @@ export class MapmonitorJobDetailsComponent implements OnInit {
       this.isLoading = false;
     }).catch(err => {
       console.log('Error while fetching map monitor job detais', err);
-      // if (err.status === 400) {
-      //   this.showErrorMessage = 'Monitor Job Id ' + this.jobId + ' not found';
-      // } else if (err.status === 412) {
-      //   this.showErrorMessage = 'No run entries available for this job ' + this.jobId;
-      // } else if (err.status === 500) {
-      //   this.showErrorMessage = 'Oops something went wront. Please try after a while';
-      // }
-      this.showErrorMessage = err.error.message;
+      this.showErrorMessage =  err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'Please try after some time' );
       this.isLoading = false;
     });
   }

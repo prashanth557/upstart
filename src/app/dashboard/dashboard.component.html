@@ -1,7 +1,7 @@
 <!-- <div id="chartContainer" class="brand-product-presence"></div> -->
+<h3 *ngIf="headerTitle && keyword" class="dashboard-header-keyword-text">{{headerTitle}} : {{keyword}} </h3>
 <div class="pie-chart-container">
   <div class="dashboard-header">
-    <span *ngIf="headerTitle && keyword" class="dashboard-header-keyword-text">{{headerTitle}} : {{keyword}} </span>
     <div *ngIf="showDatePicker" class="date-container">
       <span class="dashboard-header-text">From</span>
       <input class="form-control date-inputs" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="fromDate" ngbDatepicker #d1="ngbDatepicker" #c1="ngModel" [maxDate]="toDate" [class.error-date]="!c1.status && showDateError">
@@ -23,7 +23,7 @@
 <div class="bar-chart-container">
   <div class="competetor-analysis-wrapper">
     <div class="competetor-header">
-      <div class="competetor-header-text">Competetor Analysis</div>
+      <h4 class="competetor-header-text">Competetor Analysis</h4>
       <!-- <div>
         <span (click)="selectCategory('brand')" [class.active]="selectedCategory === 'brand' " class="analytics-category" >Brand wise</span>
         <span (click)="selectCategory('product')" [class.active]="selectedCategory === 'product' " class="analytics-category">Product wise</span>

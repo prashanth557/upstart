@@ -15,7 +15,7 @@ export class ForgotPasswordComponent implements OnInit {
   passwordResetMsg: string;
   submitted: boolean;
   showErrorMessage: string;
-  constructor(public authService: AuthService, private formBuilder: FormBuilder) { }
+  constructor(public service: AuthService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.forgotPasswordForm = this.formBuilder.group({
@@ -31,14 +31,23 @@ export class ForgotPasswordComponent implements OnInit {
     this.submitted = true;
     if (isValid) {
       console.log('this.forgotPasswordForm.controls.email', this.forgotPasswordForm.controls.email);
-      this.authService.resetPassword(this.forgotPasswordForm.controls.email).then( res => {
-        if (res) {
+      this.service.changeUserPassword(this.forgotPasswordForm.controls.email.value)
+      .then( (res: any) => {
           this.isPasswordSent = true;
-          this.passwordResetMsg = 'Your password has been sent to your email';
+          this.passwordResetMsg = res;
+          this.submitted = false;
+      }).catch( (err: any) => {
+        if(err && err.status === 200) {
+          this.isPasswordSent = true;
+          this.passwordResetMsg = 'Email sent to reset password.';
+        } else {
+          this.showErrorMessage = err && err.error.message && err.error.message ? err.error.message : 'Something went wronng please try after sometime';
         }
-      }).catch(err => {
-        this.showErrorMessage = err.error.message;
+        this.submitted = false;
       });
+    } else {
+      this.showErrorMessage ="Invalid Email Address";
+      this.submitted = false;
     }
   }
 

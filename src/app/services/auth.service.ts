@@ -92,6 +92,10 @@ export class AuthService {
     return Cookie.get('vendorId');
   }
 
+  getVendorName() {
+    return Cookie.get('vendorName');
+  }
+
   refreshToken(): Observable<any> {
     console.log('refresh token called');
     const url = this.config.refreshTokenUrl;
@@ -114,17 +118,20 @@ export class AuthService {
     Cookie.deleteAll( '/exucrawl' );
   }
 
-  resetPassword(username) {
-    const body = {
-      'email': username
-    };
+  resetPassword(username): Promise<any> {
     const url = this.config.forgotPasswordUrl;
-    return this.http.authenticatedPost(url, body).toPromise().then((res: any) => {
-      if (res) {
-        return res;
-      }
+    const options: IRequestOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+      })
+    };
+    const body = {
+      emailId: username
+    };
+    return this.http.authenticatedPost(url, body, options).toPromise().then((data: any) => {
+      return Promise.resolve(data);
     }).catch(err => {
-      return err;
+      return this.handleError(err);
     });
   }
 
@@ -157,4 +164,21 @@ export class AuthService {
       window.location.reload();
     }
   }
-}
+
+  changeUserPassword(username): Promise<any> {
+      const url = this.config.forgotPasswordUrl;
+      console.log('Login Url', url);
+      const options: IRequestOptions = {
+        headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+        })
+      };
+      const body = {
+        'emailId': username
+      };
+      return this.http.authenticatedPost(url, body, options).toPromise().then((res: any) => {
+        return Promise.resolve(res);
+      });
+    }
+  
+  }

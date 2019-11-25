@@ -52,7 +52,7 @@ export class DashboardComponent implements OnInit {
         stacked: false,
         ticks: {
           min: 0,
-          stepSize: 20
+          // stepSize: 5
         },
         gridLines: {
           display: true,
@@ -70,7 +70,8 @@ export class DashboardComponent implements OnInit {
     title: {
       display: true,
       text: 'Average number of images in product detail page',
-      fontSize: 14,
+      fontSize: 18,
+      position: 'left'
     }
   };
   public barChartBulletOptions = {
@@ -99,7 +100,7 @@ export class DashboardComponent implements OnInit {
         stacked: false,
         ticks: {
           min: 0,
-          stepSize: 30
+          // stepSize: 5
         },
         gridLines: {
           display: true,
@@ -117,7 +118,8 @@ export class DashboardComponent implements OnInit {
     title: {
       display: true,
       text: 'Average number of bullet points in product detail page',
-      fontSize: 14,
+      fontSize: 18,
+      position: 'left'
     }
   };
   public barChartCharLengthOptions = {
@@ -146,7 +148,7 @@ export class DashboardComponent implements OnInit {
         stacked: false,
         ticks: {
           min: 0,
-          stepSize: 20
+          // stepSize: 20
         },
         gridLines: {
           display: true,
@@ -164,7 +166,8 @@ export class DashboardComponent implements OnInit {
     title: {
       display: true,
       text: 'Average number of characters in title ',
-      fontSize: 14,
+      fontSize: 18,
+      position: 'left'
     }
   };
   public barChartUserReviewOptions = {
@@ -181,7 +184,7 @@ export class DashboardComponent implements OnInit {
             color: 'rgba(255,255,255,0)'
           },
           ticks: {
-            fontSize: 10,
+            fontSize: 15,
             autoSkip: false,
             display: true // Make it to True if you want to display labels at x axis
           },
@@ -193,7 +196,7 @@ export class DashboardComponent implements OnInit {
         stacked: false,
         ticks: {
           min: 0,
-          stepSize: 300
+          // stepSize: 100
         },
         gridLines: {
           display: true,
@@ -211,7 +214,8 @@ export class DashboardComponent implements OnInit {
     title: {
       display: true,
       text: 'Average user reviews',
-      fontSize: 14,
+      fontSize: 18,
+      position: 'left'
     }
   };
   public barChartAvgDescOptions = {
@@ -240,7 +244,7 @@ export class DashboardComponent implements OnInit {
         stacked: false,
         ticks: {
           min: 0,
-          stepSize: 30
+          // stepSize: 250
         },
         gridLines: {
           display: true,
@@ -258,7 +262,8 @@ export class DashboardComponent implements OnInit {
     title: {
       display: true,
       text: 'Average number of characters in description',
-      fontSize: 14,
+      fontSize: 18,
+      position: 'left'
     }
   };
 
@@ -313,7 +318,8 @@ export class DashboardComponent implements OnInit {
     title: {
       display: true,
       text: 'Products with presence of keyword in title/description/bullets',
-      fontSize: 14,
+      fontSize: 18,
+      position: 'left'
     }
   };
   // pie Chart data
@@ -343,7 +349,8 @@ export class DashboardComponent implements OnInit {
     },
     title: {
       display: true,
-      text: 'Brand Products Presence'
+      text: 'Brand Products Presence',
+      font:18
     },
     plugins: {
       datalabels: {
@@ -379,7 +386,8 @@ export class DashboardComponent implements OnInit {
     },
     title: {
       display: true,
-      text: 'User Rating for Brand Product'
+      text: 'User Rating for Brand Product',
+      font:18
     },
     plugins: {}
   };
@@ -428,7 +436,7 @@ export class DashboardComponent implements OnInit {
     console.log('Analytics Data', details);
     if (details) {
       this.pieChartData.push({ labels: this.pieChartBrandLabels });
-      if(details[0] && details[0].brandProducts) {
+      if(details[0]) {
       this.pieChartData[0].data = details[0].brandProducts ? [details[0].brandProducts] : [];
       this.pieChartData[0].data.push(details[0].otherBrandProducts ? details[0].otherBrandProducts : []);
       this.pieChartOptions1.plugins.datalabels =  {
@@ -455,7 +463,7 @@ export class DashboardComponent implements OnInit {
       //   }
       // };
       // console.log('pieChartOptions', this.pieChartOptions);
-      if(details[1] && details[1].userRating) {
+      if(details[1]) {
         const userRating = details[1].userRating;
         this.pieChartData.push({ labels: Object.keys(userRating) });
         this.pieChartData[1].data = Object.values(userRating);
@@ -482,20 +490,20 @@ export class DashboardComponent implements OnInit {
       if (details[2] && details[2].stats) {
           labels =  details[2].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
           data = details[2].stats.map(stat => stat.avgimageCount ? stat.avgimageCount : 0);
-          // this.barChartData.push({ labels: labels, data: data, options: this.barChartImageOptions}s);
-          labels = labels.slice(0, 15);
-          data = data.slice(0, 15);
-          let actualData = [];
-          let actualLabels = [];
-          data.forEach( (dataCount, i ) => {
-            if (dataCount > 0) {
-              actualLabels.push(labels[i]);
-              actualData.push(dataCount);
-            }
-          });
-          if (actualData.length > 0 && actualLabels.length > 0) {
-            this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartImageOptions});
-          }
+          this.barChartData.push({ labels: labels, data: data, options: this.barChartImageOptions});
+          // labels = labels.slice(0, 15);
+          // data = data.slice(0, 15);
+          // let actualData = [];
+          // let actualLabels = [];
+          // data.forEach( (dataCount, i ) => {
+          //   if (dataCount > 0) {
+          //     actualLabels.push(labels[i]);
+          //     actualData.push(dataCount);
+          //   }
+          // });
+          // if (actualData.length > 0 && actualLabels.length > 0) {
+          //   this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartImageOptions});
+          // }
       } else {
         this.barChartData[0] = ({labels:'', data: []});
       }
@@ -504,19 +512,20 @@ export class DashboardComponent implements OnInit {
       if (details[3] &&  details[3].stats) {
          labels = details[3].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
          data = details[3].stats.map(stat => stat.avgBulletsCount ? stat.avgBulletsCount : 0);
-         labels = labels.slice(0, 15);
-         data = data.slice(0, 15);
-         let actualData = [];
-         let actualLabels = [];
-         data.forEach( (dataCount, i ) => {
-           if (dataCount > 0) {
-             actualLabels.push(labels[i]);
-             actualData.push(dataCount);
-           }
-         });
-         if (actualData.length > 0 && actualLabels.length > 0) {
-           this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartBulletOptions});
-         }
+         this.barChartData.push({ labels: labels, data: data, options: this.barChartBulletOptions});
+        //  labels = labels.slice(0, 15);
+        //  data = data.slice(0, 15);
+        //  let actualData = [];
+        //  let actualLabels = [];
+        //  data.forEach( (dataCount, i ) => {
+        //    if (dataCount > 0) {
+        //      actualLabels.push(labels[i]);
+        //      actualData.push(dataCount);
+        //    }
+        //  });
+        //  if (actualData.length > 0 && actualLabels.length > 0) {
+        //    this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartBulletOptions});
+        //  }
       } else {
         this.barChartData[1] = {labels:'', data: []};
       }
@@ -525,19 +534,20 @@ export class DashboardComponent implements OnInit {
       if (details[4] && details[4].stats) {
         labels =  details[4].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
         data = details[4].stats.map(stat => stat.avgTitleLength ? stat.avgTitleLength : 0);
-        labels = labels.slice(0, 15);
-        data = data.slice(0, 15);
-        let actualData = [];
-        let actualLabels = [];
-        data.forEach( (dataCount, i ) => {
-          if (dataCount > 0) {
-            actualLabels.push(labels[i]);
-            actualData.push(dataCount);
-          }
-        });
-        if (actualData.length > 0 && actualLabels.length > 0) {
-        this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartCharLengthOptions });
-        }
+        this.barChartData.push({ labels: labels, data: data, options: this.barChartCharLengthOptions });
+        // labels = labels.slice(0, 15);
+        // data = data.slice(0, 15);
+        // let actualData = [];
+        // let actualLabels = [];
+        // data.forEach( (dataCount, i ) => {
+        //   if (dataCount > 0) {
+        //     actualLabels.push(labels[i]);
+        //     actualData.push(dataCount);
+        //   }
+        // });
+        // if (actualData.length > 0 && actualLabels.length > 0) {
+        // this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartCharLengthOptions });
+        // }
       } else {
         this.barChartData[2] = {labels:'', data: []};
       }
@@ -546,19 +556,20 @@ export class DashboardComponent implements OnInit {
       if (details[5] &&  details[5].stats) {
         labels = details[5].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
         data =  details[5].stats.map(stat => stat.avgUserReviews ? stat.avgUserReviews : 0);
-        labels = labels.slice(0, 15);
-        data = data.slice(0, 15);
-        let actualData = [];
-        let actualLabels = [];
-        data.forEach( (dataCount, i ) => {
-          if (dataCount > 0) {
-            actualLabels.push(labels[i]);
-            actualData.push(dataCount);
-          }
-        });
-        if (actualData.length > 0 && actualLabels.length > 0) {
-          this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartUserReviewOptions  });
-        }
+        this.barChartData.push({ labels: labels, data: data, options: this.barChartUserReviewOptions  });
+        // labels = labels.slice(0, 15);
+        // data = data.slice(0, 15);
+        // let actualData = [];
+        // let actualLabels = [];
+        // data.forEach( (dataCount, i ) => {
+        //   if (dataCount > 0) {
+        //     actualLabels.push(labels[i]);
+        //     actualData.push(dataCount);
+        //   }
+        // });
+        // if (actualData.length > 0 && actualLabels.length > 0) {
+        //   this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartUserReviewOptions  });
+        // }
       } else {
         this.barChartData[3] = {labels:'', data: []};
       }
@@ -566,19 +577,20 @@ export class DashboardComponent implements OnInit {
       if (details[6] && details[6].stats) {
         labels = details[6].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
         data = details[6].stats.map(stat => stat.avgDescLength ? stat.avgDescLength : 0);
-        labels = labels.slice(0, 15);
-        data = data.slice(0, 15);
-        let actualData = [];
-        let actualLabels = [];
-        data.forEach( (dataCount, i ) => {
-          if (dataCount > 0) {
-            actualLabels.push(labels[i]);
-            actualData.push(dataCount);
-          }
-        });
-        if (actualData.length > 0 && actualLabels.length > 0) {
-          this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartAvgDescOptions });
-        }
+        this.barChartData.push({ labels: labels, data: data, options: this.barChartAvgDescOptions });
+        // labels = labels.slice(0, 15);
+        // data = data.slice(0, 15);
+        // let actualData = [];
+        // let actualLabels = [];
+        // data.forEach( (dataCount, i ) => {
+        //   if (dataCount > 0) {
+        //     actualLabels.push(labels[i]);
+        //     actualData.push(dataCount);
+        //   }
+        // });
+        // if (actualData.length > 0 && actualLabels.length > 0) {
+        //   this.barChartData.push({ labels: actualLabels, data: actualData, options: this.barChartAvgDescOptions });
+        // }
       } else {
         this.barChartData[4] = {labels:'', data: []};
       }
@@ -596,19 +608,21 @@ export class DashboardComponent implements OnInit {
         });
         data.push({
           label: 'Description', data: details[7].stats.map(
-            stat => stat.productsWithKeyword && stat.productsWithKeyword[0].inDescription ? stat.productsWithKeyword[0].inDescription : 0)
+            stat => stat.productsWithKeyword[0] && stat.productsWithKeyword[0].inDescription ? stat.productsWithKeyword[0].inDescription : 0)
         });
-        let actualData = [];
-        let actualLabels = [];
-        data.forEach( (dataCount, i ) => {
-          if (dataCount > 0) {
-            actualLabels.push(labels[i]);
-            actualData.push(dataCount);
-          }
-        });
-        if (actualData.length > 0 && actualLabels.length > 0) {
-          this.barChartData.push({labels: actualLabels, data: actualData, options: this.barChartKeywordPresenceOptions, isStacked: true });
-        }
+        this.barChartData.push({labels: labels, data: data, options: this.barChartKeywordPresenceOptions, isStacked: true });
+        console.log(this.barChartData[6]);
+        // let actualData = [];
+        // let actualLabels = [];
+        // data.forEach( (dataCount, i ) => {
+        //   if (dataCount > 0) {
+        //     actualLabels.push(labels[i]);
+        //     actualData.push(dataCount);
+        //   }
+        // });
+        // if (actualData.length > 0 && actualLabels.length > 0) {
+        //   this.barChartData.push({labels: actualLabels, data: actualData, options: this.barChartKeywordPresenceOptions, isStacked: true });
+        // }
       } else {
         this.barChartData[5] = {labels:'', data: []};
       }

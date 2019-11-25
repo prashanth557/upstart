@@ -32,15 +32,12 @@ export class BulkKeywordRunHistoryComponent implements OnInit {
     this.isLoading = true;
     this.service.getBulkCrawlRunHistory(this.jobId, currentpageIndex, this.limitPerPage).then((res: any) => {
       if (res) {
-        // this.totalItems = res.totalItems;
         this.productDetails = res.items;
-        this.isLoading = false;
-      } else {
-        this.showErrorMessage = 'Not Implemented';
-        this.isLoading = false;
       }
+      this.isLoading = false;
     }).catch((err: any) => {
-      this.showErrorMessage = err.error.message;
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'Please try after some time' );
       this.isLoading = false;
       console.log('Error while fetching organic run history', err);
     });

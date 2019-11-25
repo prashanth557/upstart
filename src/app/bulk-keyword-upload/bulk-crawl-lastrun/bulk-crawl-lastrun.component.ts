@@ -16,9 +16,9 @@ export class BulkKeywordLastRunComponent implements OnInit {
   productDetails: any = [];
   jobCandidateDetails: any = [];
   items: any = [];
-  jobResults: any = [{jobType: 'Matching Products', count: 0}, {jobType: 'Branded Products', count: 0}, {jobType: 'Extracted Products', count: 0}, {jobType: 'Total Runs', count: 0}];
+  jobResults: any = [{jobType: 'Matching Products', count: 0}, {jobType: 'Total Runs', count: 0}];
   lastRunSummaryDetails: any;
-  headerTitle: String = 'ASINs Seller Data';
+  headerTitle: String = 'Product Crawl Job Results';
   jobHeaders = ['Product Title', 'Description', 'Price', 'User rating', 'Bullet points', 'Number of images', 'By Info'];
   showSellersInfo: boolean;
   displaySellerIndex: number;
@@ -61,7 +61,8 @@ export class BulkKeywordLastRunComponent implements OnInit {
       }
       this.isLoading = false;
     }).catch(err => {
-      this.showErrorMessage = err.error.message;
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
+      ( err.statusText ? err.statusText : 'Please try after some time' );
       this.isLoading = false;
       console.log('Error while fetching Job Details', err);
       // this.isLoading = false;

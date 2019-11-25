@@ -22,8 +22,10 @@ export class JobDetailsComponent implements OnInit, OnChanges {
   @Input() itemsTobeDisplayedPerPage: number = 5;
   @Output() createJob = new EventEmitter;
   @Output() pageChange = new EventEmitter;
+  @Output() emitDownload = new EventEmitter;
   @Input() createButtonText: String = 'Create New Job';
   @Input() keyword: string = '';
+  @Input() showErrorMessage: string;
   @ContentChild('lineHeader') lineHeaderTmpl: TemplateRef<any>;
   @ContentChild('filedsHeader') filedsHeader: TemplateRef<any>;
   keys: any = [];
@@ -35,6 +37,7 @@ export class JobDetailsComponent implements OnInit, OnChanges {
   ngOnInit() {
     console.log('headerTitle', this.headerTitle);
     console.log('jobHeaders', this.jobHeaders);
+    this.showErrorMessage = this.showErrorMessage ? this.showErrorMessage : 'No Results Available';
     let pageNumbers = this.pageCount > 0 && this.pageCount < 5 ? 1 : Math.ceil(this.pageCount / 5 );
     let index = 0;
     while ( pageNumbers > 0) {
@@ -75,6 +78,10 @@ export class JobDetailsComponent implements OnInit, OnChanges {
     console.log('items to be displayed', count);
     this.itemsTobeDisplayedPerPage = Number(count);
     this.onPageChange(1);
+  }
+
+  downloadClick() {
+    this.emitDownload.emit({});
   }
 
 }
