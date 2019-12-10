@@ -14,7 +14,7 @@ export class UserSettingsComponent implements OnInit {
   @ViewChild(TopNotificationComponent) notification: TopNotificationComponent;
   urls = ['users', 'vendors'];
   adminJobHeaders = ['Email', 'Is Admin', 'Is Signed Up',  'Vendor Name', 'Actions'];
-  vendorJobHeaders = ['Name'];
+  vendorJobHeaders = ['Name', 'Actions'];
   adminDetails: any = [];
   vendorDetails: any = [];
   allVendorDetails: any = [];
@@ -45,6 +45,7 @@ export class UserSettingsComponent implements OnInit {
   showButtonText: boolean = true;
   showConfirmation: boolean = false;
   selectedUser: any;
+  userModalTitle: String;
   constructor(public jobsService: JobsService) { }
 
   ngOnInit() {
@@ -125,6 +126,7 @@ export class UserSettingsComponent implements OnInit {
 
   addNewAdmin(event) {
     console.log('New Admin Keyword clicked');
+    this.userModalTitle = 'Create User';
     this.createVendor = false;
     this.showConfirmation = false;
     this.createAdmin = true;
@@ -150,6 +152,15 @@ export class UserSettingsComponent implements OnInit {
     this.resetFields();
   }
 
+  deleteVendor(user) {
+    console.log('Delete user Clicked');
+    this.createAdmin = false;
+    this.createVendor = false;
+    this.showConfirmation = true;
+    this.selectedUser = user;
+    this.resetFields();
+  }
+
   resetFields() {
     this.showError = false;
     this.created = false;
@@ -159,6 +170,7 @@ export class UserSettingsComponent implements OnInit {
   }
 
   editUserDetails(user) {
+    this.userModalTitle = 'Edit User';
     this.createVendor = false;
     this.showConfirmation = false;
     this.selectedUser = user;
@@ -168,6 +180,16 @@ export class UserSettingsComponent implements OnInit {
     this.selectedVendorName = this.selectedUser && this.selectedUser.vendor  && this.selectedUser.vendor.name
     ? this.selectedUser.vendor.name : '';
     this.createAdmin = true;
+  }
+
+  editVendorDetails(user) {
+    this.createAdmin = false;
+    this.showConfirmation = false;
+    this.selectedUser = user;
+    this.resetFields();
+    this.vendorName = this.selectedUser && this.selectedUser.name 
+    ? this.selectedUser.name : '';
+    this.createVendor = true;
   }
 
   createAdminUser() {
@@ -206,12 +228,17 @@ export class UserSettingsComponent implements OnInit {
     if (this.vendorName) {
       this.showButtonText = false;
       this.showErrorMessage = '';
-      this.jobsService.createVendor('vendor', this.vendorName).then((data: any) => {
+      let path = this.selectedUser && this.selectedUser.id ? 'editVendorInfo' : 'vendor' ;
+      this.jobsService.createVendor(path, this.vendorName, this.selectedUser).then((data: any) => {
         this.created = true;
         this.showButtonText = true;
         this.getVendorDetails(1);
+        this.vendorList();
       }).catch((err: any) => {
         console.log('Error', err);
+        if(err.status === 200) {
+          this.created = true;
+        }
         if (err.status === 409 ) {
           this.showErrorMessage =  err && err.error && err.error.message ? err.error.message:  
           ( err.statusText ? err.statusText : 'Please try after some time' );
@@ -247,10 +274,22 @@ export class UserSettingsComponent implements OnInit {
   }
 
   deleteUserDetails() {
-    this.jobsService.deleteUser(this.selectedUser.emailId).then((res: any) => {
-      const message: String = 'User deleted successfully.';
+    const path = this.selectedUser.emailId ? 'disableuser': 'disablevendor';
+    let body: any;
+    if(this.selectedUser && this.selectedUser.emailId) {
+      body = {
+        'emaiId': this.selectedUser.emailId
+      }
+    } else if(this.selectedUser && this.selectedUser.id) {
+      body = {
+        'id': this.selectedUser.id,
+        'name': this.selectedUser && this.selectedUser.name ? this.selectedUser.name : ''; 
+      }
+    }
+    this.jobsService.deleteUser(body, path).then((res: any) => {
+      const message: String =  ( path === 'disableuser' ) ? 'User deleted successfully' : 'Vendor deleted successfully.'
       this.notification.displayNotification(true, true, message);
-      this.getAdminDetails(1);
+      path === 'disableuser' ? this.getAdminDetails(1) : this.getVendorDetails(1);
       setTimeout(() => {
         this.notification.displayNotification(false, true, '');
       }, 3000);

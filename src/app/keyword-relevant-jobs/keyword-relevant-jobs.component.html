@@ -84,7 +84,7 @@
                 </div>
             </form>
             <div *ngIf="jobCreated">
-                <span>Job Created Successfully</span>
+                <span>Keyword added successfully</span>
             </div>
         </div>
     </app-upstart-modal>
@@ -100,8 +100,5 @@
         </div>
     </app-upstart-modal>
     <app-loader [show]='isLoading'></app-loader>
-    <div class="no-results-text">
-        <span *ngIf='showErrorMessage && !isLoading'>{{showErrorMessage}}</span>
-    </div>
 </div>
 <app-top-notification></app-top-notification>

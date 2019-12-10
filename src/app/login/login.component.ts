@@ -66,6 +66,8 @@ export class LoginComponent implements OnInit {
       }).catch( (err: any) => {
         if(err.status === 403) {
           this.showErrorMessage = 'Invalid Username or Password';
+        } else if(err.status === 400) {
+          this.showErrorMessage = err && err.error && err.error.message ? err.error.message : 'Username is not Present';
         }
         this.requestInProgress = false;
       });

@@ -72,7 +72,11 @@ export class DashboardComponent implements OnInit {
       text: 'Average number of images in product detail page',
       fontSize: 18,
       position: 'left'
-    }
+    },
+    options: {
+      tooltips: {
+          callbacks: {
+              label: 'Avg. no of images'}}}
   };
   public barChartBulletOptions = {
     scaleShowVerticalLines: true,
@@ -512,7 +516,7 @@ export class DashboardComponent implements OnInit {
       if (details[3] &&  details[3].stats) {
          labels = details[3].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
          data = details[3].stats.map(stat => stat.avgBulletsCount ? stat.avgBulletsCount : 0);
-         this.barChartData.push({ labels: labels, data: data, options: this.barChartBulletOptions});
+         this.barChartData.push({ labels: labels, data: data, options: this.barChartBulletOptions, label: 'No. of Images'});
         //  labels = labels.slice(0, 15);
         //  data = data.slice(0, 15);
         //  let actualData = [];

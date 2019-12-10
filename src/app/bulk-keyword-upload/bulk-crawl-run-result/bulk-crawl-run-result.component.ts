@@ -70,7 +70,7 @@ export class BulkCrawlRunResultComponent implements OnInit {
     this.service.exportRunHistory(this.jobId, this.runId).then( (res: any) => {
       console.log('Exported CSV Response ', res);
       this.isExportLoading = false;
-      window.open(res.fileUrl);
+      window.location.href = res.fileUrl;
     }).catch((err: any) => {
       this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
       ( err.statusText ? err.statusText : 'Please try after some time' );

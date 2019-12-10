@@ -24,7 +24,7 @@ export class BulkKeywordUploadComponent implements OnInit {
   headerTitle: String = 'Bulk Crawl Jobs';
   currentpageIndex: number = 1;
   limitPerPage: number = 5;
-  modalTitle: String = 'Upload Bulk keywords';
+  modalTitle: String = 'Create Bulk Product Crawl Job';
   createNewJob: boolean;
   totalItems: number;
   isLoading: boolean;
@@ -128,7 +128,7 @@ export class BulkKeywordUploadComponent implements OnInit {
 
   deleteJob() {
     this.service.deleteJob(this.selectedProduct.id, 'bulkproductcrawls').then((res: any) => {
-      const message: String = 'Your request for delete record is successfully deleted.';
+      const message: String = 'Job deleted successfully.';
       this.notification.displayNotification(true, true, message);
       this.getDetails(1);
       setTimeout(() => {
@@ -166,6 +166,7 @@ export class BulkKeywordUploadComponent implements OnInit {
   }
 
   resetFields() {
+    this.showError = false;
     this.createNewJob = true;
     this.jobCreated = false;
     this.jobTitle = '';

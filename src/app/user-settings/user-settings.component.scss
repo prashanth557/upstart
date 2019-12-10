@@ -1,5 +1,9 @@
 .user-container {
     padding: 20px 10px 20px 10px;
+    .user-section{
+        min-height:600px;
+        background: white;
+    }
     td {
         //width: 180px;
         text-align: left;

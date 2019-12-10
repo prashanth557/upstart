@@ -39,8 +39,8 @@
             </app-job-details>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-5 graph-section-wrapper">
-            <div *ngIf="role ==='Vendor'" class="graph-section">
-                <h3 class="product-label">Product with specific labels</h3>
+            <div *ngIf="role ==='Vendor' && barChartData?.length > 0" class="graph-section">
+                <h3 class="product-label">Products With Special Labels</h3>
                 <!-- <h5 class="graph-header">Data from recent 5 Keyword relevance crawls</h5> -->
                 <div *ngIf="isBarChartDataAvailable" class="canavas-section" style="display: block">
                     <canvas *ngIf="barChartData?.length > 0" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
@@ -50,11 +50,11 @@
                 </div>
                 <img *ngIf="!isBarChartDataAvailable" class='loader' src="assets/images/spinner.svg">
             </div>
-            <div class="organic-cloud-section hidden-xs hidden-sm hidden-md">
+            <div *ngIf="organicCloudKeywords?.length > 0" class="organic-cloud-section hidden-xs hidden-sm hidden-md">
                 <h3 class="product-label">Organic Keyword Cloud</h3>
                 <div *ngIf="organicCloudKeywords?.length> 0"  class="home-section-labels">
                     <span class="organic-cloud-keywords" *ngFor="let cloudKeyword of organicCloudKeywords">
-                        <a class="organic-cloud-labels" (click)="navigateToDashBoard(cloudKeyword)">{{cloudKeyword?.keyword}}({{cloudKeyword.totalProducts}})</a>
+                        <a [class.set-font-weight]="cloudKeyword?.max" class="organic-cloud-labels" (click)="navigateToDashBoard(cloudKeyword)">{{cloudKeyword?.keyword}}({{cloudKeyword.totalProducts}})</a>
                     </span>
                 </div>
                 <span *ngIf="showOrganicErrorMessage" class="no-results-text">No Results Available</span>
@@ -62,9 +62,9 @@
         </div>
         <div *ngIf="organicCloudKeywords?.length > 0" class="organic-cloud-section hidden-lg col-xs-12 col-sm-12 col-md-12">
             <h3 class="product-label">Organic Keyword Cloud</h3>
-            <div *ngIf="organicCloudKeywords?.length> 0" class="home-section-labels">
+            <div *ngIf="!cloudKeywordsLoading" class="home-section-labels">
                 <span class="organic-cloud-keywords" *ngFor="let cloudKeyword of organicCloudKeywords">
-                    <a class="organic-cloud-labels">{{cloudKeyword?.keyword}}({{cloudKeyword.totalProducts}})</a>
+                    <a [class.set-font-weight]="cloudKeyword?.max" class="organic-cloud-labels">{{cloudKeyword?.keyword}}({{cloudKeyword?.totalProducts}})</a>
                 </span>
             </div>
             <span *ngIf="showOrganicErrorMessage" class="no-results-text">No Results Available</span>

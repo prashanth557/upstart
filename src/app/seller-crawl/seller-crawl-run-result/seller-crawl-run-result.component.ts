@@ -43,9 +43,11 @@ export class SellerCrawlRunResultComponent implements OnInit {
 
   getLastRunSummmaryDetails() {
     this.service.getSellerRunResultSummary(this.jobId, this.runId).then( (res: any) => {
-      this.lastRunSummaryDetails = res;
-      this.jobResults[0].count = res.trackedAsins;
-      this.jobResults[1].count = res.sellersExtracted;
+      if(res) {
+        this.lastRunSummaryDetails = res;
+        this.jobResults[0].count = res && res.trackedAsins ? res.trackedAsins : 0;
+        this.jobResults[1].count = res && res.sellersExtracted ? res.sellersExtracted : 0;
+      }
       this.isSummarResultsLoading = false;
     });
   }
@@ -95,7 +97,7 @@ export class SellerCrawlRunResultComponent implements OnInit {
     this.service.exportRunHistory(this.jobId, this.runId).then( (res: any) => {
       console.log('Exported CSV Response ', res);
       this.isExportLoading = false;
-      window.open(res.fileUrl);
+      window.location.href = res.fileUrl;
     }).catch((err: any) => {
       this.showErrorMessage = err && err.error && err.error.message ? err.error.message : '';
       this.isExportLoading = false;

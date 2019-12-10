@@ -132,7 +132,7 @@ export class KeywordRelevantJobsComponent implements OnInit {
 
   deleteJob() {
       this.jobsService.deleteJob(this.selectedProduct.id, 'kwdrelvncjobs').then((res: any) => {
-        const message: String = 'Your request for delete record is successfully deleted.';
+        const message: String = 'Job deleted successfully.';
         this.notification.displayNotification(true, true, message);
         this.getDetails(1);
         setTimeout(() => {

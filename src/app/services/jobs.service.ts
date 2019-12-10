@@ -486,11 +486,20 @@ export class JobsService {
     });
   }
 
-  createVendor(path, name) {
+  createVendor(path, name, selectedVendor) {
     const url = this.config.baseApiUrl + path;
-    const body = {
-      name: name
-    };
+    let body;
+    if(selectedVendor && selectedVendor.id) {
+      body = {
+        id: selectedVendor.id,
+        name : name
+      }
+    } else {
+      body = {
+        name: name
+      };
+    }
+    
     return this.http.authenticatedPost(url, body).toPromise().then((data: any) => {
       return Promise.resolve(data);
     }).catch(err => {
@@ -498,16 +507,11 @@ export class JobsService {
     });
   }
 
-  deleteUser(emailId) {
-    var body = {
-      'emailId': emailId
-    }
+  deleteUser(body, path) {
     const options: IRequestOptions = {
-      body: {
-        "emailId": emailId
-      }
+      body: body
     };
-    const url = this.config.baseApiUrl + 'disableuser'
+    const url = this.config.baseApiUrl + path;
     return this.http.authenticatedDelete(url, options).toPromise().then((data: any) => {
       return Promise.resolve(data);
     }).catch(err => {

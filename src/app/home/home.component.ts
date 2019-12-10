@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   isBarChartDataAvailable: boolean = false;
   showErrorMessage: string;
   showOrganicErrorMessage: string;
+  cloudKeywordsLoading: boolean = false;
   public barChartOptions = {
     scaleShowVerticalLines: true,
     responsive: true,
@@ -68,7 +69,7 @@ export class HomeComponent implements OnInit {
   public barChartLabels = [];
   public barChartType = 'bar';
   public barChartLegend = true;
-  public barChartData : any = [{label: 'Branded Products', data: []},
+  public barChartData : any = [{label: 'Brand Products', data: []},
   { labels: 'All Products', data: []}];
   isLoading: boolean;
   totalItems: number;
@@ -94,12 +95,12 @@ export class HomeComponent implements OnInit {
       this.jobResults1 = [{jobType: 'Keyword relevance Jobs', count: 0}, {jobType: 'Organic Keywords', count: 0},
       {jobType: 'Map Monitor Jobs', count: 0}, {jobType: 'Map Breaches in this Week', count: 0}];
       this.jobResults2 = [{jobType: 'Bulk Product Crawl Jobs', count: 0}, {jobType: 'Users Registered', count: 0},
-      {jobType: 'Vendors Registered', count: 0}, {jobType: 'Seller Jobs', count: 0}];
+      {jobType: 'Vendors Registered', count: 0}, {jobType: 'Seller Crawl Jobs', count: 0}];
     } else {
       this.countUrls =  ['kwdrelvncjobscount', 'organickwdscount', 'mapmonitorjobscount', 'mapbreachesinweek',  'bulkproductcrawlscount', 'sellercrawlscount'];
       this.jobResults1 = [{jobType: 'Keyword relevance Jobs', count: 0}, {jobType: 'Organic Keywords', count: 0},
       {jobType: 'Map Monitor Jobs', count: 0}];
-      this.jobResults2 = [{jobType: 'Map Breaches in this Week', count: 0}, {jobType: 'Bulk Product Crawl Jobs', count: 0}, {jobType: 'Seller Jobs', count: 0}];
+      this.jobResults2 = [{jobType: 'Map Breaches in this Week', count: 0}, {jobType: 'Bulk Product Crawl Jobs', count: 0}, {jobType: 'Seller Crawl Jobs', count: 0}];
       this.getOrganicSpecialLabels();
     }
     this.getMapBreaches(this.currentpageIndex);
@@ -108,10 +109,18 @@ export class HomeComponent implements OnInit {
 }
 
   getOrganincCloudKeywords() {
+    this.cloudKeywordsLoading = true;
     this.jobsService.getOrganincCloudKeywords().then( (res: any) => {
       this.organicCloudKeywords = res;
+      const totalProducts = this.organicCloudKeywords.map( keyword => keyword.totalProducts);
+      console.log('totalProducts', totalProducts);
+      const maxIndex = totalProducts.indexOf(Math.max(...totalProducts));
+      console.log('Max Index', maxIndex);
+      this.organicCloudKeywords[maxIndex].max = true;
+      this.cloudKeywordsLoading = false;
     }).catch( (err: any) => {
       this.showOrganicErrorMessage = err && err.error && err.error.message ? err.error.message : '';
+      this.cloudKeywordsLoading = false;
     });
   }
 
@@ -211,6 +220,8 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/users']);
     } else if (event.type && event.type.toLowerCase() === 'vendors registered') {
       this.router.navigate(['/users']);
+    } else if (event.type && event.type.toLowerCase() === 'seller crawl jobs') {
+      this.router.navigate(['/sellercrawljobs']);
     }
   }
 

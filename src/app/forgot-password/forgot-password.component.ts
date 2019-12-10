@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
@@ -15,7 +15,7 @@ export class ForgotPasswordComponent implements OnInit {
   passwordResetMsg: string;
   submitted: boolean;
   showErrorMessage: string;
-  constructor(public service: AuthService, private formBuilder: FormBuilder) { }
+  constructor(public service: AuthService, private formBuilder: FormBuilder, public router: Router) { }
 
   ngOnInit() {
     this.forgotPasswordForm = this.formBuilder.group({
@@ -41,7 +41,7 @@ export class ForgotPasswordComponent implements OnInit {
           this.isPasswordSent = true;
           this.passwordResetMsg = 'Email sent to reset password.';
         } else {
-          this.showErrorMessage = err && err.error.message && err.error.message ? err.error.message : 'Something went wronng please try after sometime';
+          this.showErrorMessage = err && err.error.message && err.error.message ? err.error.message : 'Something went wrong please try after sometime';
         }
         this.submitted = false;
       });
@@ -49,6 +49,10 @@ export class ForgotPasswordComponent implements OnInit {
       this.showErrorMessage ="Invalid Email Address";
       this.submitted = false;
     }
+  }
+
+  redirectToLogin() {
+    this.router.navigate(['/login']);
   }
 
 }

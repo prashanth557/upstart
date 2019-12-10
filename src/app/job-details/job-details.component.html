@@ -3,7 +3,7 @@
       <h3 *ngIf="headerTitle" class="job-results-header">{{headerTitle}}
           <span *ngIf="keyword" class="job-results-header">- {{keyword}}</span>
       </h3>
-    <button *ngIf="showDownloadButton" class="download-report-button" (click)="downloadClick()">Download</button>
+    <button *ngIf="showDownloadButton && productDetails?.length > 0 " class="download-report-button" (click)="downloadClick()">Export CSV</button>
   </div>
   <div class="search-wrapper" *ngIf="showSearch || showCreateButton">
     <button class="create-job" *ngIf="showCreateButton" (click)="createNewJob()" data-toggle="modal" data-target="#showModalCenter">{{createButtonText}}</button>

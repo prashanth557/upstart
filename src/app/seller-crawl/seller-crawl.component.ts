@@ -24,7 +24,7 @@ export class SellerCrawlComponent implements OnInit {
   headerTitle: String = 'Bulk Crawl Jobs';
   currentpageIndex: number = 1;
   limitPerPage: number = 5;
-  modalTitle: String = 'Upload Bulk keywords';
+  modalTitle: String = 'Create Seller Crawl Job';
   createNewJob: boolean;
   totalItems: number;
   isLoading: boolean;
@@ -130,7 +130,7 @@ export class SellerCrawlComponent implements OnInit {
 
   deleteJob() {
     this.service.deleteJob(this.selectedProduct.id).then((res: any) => {
-      const message: String = 'Your request for delete record is successfully deleted.';
+      const message: String = 'Job deleted successfully.';
       this.notification.displayNotification(true, true, message);
       this.getDetails(1);
       setTimeout(() => {

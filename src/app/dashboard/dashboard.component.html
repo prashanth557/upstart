@@ -4,10 +4,10 @@
   <div class="dashboard-header">
     <div *ngIf="showDatePicker" class="date-container">
       <span class="dashboard-header-text">From</span>
-      <input class="form-control date-inputs" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="fromDate" ngbDatepicker #d1="ngbDatepicker" #c1="ngModel" [maxDate]="toDate" [class.error-date]="!c1.status && showDateError">
+      <input class="form-control date-inputs" [readonly]="true" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="fromDate" ngbDatepicker #d1="ngbDatepicker" #c1="ngModel" [maxDate]="toDate" [class.error-date]="!c1.status && showDateError">
       <button class="btn btn-outline-secondary glyphicon glyphicon-calendar" (click)="d1.toggle()" type="button"></button>
       <span class="dashboard-header-text">To</span>
-      <input class="form-control date-inputs" [class.error-date]="!c2.status && showDateError" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="toDate" ngbDatepicker #d2="ngbDatepicker" #c2="ngModel" [maxDate]="toDate">
+      <input class="form-control date-inputs" [readonly]="true" [class.error-date]="!c2.status && showDateError" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="toDate" ngbDatepicker #d2="ngbDatepicker" #c2="ngModel" [maxDate]="toDate">
       <button class="btn btn-outline-secondary glyphicon glyphicon-calendar" (click)="d2.toggle()" type="button"></button>
     </div>
     <button *ngIf="showDatePicker" class="apply-button" (click)="getData()">

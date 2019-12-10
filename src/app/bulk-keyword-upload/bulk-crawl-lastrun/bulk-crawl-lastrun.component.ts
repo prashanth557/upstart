@@ -16,7 +16,7 @@ export class BulkKeywordLastRunComponent implements OnInit {
   productDetails: any = [];
   jobCandidateDetails: any = [];
   items: any = [];
-  jobResults: any = [{jobType: 'Matching Products', count: 0}, {jobType: 'Total Runs', count: 0}];
+  jobResults: any = [{jobType: 'Candidate ASINs', count: 0}, {jobType: 'Total Runs', count: 0}];
   lastRunSummaryDetails: any;
   headerTitle: String = 'Product Crawl Job Results';
   jobHeaders = ['Product Title', 'Description', 'Price', 'User rating', 'Bullet points', 'Number of images', 'By Info'];
@@ -26,6 +26,7 @@ export class BulkKeywordLastRunComponent implements OnInit {
   currentpageIndex: number = 1;
   limitPerPage: number = 5;
   isSummarResultsLoading: boolean;
+  title: String;
   constructor(public route: ActivatedRoute, public service: BulkCrawlService) { }
 
   ngOnInit() {
@@ -41,14 +42,10 @@ export class BulkKeywordLastRunComponent implements OnInit {
   getLastRunSummmaryDetails() {
     this.service.getBulkCrawlLastRunSummarDetails(this.jobId).then( (res: any) => {
       this.lastRunSummaryDetails = res;
+      this.title = this.lastRunSummaryDetails && this.lastRunSummaryDetails.title  ? this.lastRunSummaryDetails.title: '';
       this.jobResults[0].count = this.lastRunSummaryDetails && this.lastRunSummaryDetails.matchingProducts ? this.lastRunSummaryDetails.matchingProducts : 0;
-      this.jobResults[1].count = this.lastRunSummaryDetails && this.lastRunSummaryDetails.brandProducts ?
-      this.lastRunSummaryDetails.brandProducts : 0;
-      this.jobResults[2].count = this.lastRunSummaryDetails && this.lastRunSummaryDetails.extractedProducts ?
-      this.lastRunSummaryDetails.extractedProducts : 0;
-      this.jobResults[3].count = this.lastRunSummaryDetails && this.lastRunSummaryDetails.totalRuns ?
+      this.jobResults[1].count = this.lastRunSummaryDetails && this.lastRunSummaryDetails.totalRuns ?
       this.lastRunSummaryDetails.totalRuns : 0;
-      this.isSummarResultsLoading = false;
     });
   }
 

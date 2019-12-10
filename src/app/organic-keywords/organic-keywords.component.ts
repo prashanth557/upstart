@@ -103,7 +103,7 @@ export class OrganicKeywordsComponent implements OnInit {
     }).catch(err => {
       console.log('Error while fetching Keyword Relevance Job Details', err);
       this.isLoading = false;
-      this.showErrorMessage = err.error.message;
+      this.showErrorMessage = err && err.error && err.error.message ? err.error.message: '';
     });
   }
 
@@ -186,7 +186,7 @@ export class OrganicKeywordsComponent implements OnInit {
 
   deleteJob() {
     this.jobsService.deleteOrganicKeyword(this.selectedProduct.id).then( (res: any) => {
-      const message: String = 'Your request for delete record is successfully deleted.';
+      const message: String = 'Job deleted successfully.';
       this.notification.displayNotification(true, true, message);
       this.getDetails(this.currentpageIndex);
       setTimeout(() => {
@@ -242,7 +242,7 @@ export class OrganicKeywordsComponent implements OnInit {
           }
         }).catch((err: any) => {
           this.jobCreationLoader = false;
-          this.showErrorMessage = err.error.message;
+          this.showErrorMessage = err && err.error && err.error.message ? err.error.message: '';
           console.log('Error while updating the job', err);
        });
       } else {
@@ -254,7 +254,7 @@ export class OrganicKeywordsComponent implements OnInit {
         }
       }).catch( (err: any) => {
         this.jobCreationLoader = false;
-       this.showErrorMessage = err.error.message;
+       this.showErrorMessage = err && err.error && err.error.message ? err.error.message: '';
        console.log('Error while Creating the job', err);
       });
     }
@@ -287,7 +287,7 @@ export class OrganicKeywordsComponent implements OnInit {
         });
         console.log('Vendor names', this.vendorNames);
       }).catch((err: any) => {
-        this.showErrorMessage = err.error.message;
+        this.showErrorMessage = err && err.error && err.error.message ? err.error.message: '';
       });
   }
 
@@ -303,7 +303,7 @@ export class OrganicKeywordsComponent implements OnInit {
           this.getDetails(this.currentpageIndex);
         }
       }).catch( (err: any) => {
-        this.showErrorMessage = err.message;
+        this.showErrorMessage = err && err.error && err.error.message ? err.error.message: '';
       });
     } else {
       this.showError = true;
