@@ -54,7 +54,6 @@ export class UserSettingsComponent implements OnInit {
     this.vendorDetailsLoading = true;
     this.vendorList();
     this.getAdminDetails(1);
-    this.getVendorDetails(1);
     this.adminIndex = 1;
     this.vendorIndex = 1;
   }
@@ -69,6 +68,7 @@ export class UserSettingsComponent implements OnInit {
         this.adminDetails = res.items;
       }
       this.adminDetailsLoading = false;
+      this.getVendorDetails(1);
     }).catch((err: any) => {
       this.showErrorMessage = err && err.error && err.error.message ? err.error.message:  
       ( err.statusText ? err.statusText : 'Please try after some time' );
@@ -130,15 +130,18 @@ export class UserSettingsComponent implements OnInit {
     this.createVendor = false;
     this.showConfirmation = false;
     this.createAdmin = true;
+    this.selectedVendorName = '';
     this.selectedUser = {};
     this.resetFields();
   }
 
   addNewVendor(event) {
     console.log('New Vendor Keyword Clicked');
+    this.userModalTitle = 'Create Vendor';
     this.createAdmin = false;
     this.showConfirmation = false;
     this.createVendor = true;
+    this.selectedVendorName = '';
     this.selectedUser = {};
     this.resetFields();
   }
@@ -283,7 +286,7 @@ export class UserSettingsComponent implements OnInit {
     } else if(this.selectedUser && this.selectedUser.id) {
       body = {
         'id': this.selectedUser.id,
-        'name': this.selectedUser && this.selectedUser.name ? this.selectedUser.name : ''; 
+        'name': this.selectedUser && this.selectedUser.name ? this.selectedUser.name : ''
       }
     }
     this.jobsService.deleteUser(body, path).then((res: any) => {

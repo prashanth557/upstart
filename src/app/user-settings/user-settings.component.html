@@ -1,6 +1,6 @@
 <div class="user-container">
   <div class="user-section">
-    <app-job-details *ngIf="!adminDetailsLoading" [headerTitle]="'Users'" [jobHeaders]="adminJobHeaders"
+    <app-job-details2 *ngIf="!adminDetailsLoading" [headerTitle]="'Users'" [jobHeaders]="adminJobHeaders"
       [productDetails]="adminDetails" [showCreateButton]="true" (createJob)="addNewAdmin($event)" [showSearch]="true"
       [currentpageIndex]='adminCurrentpageIndex' [isLoading]="adminDetailsLoading"
       (pageChange)="onAdminPageChange($event)" [itemsTobeDisplayedPerPage]="adminLimitPerPage"
@@ -28,7 +28,7 @@
             (click)="deleteUser(product)" title="Delete User"></a>
         </td>
       </ng-template>
-    </app-job-details>
+    </app-job-details2>
     <app-loader [show]="adminDetailsLoading"></app-loader>
     <app-upstart-modal *ngIf="createAdmin" [modalTitle]="userModalTitle">
       <div class="add-modal-body" id="create-modal">
@@ -39,7 +39,7 @@
               <span class="error-input">*&nbsp;</span>Email Id</label>
             <div>
               <input type="email" class="organic-text-input" placeholder="Enter email id" id="emailId"
-                [(ngModel)]="emailId" [ngModelOptions]="{standalone: true}" [class.showError]="!emailId && showError">
+                [(ngModel)]="emailId" [ngModelOptions]="{standalone: true}" [class.showError]="!emailId && showError" [disabled]="selectedUser">
             </div>
           </div>
           <div class="form-group admin-radio-group">
