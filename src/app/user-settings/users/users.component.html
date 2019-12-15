@@ -1,78 +1,92 @@
 <div class="user-section">
-  <app-job-details *ngIf="!adminDetailsLoading" [headerTitle]="'Users'" [jobHeaders]="adminJobHeaders"
-    [productDetails]="adminDetails" [showCreateButton]="true" (createJob)="addNewAdmin($event)" [showSearch]="true"
-    [currentpageIndex]='adminCurrentpageIndex' [isLoading]="adminDetailsLoading"
-    (pageChange)="onAdminPageChange($event)" [itemsTobeDisplayedPerPage]="adminLimitPerPage"
-    [createButtonText]="'Create User'" [pageCount]="totalAdminCount" [showErrorMessage]="showErrorMessage">
-    <ng-template #filedsHeader let-product>
-      <!-- <td>
-        <span>{{getAdminIndex()}}</span>
-      </td> -->
-      <td>
-        <span>{{product?.emailId}}</span>
-      </td>
-      <td>
-        <span>{{product?.isAdmin ? 'Yes' : 'No'}}</span>
-      </td>
-      <td>
-        <span>{{product?.isSignedUp ? 'Yes' : 'No'}}</span>
-      </td>
-      <td>
-        <span>{{product?.vendor?.name}}</span>
-      </td>
-      <td>
-        <a (click)="editUserDetails(product)" class="action-icons glyphicon glyphicon-pencil" data-toggle="modal"
-          data-target="#showModalCenter" title="Edit User"></a>
-        <a data-toggle="modal" data-target="#showModalCenter" class="action-icons glyphicon glyphicon-trash"
-          (click)="deleteUser(product)" title="Delete User"></a>
-      </td>
-    </ng-template>
-  </app-job-details>
-  <app-loader [show]="adminDetailsLoading"></app-loader>
-  <app-upstart-modal *ngIf="createAdmin" [modalTitle]="userModalTitle">
-    <div class="add-modal-body" id="create-modal">
-      <form *ngIf="!created" (ngSubmit)="createAdminUser()" class="create-admin-section">
-        <div class="form-group">
-          <span *ngIf='showErrorMessage' class="error-message">{{showErrorMessage}}</span><br>
-          <label for="emailId" class="organic-label">
-            <span class="error-input">*&nbsp;</span>Email Id</label>
+    <app-job-details [headerTitle]="'Users'" [jobHeaders]="adminJobHeaders"
+        [productDetails]="adminDetails" [showCreateButton]="true" (createJob)="addNewAdmin($event)" [showSearch]="true"
+        [currentpageIndex]='adminCurrentpageIndex' [isLoading]="adminDetailsLoading"
+        (pageChange)="onAdminPageChange($event)" [itemsTobeDisplayedPerPage]="adminLimitPerPage"
+        [createButtonText]="'Create User'" [pageCount]="totalAdminCount" [showErrorMessage]="showErrorMessage">
+        <ng-template #filedsHeader let-product>
+            <!-- <td>
+          <span>{{getAdminIndex()}}</span>
+        </td> -->
+            <td>
+                <span>{{product?.emailId}}</span>
+            </td>
+            <td>
+                <span>{{product?.isAdmin ? 'Yes' : 'No'}}</span>
+            </td>
+            <td>
+                <span>{{product?.isSignedUp ? 'Yes' : 'No'}}</span>
+            </td>
+            <td>
+                <span>{{product?.vendor?.name}}</span>
+            </td>
+            <td>
+                <a (click)="editUserDetails(product)" class="action-icons glyphicon glyphicon-pencil"
+                    data-toggle="modal" data-target="#showModalCenter" title="Edit User"></a>
+                <a data-toggle="modal" data-target="#showModalCenter" class="action-icons glyphicon glyphicon-trash"
+                    (click)="deleteUser(product)" title="Delete User"></a>
+            </td>
+        </ng-template>
+    </app-job-details>
+    <!-- <app-loader [show]="adminDetailsLoading"></app-loader> -->
+    <app-upstart-modal *ngIf="createAdmin" [modalTitle]="userModalTitle">
+        <div class="add-modal-body" id="create-modal">
+            <form *ngIf="!created" (ngSubmit)="createAdminUser()" class="create-admin-section">
+                <div class="form-group">
+                    <span *ngIf='showErrorMessage' class="error-message">{{showErrorMessage}}</span><br>
+                    <label for="emailId" class="organic-label">
+                        <span class="error-input">*&nbsp;</span>Email Id</label>
+                    <div>
+                        <input type="email" class="organic-text-input" placeholder="Enter email id" id="emailId"
+                            [(ngModel)]="emailId" [ngModelOptions]="{standalone: true}"
+                            [class.showError]="!emailId && showError">
+                    </div>
+                </div>
+                <div class="form-group admin-radio-group">
+                    <label class="col-form-label">
+                        <span class="error-input">*&nbsp;</span>Admin</label>
+                    <div>
+                        <span class="admin-choice" *ngFor="let choice of choices">
+                            <input type="radio" id="{{ groupName + choice }}" name="userType" [value]="choice"
+                                [(ngModel)]="defaultChoice" (ngModelChange)="choose($event)" />
+                            <label class="form-check-label" for="inlineRadio1">{{choice}}</label>
+                        </span>
+                    </div>
+                </div>
+                <div #defaultTrialCollection>
+                    <div class="collection-values" ngui-auto-complete [source]="vendorNames"
+                        (valueChanged)="valueChanged($event)">
+                        <label class="no-overlap" for="collection-Name"><span class="error-input">*&nbsp;</span>Select
+                            Vendor</label><br />
+                        <input [class.showError]="!selectedVendorName && showError" id="collection-Name" type="text"
+                            [ngClass]="{'submitted': submitted,'ng-invalid': (selectedVendorName?.length == 0 || vendorNames.indexOf(selectedVendorName) === -1 )}"
+                            placeholder="Select Vendor" [(ngModel)]="selectedVendorName"
+                            [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="save-button">
+                        <span *ngIf="showButtonText">Save</span>
+                        <img *ngIf="!showButtonText" class='loader' src="assets/images/spinner.svg">
+                    </button>
+                </div>
+            </form>
+            <div *ngIf="created">
+                <span *ngIf="!selectedUser">User Created Successfully</span>
+                <span *ngIf="selectedUser">User Updated Successfully</span>
+            </div>
+        </div>
+    </app-upstart-modal>
+    <app-upstart-modal class="confirmation-modal-content" *ngIf="showConfirmation">
+        <div class="add-modal-body" id="create-modal">
           <div>
-            <input type="email" class="organic-text-input" placeholder="Enter email id" id="emailId"
-              [(ngModel)]="emailId" [ngModelOptions]="{standalone: true}" [class.showError]="!emailId && showError">
+            <span class="confirmation-text">Are you sure want to delete ?</span>
+          </div>
+          <div class="form-group confirmation-button-group">
+            <button type="submit" class="confirm-button" (click)="deleteUserDetails()" data-dismiss="modal">Yes</button>
+            <button type="submit" class="confirm-button" data-dismiss="modal">No</button>
           </div>
         </div>
-        <div class="form-group admin-radio-group">
-          <label class="col-form-label">
-            <span class="error-input">*&nbsp;</span>Admin</label>
-          <div>
-            <span class="admin-choice" *ngFor="let choice of choices">
-              <input type="radio" id="{{ groupName + choice }}" name="userType" [value]="choice"
-                [(ngModel)]="defaultChoice" (ngModelChange)="choose($event)" />
-              <label class="form-check-label" for="inlineRadio1">{{choice}}</label>
-            </span>
-          </div>
-        </div>
-        <div #defaultTrialCollection>
-          <div class="collection-values" ngui-auto-complete [source]="vendorNames"
-            (valueChanged)="valueChanged($event)">
-            <label class="no-overlap" for="collection-Name"><span class="error-input">*&nbsp;</span>Select
-              Vendor</label><br />
-            <input [class.showError]="!selectedVendorName && showError" id="collection-Name" type="text"
-              [ngClass]="{'submitted': submitted,'ng-invalid': (selectedVendorName?.length == 0 || vendorNames.indexOf(selectedVendorName) === -1 )}"
-              placeholder="Select Vendor" [(ngModel)]="selectedVendorName" [ngModelOptions]="{standalone: true}" />
-          </div>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="save-button">
-            <span *ngIf="showButtonText">Save</span>
-            <img *ngIf="!showButtonText" class='loader' src="assets/images/spinner.svg">
-          </button>
-        </div>
-      </form>
-      <div *ngIf="created">
-        <span *ngIf="!selectedUser">User Created Successfully</span>
-        <span *ngIf="selectedUser">User Updated Successfully</span>
-      </div>
-    </div>
-  </app-upstart-modal>
+      </app-upstart-modal>
 </div>
+<app-top-notification></app-top-notification>
