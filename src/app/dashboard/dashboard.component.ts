@@ -5,6 +5,7 @@ import { ChartsModule } from 'ng2-charts';
 import { JobsService } from '../services/jobs.service';
 import { NgbDateParserFormatter, NgbDateStruct, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateFrParserFormatterService } from '../services/ngb-date-fr-parser-formatter.service';
+import { detachProjectedView } from '@angular/core/src/view/view_attach';
 
 @Component({
   selector: 'app-dashboard',
@@ -439,16 +440,16 @@ export class DashboardComponent implements OnInit {
   splitAnalyticsDetails(details) {
     console.log('Analytics Data', details);
     if (details) {
-      this.pieChartData.push({ labels: this.pieChartBrandLabels });
+      this.pieChartData.push({ labels: this.pieChartBrandLabels, data: []});
       if(details[0]) {
-      this.pieChartData[0].data = details[0].brandProducts ? [details[0].brandProducts] : [];
-      this.pieChartData[0].data.push(details[0].otherBrandProducts ? details[0].otherBrandProducts : []);
-      this.pieChartOptions1.plugins.datalabels =  {
-        formatter: (value, ctx) => {
-          const label = this.pieChartData[ctx.dataIndex].data;
-          return label;
-        },
-      };
+      this.pieChartData[0].data[0] = details[0] && details[0].brandProducts ? details[0].brandProducts : 0;
+      this.pieChartData[0].data[1] = details[0].otherBrandProducts ? details[0].otherBrandProducts : 0;
+      // this.pieChartOptions1.plugins.datalabels =  {
+      //   formatter: (value, ctx) => {
+      //     const label = this.pieChartData[ctx.dataIndex].data;
+      //     return label;
+      //   },
+      // };
     } else {
       this.pieChartData[0] = ({labels: [], data: []}); 
     }
