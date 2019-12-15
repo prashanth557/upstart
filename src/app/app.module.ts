@@ -75,6 +75,7 @@ import { SellerCrawlRunResultComponent } from './seller-crawl/seller-crawl-run-r
 import { SellerCrawlRunhistoryComponent } from './seller-crawl/seller-crawl-runhistory/seller-crawl-runhistory.component';
 import { SellerCrawlResultComponent } from './seller-crawl/seller-crawl-result/seller-crawl-result.component';
 import { UsersComponent } from './user-settings/users/users.component';
+import { VendorsComponent } from './user-settings/vendors/vendors.component';
 
 @NgModule({
   declarations: [
@@ -122,7 +123,8 @@ import { UsersComponent } from './user-settings/users/users.component';
     SellerCrawlRunResultComponent,
     SellerCrawlRunhistoryComponent,
     SellerCrawlResultComponent,
-    UsersComponent
+    UsersComponent,
+    VendorsComponent
   ],
   imports: [
     BrowserModule,

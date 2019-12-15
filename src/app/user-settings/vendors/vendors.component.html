@@ -1,0 +1,66 @@
+<div class="vendor-section">
+  <app-job-details *ngIf="!vendorDetailsLoading" [headerTitle]="'Vendors'" [jobHeaders]="vendorJobHeaders"
+    [productDetails]="vendorDetails" [showCreateButton]="true" (createJob)="addNewVendor($event)" [showSearch]="true"
+    [currentpageIndex]='vendorCurrentpageIndex' [isLoading]="vendorDetailsLoading"
+    (pageChange)="onVendorPageChange($event)" [itemsTobeDisplayedPerPage]="vendorLimitPerPage"
+    [createButtonText]="'Create Vendor'" [pageCount]="totalVendorCount">
+    <ng-template #filedsHeader let-product>
+      <td>
+        <span>{{product?.name}}</span>
+      </td>
+      <td>
+        <a (click)="editVendorDetails(product)" class="action-icons glyphicon glyphicon-pencil" data-toggle="modal"
+          data-target="#showModalCenter" title="Edit Vendor"></a>
+        <a data-toggle="modal" data-target="#showModalCenter" class="action-icons glyphicon glyphicon-trash"
+          (click)="deleteUser(product)" title="Delete Vendor"></a>
+      </td>
+    </ng-template>
+  </app-job-details>
+  <app-loader [show]="vendorDetailsLoading"></app-loader>
+  <app-upstart-modal *ngIf="createVendor" [modalTitle]="'Create Vendor'">
+    <div class="add-modal-body" id="create-modal">
+      <form *ngIf="!created" (ngSubmit)="createVendorUser()" class="create-admin-section">
+        <div class="form-group">
+          <span *ngIf='showErrorMessage' class="error-message">{{showErrorMessage}}</span><br>
+          <label for="vendorName" class="organic-label">
+            <span class="error-input">*&nbsp;</span>Vendor Name </label>
+          <div>
+            <input type="text" name="vendorName" class="organic-text-input" id="vendorName" [(ngModel)]="vendorName"
+              required [ngModelOptions]="{standalone: true}" placeholder="Enter Vendor Name"
+              [class.showError]="!vendorName && showError">
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="save-button">
+            <span *ngIf="showButtonText">Save</span>
+            <img *ngIf="!showButtonText" class='loader' src="assets/images/spinner.svg">
+          </button>
+        </div>
+      </form>
+      <div *ngIf="created">
+        <ng-template [ngIf]="selectedUser?.id" [ngIfElse]="vendorCreated">
+          <div>
+            Vendor Updated Successfully
+          </div>
+        </ng-template>
+        <ng-template #vendorCreated>
+          <div>
+            Vendor Created Successfully
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </app-upstart-modal>
+  <app-upstart-modal class="confirmation-modal-content" *ngIf="showConfirmation">
+    <div class="add-modal-body" id="create-modal">
+      <div>
+        <span class="confirmation-text">Are you sure want to delete ?</span>
+      </div>
+      <div class="form-group confirmation-button-group">
+        <button type="submit" class="confirm-button" (click)="deleteUserDetails()" data-dismiss="modal">Yes</button>
+        <button type="submit" class="confirm-button" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </app-upstart-modal>
+</div>
+<app-top-notification></app-top-notification>
