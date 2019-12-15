@@ -36,8 +36,7 @@
                         [checked]="product?.active" title="Disable Job"></ui-switch>
                     <!-- <img *ngIf="product?.disableJob" class="loader-animation" src="assets/icons/loading.svg" /> -->
                     <img [hidden]="!product?.disableJob" class='disable-loader' src="assets/images/spinner.svg">
-                    <img (click)="navigateTo(product, 2)" class="action-icons" [hidden]="!checkStatus(product?.active)"
-                        src="assets/images/icon-flash.png" title="View Job Details"/>
+                    <a [hidden]="!checkStatus(product?.active)" class="action-icons glyphicon glyphicon-eye-open" (click)="navigateTo(product, 2)" title="View Results"></a>
                     <img class="action-icons" (click)="navigateTo(product, 3)" [hidden]="!checkStatus(product?.active)"
                         src="assets/images/icon-timer.png" title="View run history"/>
                     <!-- <i class="action-icons glyphicon" (click)="navigateTo(product, 4)" [class.glyphicon-time]="checkStatus(product?.active)" ></i> -->

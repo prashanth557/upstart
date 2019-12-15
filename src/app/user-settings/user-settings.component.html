@@ -1,11 +1,14 @@
 <div class="user-container">
-  <!-- <div class="user-section">
-    <app-job-details *ngIf="!adminDetailsLoading" [headerTitle]="'Users'" [jobHeaders]="adminJobHeaders"
+  <div class="user-section">
+    <app-job-details2 *ngIf="!adminDetailsLoading" [headerTitle]="'Users'" [jobHeaders]="adminJobHeaders"
       [productDetails]="adminDetails" [showCreateButton]="true" (createJob)="addNewAdmin($event)" [showSearch]="true"
       [currentpageIndex]='adminCurrentpageIndex' [isLoading]="adminDetailsLoading"
       (pageChange)="onAdminPageChange($event)" [itemsTobeDisplayedPerPage]="adminLimitPerPage"
       [createButtonText]="'Create User'" [pageCount]="totalAdminCount" [showErrorMessage]="showErrorMessage">
       <ng-template #filedsHeader let-product>
+        <!-- <td>
+          <span>{{getAdminIndex()}}</span>
+        </td> -->
         <td>
           <span>{{product?.emailId}}</span>
         </td>
@@ -25,7 +28,7 @@
             (click)="deleteUser(product)" title="Delete User"></a>
         </td>
       </ng-template>
-    </app-job-details>
+    </app-job-details2>
     <app-loader [show]="adminDetailsLoading"></app-loader>
     <app-upstart-modal *ngIf="createAdmin" [modalTitle]="userModalTitle">
       <div class="add-modal-body" id="create-modal">
@@ -36,7 +39,7 @@
               <span class="error-input">*&nbsp;</span>Email Id</label>
             <div>
               <input type="email" class="organic-text-input" placeholder="Enter email id" id="emailId"
-                [(ngModel)]="emailId" [ngModelOptions]="{standalone: true}" [class.showError]="!emailId && showError">
+                [(ngModel)]="emailId" [ngModelOptions]="{standalone: true}" [class.showError]="!emailId && showError" [disabled]="selectedUser">
             </div>
           </div>
           <div class="form-group admin-radio-group">
@@ -73,14 +76,17 @@
         </div>
       </div>
     </app-upstart-modal>
-  </div> -->
-  <!-- <div class="vendor-section">
+  </div>
+  <div class="vendor-section">
     <app-job-details *ngIf="!vendorDetailsLoading" [headerTitle]="'Vendors'" [jobHeaders]="vendorJobHeaders"
       [productDetails]="vendorDetails" [showCreateButton]="true" (createJob)="addNewVendor($event)" [showSearch]="true"
       [currentpageIndex]='vendorCurrentpageIndex' [isLoading]="vendorDetailsLoading"
       (pageChange)="onVendorPageChange($event)" [itemsTobeDisplayedPerPage]="vendorLimitPerPage"
       [createButtonText]="'Create Vendor'" [pageCount]="totalVendorCount">
       <ng-template #filedsHeader let-product>
+        <!-- <td>
+            <span>{{getVendorIndex()}}</span>
+        </td> -->
         <td>
           <span>{{product?.name}}</span>
         </td>
@@ -127,8 +133,8 @@
         </div>
       </div>
     </app-upstart-modal>
-  </div> -->
-  <!-- <app-upstart-modal class="confirmation-modal-content" *ngIf="showConfirmation">
+  </div>
+  <app-upstart-modal class="confirmation-modal-content" *ngIf="showConfirmation">
     <div class="add-modal-body" id="create-modal">
       <div>
         <span class="confirmation-text">Are you sure want to delete ?</span>
@@ -138,8 +144,7 @@
         <button type="submit" class="confirm-button" data-dismiss="modal">No</button>
       </div>
     </div>
-  </app-upstart-modal> -->
-  <!-- <app-loader [show]="adminDetailsLoading"></app-loader> -->
-  <app-users></app-users>
-  <!-- <app-vendors></app-vendors> -->
+  </app-upstart-modal>
+  <app-loader [show]="adminDetailsLoading"></app-loader>
 </div>
+<app-top-notification></app-top-notification>

@@ -1,0 +1,57 @@
+.pagination {
+    margin: 0px !important;
+}
+.pagination-list {
+    list-style: none;
+}
+
+.pagination-container{
+    text-align: center;
+    //margin:30px 0px
+}
+
+.my-pagination /deep/ .ngx-pagination a {
+        text-decoration: none;
+}
+
+.my-pagination /deep/ .ngx-pagination a:hover {
+   background:transparent;
+}
+
+  .my-pagination /deep/ .ngx-pagination .current {
+    background: #2fc6d6 !important;
+    width: 30px;
+    height: 30px;
+    border-radius: 23px;
+    font-size: 12px;
+    color: #fff;
+    line-height: 28px;
+    text-align: center;
+    
+  }
+.my-pagination /deep/ .ngx-pagination li{
+margin-left: 25px !important;
+
+}
+.my-pagination /deep/ .ngx-pagination li.ellipsis{
+  display:inline-flex ;
+}
+.ngx-pagination /deep/  .small-screen{
+  display:none !important ;
+
+}
+.list{
+  display: none;
+}
+
+@media (min-width: 368px) and (max-width:992px) {
+  
+  
+  .my-pagination /deep/ .ngx-pagination li{
+    margin-left: 0px !important;
+    
+    }
+    .my-pagination /deep/ .ngx-pagination{
+      padding-left:0 !important
+    }
+  }

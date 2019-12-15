@@ -1,0 +1,48 @@
+<div class="job-results">
+  <div class="download-report-section">
+      <h3 *ngIf="headerTitle" class="job-results-header">{{headerTitle}}
+          <span *ngIf="keyword" class="job-results-header">- {{keyword}}</span>
+      </h3>
+    <button *ngIf="showDownloadButton && productDetails?.length > 0 " class="download-report-button" (click)="downloadClick()">Export CSV</button>
+  </div>
+  <div class="search-wrapper" *ngIf="showSearch || showCreateButton">
+    <button class="create-job" *ngIf="showCreateButton" (click)="createNewJob()" data-toggle="modal" data-target="#showModalCenter">{{createButtonText}}</button>
+    <!-- <span class="search-input-text" *ngIf="showSearch">Search:&nbsp;
+      <input type="text" class="search-input" />
+    </span> -->
+  </div>
+  <form class="show-entries" *ngIf="productDetails?.length > 0 && !isLoading && pageCount">
+    <b>showing</b>&nbsp;
+    <select class="browser-default custom-select" [(ngModel)]="itemsTobeDisplayedPerPage" (change)="pageCountChange($event.target.value)" [ngModelOptions]="{standalone: true}">
+      <!-- <option value=5 selected>5</option>
+      <option value=10>10</option>
+      <option value=15>15</option>
+      <option value=20>20</option> -->
+      <option *ngFor="let option of optionsValues" [value]="option" >
+        {{option}}
+    </option>
+    </select>
+    &nbsp;<b>entries</b>
+  </form>
+  <div class="job-results-wrapper">
+    <table class="job-results-table" *ngIf="jobHeaders?.length > 0  && productDetails?.length > 0">
+      <ng-container *ngFor="let header of jobHeaders">
+        <th>{{header}}</th>
+      </ng-container>
+      <tbody *ngIf="!isLoading">
+        <tr *ngFor="let product of productDetails; let i = index;" [class.highlight-map-breach]="product.belowMap">
+          <ng-container  class="detail-container" *ngTemplateOutlet="filedsHeader, context: { $implicit: product}">
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+    <div class="no-jobs-text">
+        <span *ngIf='productDetails?.length === 0 && !isLoading'>{{showErrorMessage}}</span>
+    </div>
+    <div *ngIf="!isLoading && pageCount && productDetails?.length > 0" class="pagination-wrapper">
+      <span class="result-text">Showing {{ fromCount }} to {{ toCount }} of {{pageCount}} entries</span>
+      <app-pagination2 *ngIf="pageCount > 5" [pageCount2]='pageCount' [currentPage2]="currentpageIndex" [itemsPerPage2]="itemsTobeDisplayedPerPage" (selectedPage2)='onPageChange($event)'></app-pagination2>
+    </div>
+    <app-loader [show]='isLoading'></app-loader>
+  </div>
+</div>

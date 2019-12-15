@@ -495,7 +495,7 @@ export class DashboardComponent implements OnInit {
       if (details[2] && details[2].stats) {
           labels =  details[2].stats.map(stat => stat.vendorName ? this.formatLabel(stat.vendorName, 10) : '');
           data = details[2].stats.map(stat => stat.avgimageCount ? stat.avgimageCount : 0);
-          this.barChartData.push({ labels: labels, data: data, options: this.barChartImageOptions});
+          this.barChartData.push({ labels: labels, data: data, options: this.barChartImageOptions, label: 'Number of Images'});
           // labels = labels.slice(0, 15);
           // data = data.slice(0, 15);
           // let actualData = [];

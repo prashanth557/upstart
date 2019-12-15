@@ -43,11 +43,13 @@ import { AutoRunScheduleComponent } from './auto-run-schedule/auto-run-schedule.
 import { ResultHeaderComponent } from './result-header/result-header.component';
 import { OrganicJoblistComponent } from './organic-keywords/organic-joblist/organic-joblist.component';
 import { JobDetailsComponent } from './job-details/job-details.component';
+import { JobDetailsComponent2 } from './job-details2/job-details2.component';
 import { MonitorJobsComponent } from './monitor-jobs/monitor-jobs.component';
 import { AlertsComponent } from './alerts/alerts.component';
 import { UpstartModalComponent } from './upstart-modal/upstart-modal.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { PaginationComponent2 } from './pagination2/pagination2.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoadingIndicatorComponent } from './loadingindicator/loadingindicator.component';
 import { TopNotificationComponent } from './top-notification/top-notification.component';
@@ -91,11 +93,13 @@ import { VendorsComponent } from './user-settings/vendors/vendors.component';
     ResultHeaderComponent,
     OrganicJoblistComponent,
     JobDetailsComponent,
+    JobDetailsComponent2,
     MonitorJobsComponent,
     AlertsComponent,
     UpstartModalComponent,
     UserSettingsComponent,
     PaginationComponent,
+    PaginationComponent2,
     LoadingIndicatorComponent,
     TopNotificationComponent,
     SummaryDashboardComponent,

@@ -71,7 +71,7 @@ export const routes: Routes = [
   // Routes related to alerts
   { path: 'alerts', component: AlertsComponent, canActivate: [AuthGuard]},
   // Routes related to settings
-  { path: 'users', component: UserSettingsComponent, canActivate: [AuthGuard]},
+  { path: 'users', component: UserSettingsComponent, canActivate: [ActivateOnAccessToken, AuthGuard]},
   // Route related to BulkCrawl Upoload
   { path: 'bulkcrawljobs', component: BulkKeywordUploadComponent, canActivate: [AuthGuard]},
   { path: 'bulkcrawljobs/:jobId', component: BulkCrawlResultComponent, canActivate: [AuthGuard]},
